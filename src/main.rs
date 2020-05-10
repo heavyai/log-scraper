@@ -32,8 +32,6 @@ impl LogLine {
                 format!("Line is too short to parse: \"{}\"", line_raw),
             ));
         }
-        // 2020-05-09T23:48:06.919883
-        println!("Line: {}", line_vec[0]);
         let timestamp = match NaiveDateTime::parse_from_str(line_vec[0], "%Y-%m-%dT%H:%M:%S%.f") {
             Err(e) => {
                 return Err(Error::new(
