@@ -1,11 +1,14 @@
+use std::collections::HashMap;
+use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::io::{Error, ErrorKind};
-use std::env;
 
 extern crate chrono;
-use chrono::{NaiveDateTime};
+use chrono::NaiveDateTime;
+
+extern crate regex;
 
 #[derive(Debug)]
 enum LogType {
@@ -14,6 +17,15 @@ enum LogType {
     WARNING,
     FATAL,
     OTHER,
+}
+
+#[derive(Debug)]
+struct QueryWithTiming<'a> {
+    query: String,
+    execution_time: i32,
+    total_time: i32,
+    sequence: i32,
+    session: &'a str,
 }
 
 #[derive(Debug)]
@@ -59,6 +71,58 @@ impl LogLine {
     pub fn append_msg(&mut self, line_raw: &str) {
         self.msg.push_str(line_raw);
     }
+
+    pub fn parse_query_timing(&self) -> Option<QueryWithTiming> {
+        let msg_elements: Vec<&str> = self.msg.split(" ").map(|x| x.trim()).collect();
+        let mut iter = msg_elements.iter();
+        match iter.find_map(|&x| match x {
+            "stdlog_begin" => Some(false),
+            "sql_execute" => Some(true),
+            _ => None,
+        }) {
+            None => return None,
+            Some(false) => return None,
+            Some(true) => (),
+        };
+        // 53988 DBHandler.cpp:1039 stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
+        let sequence: i32 = msg_elements[4].parse().unwrap();
+        let session = msg_elements[8];
+        let re = regex::Regex::new(r"^(?:[^{}]+)\{(.+)\} \{(.+)\}$").unwrap();
+        let captures = re.captures(&self.msg).unwrap();
+        assert_eq!(captures.len(), 3);
+        let keys_str = captures.get(1).unwrap().as_str();
+        let values_str = captures.get(2).unwrap().as_str();
+        let keys: Vec<&str> = keys_str.split(",").map(|x| x.trim()).collect();
+        // Values are trickier, since SQL can have embedded commas. We explicitly split on the pattern "," and rely on the cleanup during array insertion to remove unbalanced quotes.
+        let values: Vec<&str> = values_str.split("\",\"").map(|x| x.trim()).collect();
+        assert!(
+            keys.len() == values.len(),
+            format!("\nKeys: {:?}\nValues: {:?}", keys, values)
+        );
+
+        let array_iter = keys.iter().zip(values.iter());
+        let mut array_data = HashMap::new();
+        for (k, v) in array_iter {
+            array_data.insert(
+                k.trim_start_matches("\"").trim_end_matches("\""),
+                v.trim_start_matches("\"").trim_end_matches("\""),
+            );
+        }
+        let query_str: String = array_data.get(&"query_str").unwrap().to_string();
+        let execution_time: i32 = array_data
+            .get(&"execution_time_ms")
+            .unwrap()
+            .parse()
+            .unwrap();
+        let total_time: i32 = array_data.get(&"total_time_ms").unwrap().parse().unwrap();
+        return Some(QueryWithTiming {
+            query: query_str,
+            execution_time,
+            total_time,
+            sequence,
+            session,
+        });
+    }
 }
 
 fn main() -> std::io::Result<()> {
@@ -87,7 +151,10 @@ fn main() -> std::io::Result<()> {
             }
             Ok(l) => lines.push(l),
         }
-        println!("{:?}", lines.last());
+        match lines.last().unwrap().parse_query_timing() {
+            Some(timing) => println!("Timing: {:?}", timing),
+            None => (),
+        }
     }
     Ok(())
 }
