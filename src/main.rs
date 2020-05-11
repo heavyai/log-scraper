@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 use std::env;
 use std::fs;
-use std::io::Cursor;
 use std::io::prelude::*;
 use std::io::BufReader;
+use std::io::Cursor;
 use std::io::{Error, ErrorKind};
 
 extern crate chrono;
@@ -89,12 +89,12 @@ impl LogLine {
         let sequence: i32 = msg_elements[4].parse().unwrap();
         let session = msg_elements[8];
         let re = regex::Regex::new(r"^(?:[^{}]+)\{(.+)\} \{(.+)\}$").unwrap();
-        // remove an extra line breaks 
+        // remove an extra line breaks
         let mut msg_cleaned = String::from(&self.msg);
         msg_cleaned.retain(|c| c != '\n');
         let captures = match re.captures(&msg_cleaned) {
             None => panic!(format!("{:?}", &self.msg)),
-            Some(c) => c
+            Some(c) => c,
         };
         assert_eq!(captures.len(), 3);
         let keys_str = captures.get(1).unwrap().as_str();
@@ -116,12 +116,14 @@ impl LogLine {
             );
         }
         let query_str: String = array_data.get(&"query_str").unwrap().to_string();
-        let execution_time: i32 = array_data
-            .get(&"execution_time_ms")
-            .unwrap()
-            .parse()
-            .unwrap();
-        let total_time: i32 = array_data.get(&"total_time_ms").unwrap().parse().unwrap();
+        let execution_time: i32 = match array_data.get(&"execution_time_ms") {
+            Some(v) => v.parse().unwrap(),
+            None => -1,
+        };
+        let total_time: i32 = match array_data.get(&"total_time_ms") {
+            Some(v) => v.parse().unwrap(),
+            None => -1,
+        };
         return Some(QueryWithTiming {
             query: query_str,
             execution_time,
@@ -147,7 +149,7 @@ fn main() -> std::io::Result<()> {
         let mut line = String::new();
         let len = match buf_reader.read_line(&mut line) {
             Ok(l) => l,
-            Err(e) => panic!(format!("Failed to parse line from file: {}", e))
+            Err(e) => panic!(format!("Failed to parse line from file: {}", e)),
         };
         if len == 0 {
             break;
@@ -166,7 +168,7 @@ fn main() -> std::io::Result<()> {
     for log_line in lines {
         match log_line.parse_query_timing() {
             Some(timing) => println!("Timing: {:?}", timing),
-            None => ()
+            None => (),
         }
     }
     Ok(())
