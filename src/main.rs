@@ -6,6 +6,8 @@ use std::io::BufReader;
 use std::io::Cursor;
 use std::io::{Error, ErrorKind};
 
+extern crate csv;
+
 extern crate chrono;
 use chrono::NaiveDateTime;
 
@@ -22,12 +24,29 @@ enum LogType {
 
 #[derive(Debug)]
 struct QueryWithTiming<'a> {
+    timestamp: NaiveDateTime,
     query: String,
     execution_time: i32,
     total_time: i32,
     sequence: i32,
     session: &'a str,
 }
+
+impl QueryWithTiming<'_> {
+
+pub fn to_vec(&self) -> Vec<String> {
+    let mut out: Vec<String> = Vec::new();
+    out.push(self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string());
+    out.push(self.query.clone());
+    out.push(self.sequence.to_string());
+    out.push(self.session.to_string());
+    out.push(self.execution_time.to_string());
+    out.push(self.total_time.to_string());
+    return out;
+}
+
+}
+
 
 #[derive(Debug)]
 struct LogLine {
@@ -125,6 +144,7 @@ impl LogLine {
             None => -1,
         };
         return Some(QueryWithTiming {
+            timestamp: self.timestamp,
             query: query_str,
             execution_time,
             total_time,
@@ -165,10 +185,21 @@ fn main() -> std::io::Result<()> {
             Ok(l) => lines.push(l),
         }
     }
-    for log_line in lines {
-        match log_line.parse_query_timing() {
-            Some(timing) => println!("Timing: {:?}", timing),
-            None => (),
+    if args.len() > 2 {
+        let mut writer = csv::Writer::from_path(&args[2])?;
+        for log_line in lines {
+            match log_line.parse_query_timing() {
+                Some(timing) => { writer.write_record(timing.to_vec())?; },
+                None => (),
+            }
+        }
+        writer.flush()?;
+    } else {
+        for log_line in lines {
+            match log_line.parse_query_timing() {
+                Some(timing) => println!("{:?}", timing),
+                None => (),
+            }
         }
     }
     Ok(())
