@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::env;
-use std::fs::File;
+use std::fs;
+use std::io::Cursor;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::io::{Error, ErrorKind};
@@ -88,7 +89,13 @@ impl LogLine {
         let sequence: i32 = msg_elements[4].parse().unwrap();
         let session = msg_elements[8];
         let re = regex::Regex::new(r"^(?:[^{}]+)\{(.+)\} \{(.+)\}$").unwrap();
-        let captures = re.captures(&self.msg).unwrap();
+        // remove an extra line breaks 
+        let mut msg_cleaned = String::from(&self.msg);
+        msg_cleaned.retain(|c| c != '\n');
+        let captures = match re.captures(&msg_cleaned) {
+            None => panic!(format!("{:?}", &self.msg)),
+            Some(c) => c
+        };
         assert_eq!(captures.len(), 3);
         let keys_str = captures.get(1).unwrap().as_str();
         let values_str = captures.get(2).unwrap().as_str();
@@ -132,12 +139,16 @@ fn main() -> std::io::Result<()> {
         std::process::exit(9);
     }
 
-    let file = File::open(&args[1])?;
-    let mut buf_reader = BufReader::new(file);
+    let file_contents_utf8 = String::from_utf8_lossy(&fs::read(&args[1])?).into_owned();
+    let buf = Cursor::new(&file_contents_utf8);
+    let mut buf_reader = BufReader::new(buf);
     let mut lines = Vec::<LogLine>::new();
     loop {
         let mut line = String::new();
-        let len = buf_reader.read_line(&mut line)?;
+        let len = match buf_reader.read_line(&mut line) {
+            Ok(l) => l,
+            Err(e) => panic!(format!("Failed to parse line from file: {}", e))
+        };
         if len == 0 {
             break;
         }
@@ -146,14 +157,16 @@ fn main() -> std::io::Result<()> {
                 if lines.len() > 0 {
                     lines.last_mut().unwrap().append_msg(&line)
                 } else {
-                    panic!("{}", e)
+                    panic!("Failed to process line: {}\n{}", line, e)
                 }
             }
             Ok(l) => lines.push(l),
         }
-        match lines.last().unwrap().parse_query_timing() {
+    }
+    for log_line in lines {
+        match log_line.parse_query_timing() {
             Some(timing) => println!("Timing: {:?}", timing),
-            None => (),
+            None => ()
         }
     }
     Ok(())
