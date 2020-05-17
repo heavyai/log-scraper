@@ -1,10 +1,10 @@
+mod log_parser;
+
 use std::collections::HashMap;
 use std::env;
 use std::fs;
-use std::io::prelude::*;
 use std::io::BufReader;
 use std::io::Cursor;
-use std::io::{Error, ErrorKind};
 
 extern crate csv;
 
@@ -12,15 +12,6 @@ extern crate chrono;
 use chrono::NaiveDateTime;
 
 extern crate regex;
-
-#[derive(Debug)]
-enum LogType {
-    INFO,
-    ERROR,
-    WARNING,
-    FATAL,
-    OTHER,
-}
 
 #[derive(Debug)]
 struct QueryWithTiming<'a> {
@@ -33,67 +24,19 @@ struct QueryWithTiming<'a> {
 }
 
 impl QueryWithTiming<'_> {
-
-pub fn to_vec(&self) -> Vec<String> {
-    let mut out: Vec<String> = Vec::new();
-    out.push(self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string());
-    out.push(self.query.clone());
-    out.push(self.sequence.to_string());
-    out.push(self.session.to_string());
-    out.push(self.execution_time.to_string());
-    out.push(self.total_time.to_string());
-    return out;
-}
-
-}
-
-
-#[derive(Debug)]
-struct LogLine {
-    timestamp: NaiveDateTime,
-    log_type: LogType,
-    msg: String,
-}
-
-impl LogLine {
-    pub fn new(line_raw: &str) -> Result<LogLine, Error> {
-        let line_vec: Vec<&str> = line_raw.split(" ").map(|x| x.trim()).collect();
-        if line_vec.len() < 3 {
-            return Err(Error::new(
-                ErrorKind::InvalidData,
-                format!("Line is too short to parse: \"{}\"", line_raw),
-            ));
-        }
-        let timestamp = match NaiveDateTime::parse_from_str(line_vec[0], "%Y-%m-%dT%H:%M:%S%.f") {
-            Err(e) => {
-                return Err(Error::new(
-                    ErrorKind::InvalidData,
-                    format!("Failed to parse timestamp: \"{}\" ({})", line_vec[0], e),
-                ))
-            }
-            Ok(t) => t,
-        };
-        let log_type = match line_vec[1] {
-            "I" => LogType::INFO,
-            "E" => LogType::ERROR,
-            "W" => LogType::WARNING,
-            "F" => LogType::FATAL,
-            _ => LogType::OTHER,
-        };
-        let msg = line_vec[2..].join(" ");
-        return Ok(LogLine {
-            timestamp,
-            log_type,
-            msg,
-        });
+    pub fn to_vec(&self) -> Vec<String> {
+        let mut out: Vec<String> = Vec::new();
+        out.push(self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string());
+        out.push(self.query.clone());
+        out.push(self.sequence.to_string());
+        out.push(self.session.to_string());
+        out.push(self.execution_time.to_string());
+        out.push(self.total_time.to_string());
+        return out;
     }
 
-    pub fn append_msg(&mut self, line_raw: &str) {
-        self.msg.push_str(line_raw);
-    }
-
-    pub fn parse_query_timing(&self) -> Option<QueryWithTiming> {
-        let msg_elements: Vec<&str> = self.msg.split(" ").map(|x| x.trim()).collect();
+    pub fn new(log_line: &log_parser::LogLine) -> Option<QueryWithTiming> {
+        let msg_elements: Vec<&str> = log_line.msg.split(" ").map(|x| x.trim()).collect();
         let mut iter = msg_elements.iter();
         match iter.find_map(|&x| match x {
             "stdlog_begin" => Some(false),
@@ -109,10 +52,10 @@ impl LogLine {
         let session = msg_elements[8];
         let re = regex::Regex::new(r"^(?:[^{}]+)\{(.+)\} \{(.+)\}$").unwrap();
         // remove an extra line breaks
-        let mut msg_cleaned = String::from(&self.msg);
+        let mut msg_cleaned = String::from(&log_line.msg);
         msg_cleaned.retain(|c| c != '\n');
         let captures = match re.captures(&msg_cleaned) {
-            None => panic!(format!("{:?}", &self.msg)),
+            None => panic!(format!("{:?}", &log_line.msg)),
             Some(c) => c,
         };
         assert_eq!(captures.len(), 3);
@@ -144,7 +87,7 @@ impl LogLine {
             None => -1,
         };
         return Some(QueryWithTiming {
-            timestamp: self.timestamp,
+            timestamp: log_line.timestamp,
             query: query_str,
             execution_time,
             total_time,
@@ -164,39 +107,21 @@ fn main() -> std::io::Result<()> {
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(&args[1])?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut buf_reader = BufReader::new(buf);
-    let mut lines = Vec::<LogLine>::new();
-    loop {
-        let mut line = String::new();
-        let len = match buf_reader.read_line(&mut line) {
-            Ok(l) => l,
-            Err(e) => panic!(format!("Failed to parse line from file: {}", e)),
-        };
-        if len == 0 {
-            break;
-        }
-        match LogLine::new(&line) {
-            Err(e) => {
-                if lines.len() > 0 {
-                    lines.last_mut().unwrap().append_msg(&line)
-                } else {
-                    panic!("Failed to process line: {}\n{}", line, e)
-                }
-            }
-            Ok(l) => lines.push(l),
-        }
-    }
+    let lines = log_parser::parse_log_file(&mut buf_reader);
     if args.len() > 2 {
         let mut writer = csv::Writer::from_path(&args[2])?;
         for log_line in lines {
-            match log_line.parse_query_timing() {
-                Some(timing) => { writer.write_record(timing.to_vec())?; },
+            match QueryWithTiming::new(&log_line) {
+                Some(timing) => {
+                    writer.write_record(timing.to_vec())?;
+                }
                 None => (),
             }
         }
         writer.flush()?;
     } else {
         for log_line in lines {
-            match log_line.parse_query_timing() {
+            match QueryWithTiming::new(&log_line) {
                 Some(timing) => println!("{:?}", timing),
                 None => (),
             }
