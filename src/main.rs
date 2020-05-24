@@ -53,11 +53,8 @@ impl QueryWithTiming<'_> {
         let sequence: i32 = msg_elements[4].parse().unwrap();
         let database = msg_elements[6];
         let session = msg_elements[8];
-        let re = regex::Regex::new(r"^(?:[^{}]+)\{(.+)\} \{(.+)\}$").unwrap();
-        // remove an extra line breaks
-        let mut msg_cleaned = String::from(&log_line.msg);
-        msg_cleaned.retain(|c| c != '\n');
-        let captures = match re.captures(&msg_cleaned) {
+        let re = regex::Regex::new(r"(?ms)(?:[^{}]+)\{(.+)\} \{(.+)\}").unwrap();
+        let captures = match re.captures(&log_line.msg) {
             None => panic!(format!("{:?}", &log_line.msg)),
             Some(c) => c,
         };
