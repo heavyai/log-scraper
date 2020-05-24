@@ -21,6 +21,7 @@ struct QueryWithTiming<'a> {
     total_time: i32,
     sequence: i32,
     session: &'a str,
+    database: &'a str,
 }
 
 impl QueryWithTiming<'_> {
@@ -32,6 +33,7 @@ impl QueryWithTiming<'_> {
         out.push(self.session.to_string());
         out.push(self.execution_time.to_string());
         out.push(self.total_time.to_string());
+        out.push(self.database.to_string());
         return out;
     }
 
@@ -49,6 +51,7 @@ impl QueryWithTiming<'_> {
         };
         // 53988 DBHandler.cpp:1039 stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
         let sequence: i32 = msg_elements[4].parse().unwrap();
+        let database = msg_elements[6];
         let session = msg_elements[8];
         let re = regex::Regex::new(r"^(?:[^{}]+)\{(.+)\} \{(.+)\}$").unwrap();
         // remove an extra line breaks
@@ -93,6 +96,7 @@ impl QueryWithTiming<'_> {
             total_time,
             sequence,
             session,
+            database,
         });
     }
 }
