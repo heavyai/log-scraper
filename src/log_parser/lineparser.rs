@@ -54,6 +54,7 @@ impl LogLine {
     }
 
     pub fn append_msg(&mut self, line_raw: &str) {
+        self.msg.push_str("\n");
         self.msg.push_str(line_raw);
     }
 }
