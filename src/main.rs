@@ -13,6 +13,9 @@ use chrono::NaiveDateTime;
 
 extern crate regex;
 
+#[macro_use]
+extern crate clap;
+
 #[derive(Debug)]
 struct QueryWithTiming<'a> {
     timestamp: NaiveDateTime,
@@ -99,6 +102,28 @@ impl QueryWithTiming<'_> {
 }
 
 fn main() -> std::io::Result<()> {
+    let matches = clap_app!(myapp =>
+        (name: "omnisci-log-scraper")
+        (version: "0.1.0")
+        (author: "Alex Baden <alex.baden@mapd.com>")
+        (about: "Scrapes OmniSci DB logs for useful data")
+
+        (@arg FILTER: -f --filter +takes_value "Filter logs: ")
+
+        (@arg LOG_FILE: +required "Sets the input file to use")
+        (@arg OUTPUT_FILE: "Output file to use")
+
+        (@arg debug: -d ... "Sets the level of debugging information")
+    ).get_matches();
+
+    match matches.value_of("filter").unwrap_or("sql") {
+        "sql" => sql_logs(),
+        "all" => { println!("all"); Ok(()) }
+        _ => panic!("filter not recognized")
+    }
+}
+
+fn sql_logs() -> std::io::Result<()> {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
         println!("Not enough args!");
