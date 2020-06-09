@@ -52,10 +52,10 @@ impl QueryWithTiming<'_> {
             Some(false) => return None,
             Some(true) => (),
         };
-        // 53988 DBHandler.cpp:1039 stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
-        let sequence: i32 = msg_elements[4].parse().unwrap();
-        let database = msg_elements[6];
-        let session = msg_elements[8];
+        // stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
+        let sequence: i32 = msg_elements[2].parse().unwrap();
+        let database = msg_elements[4];
+        let session = msg_elements[6];
         let re = regex::Regex::new(r"(?ms)(?:[^{}]+)\{(.+)\} \{(.+)\}").unwrap();
         let captures = match re.captures(&log_line.msg) {
             None => panic!(format!("{:?}", &log_line.msg)),

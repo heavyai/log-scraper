@@ -5,7 +5,7 @@ extern crate chrono;
 use chrono::NaiveDateTime;
 
 #[derive(Debug)]
-pub enum LogType {
+pub enum Severity {
     INFO,
     ERROR,
     WARNING,
@@ -16,39 +16,55 @@ pub enum LogType {
 #[derive(Debug)]
 pub struct LogLine {
     pub timestamp: NaiveDateTime,
-    pub log_type: LogType,
+    pub severity: Severity,
+    pub pid: i32,
+    pub fileline: String,
     pub msg: String,
 }
 
 impl LogLine {
     pub fn new(line_raw: &str) -> Result<LogLine, Error> {
-        let line_vec: Vec<&str> = line_raw.split(" ").map(|x| x.trim()).collect();
-        if line_vec.len() < 3 {
+        let parts: Vec<&str> = line_raw.split(" ").map(|x| x.trim()).collect();
+
+        if parts[0].len() < 26 {
             return Err(Error::new(
                 ErrorKind::InvalidData,
-                format!("Line is too short to parse: \"{}\"", line_raw),
+                format!("Line does not start with timestamp: \"{}\"", line_raw),
             ));
         }
-        let timestamp = match NaiveDateTime::parse_from_str(line_vec[0], "%Y-%m-%dT%H:%M:%S%.f") {
+        let timestamp = match NaiveDateTime::parse_from_str(parts[0], "%Y-%m-%dT%H:%M:%S%.f") {
             Err(e) => {
                 return Err(Error::new(
                     ErrorKind::InvalidData,
-                    format!("Failed to parse timestamp: \"{}\" ({})", line_vec[0], e),
+                    format!("Failed to parse timestamp: \"{}\" ({})", parts[0], e),
                 ))
             }
             Ok(t) => t,
         };
-        let log_type = match line_vec[1] {
-            "I" => LogType::INFO,
-            "E" => LogType::ERROR,
-            "W" => LogType::WARNING,
-            "F" => LogType::FATAL,
-            _ => LogType::OTHER,
+        
+        let severity = match parts[1] {
+            "I" => Severity::INFO,
+            "E" => Severity::ERROR,
+            "W" => Severity::WARNING,
+            "F" => Severity::FATAL,
+            _ => Severity::OTHER,
         };
-        let msg = line_vec[2..].join(" ");
+        let pid: i32 = match parts[2].parse() {
+            Ok(n) => n,
+            Err(e) => {
+                return Err(Error::new(
+                    ErrorKind::InvalidData,
+                    format!("Failed to parse pid: \"{}\" ({})", parts[2], e),
+                ))
+            }
+          };
+        let fileline = parts[3].to_string();
+        let msg = parts[4..].join(" ");
         return Ok(LogLine {
             timestamp,
-            log_type,
+            severity,
+            pid,
+            fileline,
             msg,
         });
     }
