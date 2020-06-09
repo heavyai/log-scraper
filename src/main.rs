@@ -42,16 +42,9 @@ impl QueryWithTiming<'_> {
 
     pub fn new(log_line: &log_parser::LogLine) -> Option<QueryWithTiming> {
         let msg_elements: Vec<&str> = log_line.msg.split(" ").map(|x| x.trim()).collect();
-        let mut iter = msg_elements.iter();
-        match iter.find_map(|&x| match x {
-            "stdlog_begin" => Some(false),
-            "sql_execute" => Some(true),
-            _ => None,
-        }) {
-            None => return None,
-            Some(false) => return None,
-            Some(true) => (),
-        };
+        if msg_elements.len() < 3 || msg_elements[0] != "stdlog" || msg_elements[1] != "sql_execute" {
+            return None
+        }
         // stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
         let sequence: i32 = msg_elements[2].parse().unwrap();
         let database = msg_elements[4];
@@ -102,7 +95,7 @@ impl QueryWithTiming<'_> {
 }
 
 fn main() -> std::io::Result<()> {
-    let matches = clap_app!(myapp =>
+    let params = clap_app!(myapp =>
         (name: "omnisci-log-scraper")
         (version: "0.1.0")
         (author: "Alex Baden <alex.baden@mapd.com>")
@@ -110,46 +103,51 @@ fn main() -> std::io::Result<()> {
 
         (@arg FILTER: -f --filter +takes_value "Filter logs: ")
 
-        (@arg LOG_FILE: +required "Sets the input file to use")
-        (@arg OUTPUT_FILE: "Output file to use")
+        (@arg OUTPUT: -o --output +takes_value "Ouput file or DB URL")
+
+        (@arg LOG_FILE: "Input log files")
 
         (@arg debug: -d ... "Sets the level of debugging information")
     ).get_matches();
 
-    match matches.value_of("filter").unwrap_or("sql") {
-        "sql" => sql_logs(),
-        "all" => { println!("all"); Ok(()) }
+    let args: Vec<String> = env::args().collect();
+    let input = match args.len() {
+        1 => "data/mapd_log/omnisci_server.INFO",
+        _ => &args[1],
+    };
+    let output = params.value_of("output");
+
+    match params.value_of("filter").unwrap_or("sql") {
+        "sql" => sql_logs(input, output),
+        // TODO "all" => { println!("all"); Ok(()) }
         _ => panic!("filter not recognized")
     }
 }
 
-fn sql_logs() -> std::io::Result<()> {
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 2 {
-        println!("Not enough args!");
-        std::process::exit(9);
-    }
-
-    let file_contents_utf8 = String::from_utf8_lossy(&fs::read(&args[1])?).into_owned();
+fn sql_logs(input: &str, output: Option<&str>) -> std::io::Result<()> {
+    let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut buf_reader = BufReader::new(buf);
     let lines = log_parser::parse_log_file(&mut buf_reader);
-    if args.len() > 2 {
-        let mut writer = csv::Writer::from_path(&args[2])?;
-        for log_line in lines {
-            match QueryWithTiming::new(&log_line) {
-                Some(timing) => {
-                    writer.write_record(timing.to_vec())?;
+    match output {
+        Some(output) => {
+            let mut writer = csv::Writer::from_path(&output)?;
+            for log_line in lines {
+                match QueryWithTiming::new(&log_line) {
+                    Some(timing) => {
+                        writer.write_record(timing.to_vec())?;
+                    }
+                    None => (),
                 }
-                None => (),
             }
-        }
-        writer.flush()?;
-    } else {
-        for log_line in lines {
-            match QueryWithTiming::new(&log_line) {
-                Some(timing) => println!("{:?}", timing),
-                None => (),
+            writer.flush()?;
+        },
+        None => {
+            for log_line in lines {
+                match QueryWithTiming::new(&log_line) {
+                    Some(timing) => println!("{:?}", timing),
+                    None => (),
+                }
             }
         }
     }
