@@ -1,5 +1,6 @@
 use std::io::BufRead;
 use std::io::{Error, ErrorKind};
+use std::fmt;
 
 extern crate chrono;
 use chrono::NaiveDateTime;
@@ -10,7 +11,16 @@ pub enum Severity {
     ERROR,
     WARNING,
     FATAL,
+    DEBUG,
     OTHER,
+}
+
+impl fmt::Display for Severity {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+        // or, alternatively:
+        // fmt::Debug::fmt(self, f)
+    }
 }
 
 #[derive(Debug)]
@@ -23,6 +33,16 @@ pub struct LogLine {
 }
 
 impl LogLine {
+    pub fn to_vec(&self) -> Vec<String> {
+        let mut out: Vec<String> = Vec::new();
+        out.push(self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string());
+        out.push(self.severity.to_string());
+        out.push(self.msg.clone());
+        out.push(self.fileline.clone());
+        out.push(self.pid.to_string());
+        return out;
+    }
+
     pub fn new(line_raw: &str) -> Result<LogLine, Error> {
         let parts: Vec<&str> = line_raw.split(" ").map(|x| x.trim()).collect();
 
@@ -47,6 +67,7 @@ impl LogLine {
             "E" => Severity::ERROR,
             "W" => Severity::WARNING,
             "F" => Severity::FATAL,
+            "1" => Severity::DEBUG,
             _ => Severity::OTHER,
         };
         let pid: i32 = match parts[2].parse() {
@@ -71,7 +92,7 @@ impl LogLine {
 
     pub fn append_msg(&mut self, line_raw: &str) {
         self.msg.push_str("\n");
-        self.msg.push_str(line_raw);
+        self.msg.push_str(&line_raw.trim_end());
     }
 }
 
