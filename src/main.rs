@@ -3,6 +3,7 @@ mod log_parser;
 use std::collections::HashMap;
 use std::env;
 use std::fs;
+use std::io;
 use std::io::BufReader;
 use std::io::Cursor;
 
@@ -101,13 +102,17 @@ fn main() -> std::io::Result<()> {
         (author: "Alex Baden <alex.baden@mapd.com>")
         (about: "Scrapes OmniSci DB logs for useful data")
 
-        (@arg FILTER: -f --filter +takes_value "Filter logs: ")
+        // TODO these values are not implemented yet
+        (@arg FILTER: -f --filter +takes_value "Filter logs: all, sql, vega, version, failure, error, warning")
+
+        // TODO select
+        // (@arg SELECT: -s --select +takes_value "Select column sets: all, min, exec, ...")
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file or DB URL")
 
         (@arg LOG_FILE: "Input log files")
 
-        (@arg debug: -d ... "Sets the level of debugging information")
+        (@arg debug: -d ... "Debugging information")
     ).get_matches();
 
     let args: Vec<String> = env::args().collect();
@@ -116,26 +121,35 @@ fn main() -> std::io::Result<()> {
         _ => &args[1],
     };
     let output = params.value_of("output");
+    let filter = match params.value_of("filter") {
+        None => "all",
+        Some(x) => x,
+    };
+    let filter: Vec<&str> = filter.split(",").map(|x| x.trim()).collect();
 
-    match params.value_of("filter").unwrap_or("sql") {
-        "sql" => sql_logs(input, output),
-        // TODO "all" => { println!("all"); Ok(()) }
-        _ => panic!("filter not recognized")
-    }
+    parse_logs(input, output, filter)
 }
 
-fn sql_logs(input: &str, output: Option<&str>) -> std::io::Result<()> {
+fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>) -> std::io::Result<()> {
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut buf_reader = BufReader::new(buf);
     let lines = log_parser::parse_log_file(&mut buf_reader);
+
+    // TODO How do I declare writer for different sources?
+    // let mut writer: csv::Writer<&dyn io::Write> = match output {
+    //     Some(path) => csv::Writer::from_path(path)?,
+    //     None => csv::Writer::from_writer(io::stdout()),
+    // }
+
     match output {
-        Some(output) => {
-            let mut writer = csv::Writer::from_path(&output)?;
+        Some(path) => {
+            let mut writer = csv::Writer::from_path(path)?;
             for log_line in lines {
                 match QueryWithTiming::new(&log_line) {
                     Some(timing) => {
                         writer.write_record(timing.to_vec())?;
+                        // TODO if debug: println!("{:?}", timing)
                     }
                     None => (),
                 }
@@ -143,13 +157,24 @@ fn sql_logs(input: &str, output: Option<&str>) -> std::io::Result<()> {
             writer.flush()?;
         },
         None => {
+            let mut writer = csv::WriterBuilder::new()
+                .delimiter(b'\t')
+                .from_writer(io::stdout());
             for log_line in lines {
-                match QueryWithTiming::new(&log_line) {
-                    Some(timing) => println!("{:?}", timing),
-                    None => (),
+                if filter.contains(&"sql") {
+                    match QueryWithTiming::new(&log_line) {
+                        Some(timing) => {
+                            writer.write_record(timing.to_vec())?;
+                            // TODO if debug: println!("{:?}", timing)
+                        }
+                        None => (),
+                    }
+                } else {
+                    writer.write_record(log_line.to_vec())?;
                 }
             }
-        }
-    }
+            writer.flush()?;
+        },
+    };
     Ok(())
 }
