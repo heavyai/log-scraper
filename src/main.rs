@@ -17,6 +17,10 @@ extern crate regex;
 #[macro_use]
 extern crate clap;
 
+extern crate pager;
+use pager::Pager;
+
+
 #[derive(Debug)]
 struct QueryWithTiming<'a> {
     timestamp: NaiveDateTime,
@@ -96,17 +100,25 @@ impl QueryWithTiming<'_> {
 }
 
 fn main() -> std::io::Result<()> {
+    Pager::new().setup();
+
     let params = clap_app!(myapp =>
         (name: "omnisci-log-scraper")
         (version: "0.1.0")
         (author: "Alex Baden <alex.baden@mapd.com>")
         (about: "Scrapes OmniSci DB logs for useful data")
 
-        // TODO these values are not implemented yet
-        (@arg FILTER: -f --filter +takes_value "Filter logs: all, sql, vega, version, failure, error, warning")
+        // TODO implement more filter tags: vega, exec, ops, connect, version, failure, error, warning
+        (@arg FILTER: -f --filter +takes_value "Filter logs: all, sql")
 
         // TODO select
         // (@arg SELECT: -s --select +takes_value "Select column sets: all, min, exec, ...")
+
+        // TODO arg input dir
+
+        // TODO arg file index selector: "-1", -5..-1", "..-1"
+
+        // TODO arg output format: csv, tsv, json, load_table, kafka
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file or DB URL")
 
@@ -118,6 +130,8 @@ fn main() -> std::io::Result<()> {
     let args: Vec<String> = env::args().collect();
     let input = match args.len() {
         1 => "data/mapd_log/omnisci_server.INFO",
+
+        // TODO process multiple input files
         _ => &args[1],
     };
     let output = params.value_of("output");
@@ -170,7 +184,11 @@ fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>) -> std::io::
                         None => (),
                     }
                 } else {
-                    writer.write_record(log_line.to_vec())?;
+                    match writer.write_record(log_line.to_vec()) {
+                        Ok(_) => continue,
+                        // return Ok on error, assumes the user quit the output early, we don't want to print an error
+                        Err(_) => return Ok(())
+                    };
                 }
             }
             writer.flush()?;
