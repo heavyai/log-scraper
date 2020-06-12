@@ -6,6 +6,7 @@ use std::fs;
 use std::io;
 use std::io::BufReader;
 use std::io::Cursor;
+use std::io::Write;
 
 extern crate csv;
 
@@ -19,6 +20,8 @@ extern crate clap;
 
 extern crate pager;
 use pager::Pager;
+
+use colored;
 
 
 #[derive(Debug)]
@@ -100,7 +103,8 @@ impl QueryWithTiming<'_> {
 }
 
 fn main() -> std::io::Result<()> {
-    Pager::new().setup();
+    let mut pager = Pager::new();
+    pager.setup();
 
     let params = clap_app!(myapp =>
         (name: "omnisci-log-scraper")
@@ -118,7 +122,8 @@ fn main() -> std::io::Result<()> {
 
         // TODO arg file index selector: "-1", -5..-1", "..-1"
 
-        // TODO arg output format: csv, tsv, json, load_table, kafka
+        // TODO arg output format type: json, load_table, kafka
+        (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal")
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file or DB URL")
 
@@ -141,10 +146,20 @@ fn main() -> std::io::Result<()> {
     };
     let filter: Vec<&str> = filter.split(",").map(|x| x.trim()).collect();
 
-    parse_logs(input, output, filter)
+    let format_type = match params.value_of("type") {
+        None => if pager.is_on() {
+            colored::control::set_override(true);
+            "terminal"
+        } else {
+            "csv"
+        },
+        Some(x) => x,
+    };
+
+    parse_logs(input, output, filter, format_type)
 }
 
-fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>) -> std::io::Result<()> {
+fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>, _format: &str) -> std::io::Result<()> {
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut buf_reader = BufReader::new(buf);
@@ -171,11 +186,11 @@ fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>) -> std::io::
             writer.flush()?;
         },
         None => {
-            let mut writer = csv::WriterBuilder::new()
-                .delimiter(b'\t')
-                .from_writer(io::stdout());
-            for log_line in lines {
-                if filter.contains(&"sql") {
+            if filter.contains(&"sql") {
+                let mut writer = csv::WriterBuilder::new()
+                    .delimiter(b'\t')
+                    .from_writer(io::stdout());
+                for log_line in lines {
                     match QueryWithTiming::new(&log_line) {
                         Some(timing) => {
                             writer.write_record(timing.to_vec())?;
@@ -183,15 +198,26 @@ fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>) -> std::io::
                         }
                         None => (),
                     }
-                } else {
-                    match writer.write_record(log_line.to_vec()) {
+                }
+                writer.flush()?;
+            } else {
+                let stdout = std::io::stdout();
+                let mut writer = stdout.lock();
+                // TODO if format=terminal https://docs.rs/colored/1.9.3/colored/
+                for line in lines {
+                    match writer.write_all(&line.print_colorize().into_bytes()) {
                         Ok(_) => continue,
                         // return Ok on error, assumes the user quit the output early, we don't want to print an error
                         Err(_) => return Ok(())
                     };
                 }
             }
-            writer.flush()?;
+            // TODO bring back tsv output
+            // match writer.write_record(log_line.to_vec()) {
+            //     Ok(_) => continue,
+            //     // return Ok on error, assumes the user quit the output early, we don't want to print an error
+            //     Err(_) => return Ok(())
+            // };
         },
     };
     Ok(())
