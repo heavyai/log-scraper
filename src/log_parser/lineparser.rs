@@ -5,6 +5,9 @@ use std::fmt;
 extern crate chrono;
 use chrono::NaiveDateTime;
 
+// https://docs.rs/colored/1.9.3/colored/
+use colored::Colorize;
+
 #[derive(Debug)]
 pub enum Severity {
     INFO,
@@ -33,7 +36,7 @@ pub struct LogLine {
 }
 
 impl LogLine {
-    pub fn to_vec(&self) -> Vec<String> {
+    pub fn _to_vec(&self) -> Vec<String> {
         let mut out: Vec<String> = Vec::new();
         out.push(self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string());
         out.push(self.severity.to_string());
@@ -41,6 +44,25 @@ impl LogLine {
         out.push(self.fileline.clone());
         out.push(self.pid.to_string());
         return out;
+    }
+
+    pub fn print_colorize(&self) -> String {
+        format!("{}|{:5.5}| {} |{}|{}\n",
+            self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string().color("grey"),
+            self.severity.to_string().color(
+                match &self.severity {
+                    Severity::FATAL => "brightred",
+                    Severity::ERROR => "red",
+                    Severity::WARNING => "yellow",
+                    Severity::INFO => "blue",
+                    Severity::DEBUG => "green",
+                    Severity::OTHER => "cyan",
+                }
+            ),
+            self.msg,
+            self.fileline.color("grey"),
+            self.pid.to_string().color("grey"),
+        )
     }
 
     pub fn new(line_raw: &str) -> Result<LogLine, Error> {
