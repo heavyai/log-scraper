@@ -109,7 +109,7 @@ fn main() -> std::io::Result<()> {
     let params = clap_app!(myapp =>
         (name: "omnisci-log-scraper")
         (version: "0.1.0")
-        (author: "Alex Baden <alex.baden@mapd.com>")
+        (author: "Alex Baden <alex.baden@mapd.com>, Mike Hinchey <mike.hinchey@omnisci.com>")
         (about: "Scrapes OmniSci DB logs for useful data")
 
         // TODO implement more filter tags: vega, exec, ops, connect, version, failure, error, warning
@@ -127,27 +127,33 @@ fn main() -> std::io::Result<()> {
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file or DB URL")
 
-        (@arg LOG_FILE: "Input log files")
+        (@arg INPUT: +multiple "Input log files")
 
         (@arg debug: -d ... "Debugging information")
     ).get_matches();
 
-    let args: Vec<String> = env::args().collect();
-    let input = match args.len() {
-        1 => "data/mapd_log/omnisci_server.INFO",
-
-        // TODO process multiple input files
-        _ => &args[1],
+    let inputs = match params.indices_of("INPUT") {
+        None => vec!("data/mapd_log/omnisci_server.INFO".to_string()),
+        Some(indices) => {
+            let args: Vec<String> = env::args().collect();
+            let mut vec = Vec::new();
+            for i in indices {
+                vec.push(args[i].to_string());
+            };
+            vec
+        },
     };
-    let output = params.value_of("output");
-    let filter = match params.value_of("filter") {
+
+    let output = params.value_of("OUTPUT");
+    let filter = match params.value_of("FILTER") {
         None => "all",
         Some(x) => x,
     };
     let filter: Vec<&str> = filter.split(",").map(|x| x.trim()).collect();
 
-    let format_type = match params.value_of("type") {
+    let format_type = match params.value_of("TYPE") {
         None => if pager.is_on() {
+            // since we know we're printing to terminal, force the pager on, so colurs work
             colored::control::set_override(true);
             "terminal"
         } else {
@@ -156,10 +162,16 @@ fn main() -> std::io::Result<()> {
         Some(x) => x,
     };
 
-    parse_logs(input, output, filter, format_type)
+    for input in inputs {
+        match parse_logs(&input, output, &filter, format_type) {
+            Ok(_) => continue,
+            Err(x) => return Err(x),
+        };
+    }
+    Ok(())
 }
 
-fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>, _format: &str) -> std::io::Result<()> {
+fn parse_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, _format: &str) -> std::io::Result<()> {
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut buf_reader = BufReader::new(buf);
@@ -173,14 +185,24 @@ fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>, _format: &st
 
     match output {
         Some(path) => {
+            // TODO tsv output
+            println!("output {}", path);
             let mut writer = csv::Writer::from_path(path)?;
-            for log_line in lines {
-                match QueryWithTiming::new(&log_line) {
-                    Some(timing) => {
-                        writer.write_record(timing.to_vec())?;
-                        // TODO if debug: println!("{:?}", timing)
+
+            if filter.contains(&"sql") {
+                for log_line in lines {
+                    match QueryWithTiming::new(&log_line) {
+                        Some(timing) => writer.write_record(timing.to_vec())?,
+                        None => (),
                     }
-                    None => (),
+                }
+            } else {
+                for log_line in lines {
+                    match writer.write_record(log_line.to_vec()) {
+                        Ok(_) => continue,
+                        // return Ok on error, assumes the user quit the output early, we don't want to print an error
+                        Err(_) => return Ok(())
+                    }
                 }
             }
             writer.flush()?;
@@ -212,12 +234,6 @@ fn parse_logs(input: &str, output: Option<&str>, filter: Vec<&str>, _format: &st
                     };
                 }
             }
-            // TODO bring back tsv output
-            // match writer.write_record(log_line.to_vec()) {
-            //     Ok(_) => continue,
-            //     // return Ok on error, assumes the user quit the output early, we don't want to print an error
-            //     Err(_) => return Ok(())
-            // };
         },
     };
     Ok(())

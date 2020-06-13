@@ -36,7 +36,7 @@ pub struct LogLine {
 }
 
 impl LogLine {
-    pub fn _to_vec(&self) -> Vec<String> {
+    pub fn to_vec(&self) -> Vec<String> {
         let mut out: Vec<String> = Vec::new();
         out.push(self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string());
         out.push(self.severity.to_string());
@@ -51,9 +51,9 @@ impl LogLine {
             self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string().color("grey"),
             self.severity.to_string().color(
                 match &self.severity {
-                    Severity::FATAL => "brightred",
+                    Severity::FATAL => "red",
                     Severity::ERROR => "red",
-                    Severity::WARNING => "yellow",
+                    Severity::WARNING => "red",
                     Severity::INFO => "blue",
                     Severity::DEBUG => "green",
                     Severity::OTHER => "cyan",
