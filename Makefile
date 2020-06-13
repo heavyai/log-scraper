@@ -16,6 +16,9 @@ run:
 test:
 	cargo test
 
+install: test
+	cargo install --path .
+
 all: test
 
-.PHONY: build run test all
+.PHONY: build run test all install
