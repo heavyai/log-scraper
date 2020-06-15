@@ -19,6 +19,7 @@ use colored::Colorize;
 
 
 #[derive(Debug)]
+#[derive(Clone)]
 pub enum Severity {
     INFO,
     ERROR,
@@ -37,6 +38,7 @@ impl fmt::Display for Severity {
 }
 
 #[derive(Debug)]
+#[derive(Clone)]
 pub struct LogLine {
     pub timestamp: NaiveDateTime,
     pub severity: Severity,
@@ -54,6 +56,12 @@ struct QueryWithTiming<'a> {
     sequence: i32,
     session: &'a str,
     database: &'a str,
+}
+
+enum LogEntry {
+    Unknown(String),
+    LogLine(LogLine),
+    EOF,
 }
 
 impl QueryWithTiming<'_> {
@@ -207,38 +215,89 @@ impl LogLine {
     }
 }
 
-pub fn parse_log_file<R: BufRead>(buf_reader: &mut R) -> Vec<LogLine> {
-    let mut lines = Vec::<LogLine>::new();
-
-    loop {
+impl LogEntry {
+    fn readline<'a, R: BufRead>(reader: &'a mut R) -> Result<LogEntry, Error> {
         let mut line = String::new();
-        let len = match buf_reader.read_line(&mut line) {
-            Ok(l) => l,
-            Err(e) => panic!(format!("Failed to parse line from file: {}", e)),
-        };
-        if len == 0 {
-            break;
-        }
-        match LogLine::new(&line) {
-            Err(e) => {
-                if lines.len() > 0 {
-                    lines.last_mut().unwrap().append_msg(&line)
-                } else {
-                    panic!("Failed to process line: {}\n{}", line, e)
-                }
+        match reader.read_line(&mut line) {
+            Err(e) => Err(Error::new(ErrorKind::InvalidData, format!("Failed to read: {}", e))),
+            Ok(len) => match len {
+                0 => return Ok(LogEntry::EOF),
+                _ => match LogLine::new(&line) {
+                    Err(_) => return Ok(LogEntry::Unknown(line)),
+                    Ok(log) => return Ok(LogEntry::LogLine(log)),
+                },
             }
-            Ok(l) => lines.push(l),
         }
     }
-    return lines;
+}
+
+// We'll use this iterator to parse the lines as the input is read
+// https://doc.rust-lang.org/core/iter/index.html#implementing-iterator
+pub struct ParsingLine<'a, R: BufRead> {
+    reader: &'a mut R,
+    ahead: Option<LogLine>,
+}
+
+impl<'a, R: BufRead> ParsingLine<'a, R> {
+    pub fn new(reader: &'a mut R) -> ParsingLine<'a, R> {
+        ParsingLine {
+            ahead: None,
+            reader: reader,
+        }
+    }
+}
+
+impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
+    type Item = Result<LogLine, Error>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        loop {
+            match LogEntry::readline(self.reader) {
+                Err(e) => return Some(Err(e)),
+                Ok(log) => match log {
+                    LogEntry::EOF => {
+                        match &self.ahead {
+                            None => return None,
+                            Some(log) => {
+                                let ok = log.clone();
+                                self.ahead = None;
+                                return Some(Ok(ok))
+                            },
+                        }
+                    },
+                    LogEntry::Unknown(text) => {
+                        match &self.ahead {
+                            None => return None,
+                            Some(log) => {
+                                let mut ok = log.clone();
+                                ok.append_msg(&text);
+                                self.ahead = Some(ok)
+                            },
+                        }
+                    },
+                    LogEntry::LogLine(log) => {
+                        match &self.ahead {
+                            None => {
+                                self.ahead = Some(log);
+                            },
+                            Some(ahead) => {
+                                let ok = ahead.clone();
+                                self.ahead = Some(log);
+                                return Some(Ok(ok))
+                            },
+                        }
+                    },
+                },
+            }
+        }
+    }
 }
 
 
 pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, _format: &str) -> std::io::Result<()> {
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
-    let mut buf_reader = BufReader::new(buf);
-    let lines = parse_log_file(&mut buf_reader);
+    let mut reader = BufReader::new(buf);
 
     // TODO How do I declare writer for different sources?
     // let mut writer: csv::Writer<&dyn io::Write> = match output {
@@ -246,58 +305,55 @@ pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, _fo
     //     None => csv::Writer::from_writer(io::stdout()),
     // }
 
-    match output {
-        Some(path) => {
-            // TODO tsv output
-            println!("output {}", path);
-            let mut writer = csv::Writer::from_path(path)?;
+    for entry in ParsingLine::new(&mut reader) {
+        match entry {
+            Err(e) => return Err(e),
+            Ok(log_line) => match output {
+                Some(path) => {
+                    // TODO tsv output
+                    // println!("output {}", path);
+                    let mut writer = csv::Writer::from_path(path)?;
 
-            if filter.contains(&"sql") {
-                for log_line in lines {
-                    match QueryWithTiming::new(&log_line) {
-                        Some(timing) => writer.write_record(timing.to_vec())?,
-                        None => (),
-                    }
-                }
-            } else {
-                for log_line in lines {
-                    match writer.write_record(log_line.to_vec()) {
-                        Ok(_) => continue,
-                        // return Ok on error, assumes the user quit the output early, we don't want to print an error
-                        Err(_) => return Ok(())
-                    }
-                }
-            }
-            writer.flush()?;
-        },
-        None => {
-            if filter.contains(&"sql") {
-                let mut writer = csv::WriterBuilder::new()
-                    .delimiter(b'\t')
-                    .from_writer(io::stdout());
-                for log_line in lines {
-                    match QueryWithTiming::new(&log_line) {
-                        Some(timing) => {
-                            writer.write_record(timing.to_vec())?;
-                            // TODO if debug: println!("{:?}", timing)
+                    if filter.contains(&"sql") {
+                        match QueryWithTiming::new(&log_line) {
+                            Some(timing) => writer.write_record(timing.to_vec())?,
+                            None => (),
                         }
-                        None => (),
+                    } else {
+                        match writer.write_record(log_line.to_vec()) {
+                            Ok(_) => continue,
+                            // return Ok on error, assumes the user quit the output early, we don't want to print an error
+                            Err(_) => return Ok(())
+                        }
+                    }
+                    writer.flush()?;
+                },
+                None => {
+                    if filter.contains(&"sql") {
+                        let mut writer = csv::WriterBuilder::new()
+                            .delimiter(b'\t')
+                            .from_writer(io::stdout());
+                        match QueryWithTiming::new(&log_line) {
+                            Some(timing) => {
+                                writer.write_record(timing.to_vec())?;
+                                // TODO if debug: println!("{:?}", timing)
+                            }
+                            None => (),
+                        }
+                        writer.flush()?;
+                    } else {
+                        let stdout = std::io::stdout();
+                        let mut writer = stdout.lock();
+                        // TODO if format=terminal https://docs.rs/colored/1.9.3/colored/
+                        match writer.write_all(&log_line.print_colorize().into_bytes()) {
+                            Ok(_) => continue,
+                            // return Ok on error, assumes the user quit the output early, we don't want to print an error
+                            Err(_) => return Ok(())
+                        };
                     }
                 }
-                writer.flush()?;
-            } else {
-                let stdout = std::io::stdout();
-                let mut writer = stdout.lock();
-                // TODO if format=terminal https://docs.rs/colored/1.9.3/colored/
-                for line in lines {
-                    match writer.write_all(&line.print_colorize().into_bytes()) {
-                        Ok(_) => continue,
-                        // return Ok on error, assumes the user quit the output early, we don't want to print an error
-                        Err(_) => return Ok(())
-                    };
-                }
             }
-        },
+        }
     };
     Ok(())
 }
