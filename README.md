@@ -11,6 +11,12 @@ cargo build --release
 
 The binary will be in `target/release`. 
 
+Alternatively, build the Linux binary using Docker:
+```
+cd docker
+./buildbinary.sh
+```
+
 ## Usage
 
 The program currently accepts two arguments. The first argument is the path to the log file you want to parse. The second is an optional output file to write to, currently in csv format only. The timing information for each SQL query will be written to the CSV file, along with the query, session ID, and timestamp. 
