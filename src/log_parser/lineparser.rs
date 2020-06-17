@@ -293,66 +293,125 @@ impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
     }
 }
 
+pub enum OutputType {
+    CSV,
+    TSV,
+    Terminal,
+}
 
-pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, _format: &str) -> std::io::Result<()> {
+impl OutputType {
+    pub fn new(name: &str) -> OutputType {
+        match &name {
+            &"csv" => OutputType::CSV,
+            &"tsv" => OutputType::TSV,
+            &"terminal" => OutputType::Terminal,
+            _ => panic!(format!("Unknown OutputType: '{}'", name))
+        }
+    }
+}
+
+trait LogWriter {
+    fn write(&mut self, log: &LogLine) -> std::io::Result<()>;
+}
+
+struct CsvFileLogWriter {
+    writer: csv::Writer<std::fs::File>,
+}
+
+impl LogWriter for CsvFileLogWriter {
+    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+        match self.writer.write_record(log.to_vec()) {
+            Ok(_) => return Ok(()),
+            // return Ok on error, assumes the user quit the output early, we don't want to print an error
+            Err(_) => return Ok(())
+        }
+    }
+}
+
+struct CsvOutLogWriter {
+    writer: csv::Writer<io::Stdout>,
+}
+
+impl LogWriter for CsvOutLogWriter {
+    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+        match self.writer.write_record(log.to_vec()) {
+            Ok(_) => return Ok(()),
+            // return Ok on error, assumes the user quit the output early, we don't want to print an error
+            Err(_) => return Ok(())
+        }
+    }
+}
+
+struct CsvFileQueryWriter {
+    writer: csv::Writer<std::fs::File>,
+}
+
+impl LogWriter for CsvFileQueryWriter {
+    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+        match QueryWithTiming::new(&log) {
+            Some(timing) => match self.writer.write_record(timing.to_vec()) {
+                Ok(_) => return Ok(()),
+                // return Ok on error, assumes the user quit the output early, we don't want to print an error
+                Err(_) => return Ok(())
+            },
+            None => Ok(()),
+        }
+    }
+}
+
+struct TerminalWriter {
+    writer: io::Stdout,
+}
+
+impl LogWriter for TerminalWriter {
+    // TODO??? let mut writer = stdout.lock();
+    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+        match self.writer.write_all(&log.print_colorize().into_bytes()) {
+            Ok(_) => return Ok(()),
+            // return Ok on error, assumes the user quit the output early, we don't want to print an error
+            Err(_) => return Ok(())
+        }
+    }
+}
+
+fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &OutputType) -> Result<Box<dyn LogWriter>, Error> {
+    match output {
+        Some(path) => match csv::Writer::from_path(path) {
+            Ok(x) => if filter.contains(&"sql") {
+                Ok(Box::new(CsvFileQueryWriter{ writer: x}))
+            } else {
+                Ok(Box::new(CsvFileLogWriter{ writer: x}))
+            },
+            Err(e) => Err(Error::new(ErrorKind::InvalidData, format!("Failed to read: {}", e))),
+        },
+        None => match output_type {
+            OutputType::Terminal => Ok(Box::new(TerminalWriter{ writer: io::stdout() })),
+            OutputType::CSV => Ok(Box::new(CsvOutLogWriter{
+                writer: csv::WriterBuilder::new()
+                    .from_writer(io::stdout())
+                })),
+            OutputType::TSV => Ok(Box::new(CsvOutLogWriter{
+                writer: csv::WriterBuilder::new()
+                    .delimiter(b'\t')
+                    .from_writer(io::stdout())
+                })),
+        }
+    }
+}
+
+pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, output_type: &OutputType) -> std::io::Result<()> {
+    // println!("filter {:?} output {:?}", filter, output);
+
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut reader = BufReader::new(buf);
-
-    // TODO How do I declare writer for different sources?
-    // let mut writer: csv::Writer<&dyn io::Write> = match output {
-    //     Some(path) => csv::Writer::from_path(path)?,
-    //     None => csv::Writer::from_writer(io::stdout()),
-    // }
+    
+    let mut writer = new_log_writer(filter, output, &output_type)?;
 
     for entry in ParsingLine::new(&mut reader) {
         match entry {
             Err(e) => return Err(e),
-            Ok(log_line) => match output {
-                Some(path) => {
-                    // TODO tsv output
-                    // println!("output {}", path);
-                    let mut writer = csv::Writer::from_path(path)?;
-
-                    if filter.contains(&"sql") {
-                        match QueryWithTiming::new(&log_line) {
-                            Some(timing) => writer.write_record(timing.to_vec())?,
-                            None => (),
-                        }
-                    } else {
-                        match writer.write_record(log_line.to_vec()) {
-                            Ok(_) => continue,
-                            // return Ok on error, assumes the user quit the output early, we don't want to print an error
-                            Err(_) => return Ok(())
-                        }
-                    }
-                    writer.flush()?;
-                },
-                None => {
-                    if filter.contains(&"sql") {
-                        let mut writer = csv::WriterBuilder::new()
-                            .delimiter(b'\t')
-                            .from_writer(io::stdout());
-                        match QueryWithTiming::new(&log_line) {
-                            Some(timing) => {
-                                writer.write_record(timing.to_vec())?;
-                                // TODO if debug: println!("{:?}", timing)
-                            }
-                            None => (),
-                        }
-                        writer.flush()?;
-                    } else {
-                        let stdout = std::io::stdout();
-                        let mut writer = stdout.lock();
-                        // TODO if format=terminal https://docs.rs/colored/1.9.3/colored/
-                        match writer.write_all(&log_line.print_colorize().into_bytes()) {
-                            Ok(_) => continue,
-                            // return Ok on error, assumes the user quit the output early, we don't want to print an error
-                            Err(_) => return Ok(())
-                        };
-                    }
-                }
-            }
+            Ok(log) => writer.write(&log)?,
         }
     };
     Ok(())

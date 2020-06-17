@@ -61,19 +61,20 @@ fn main() -> std::io::Result<()> {
     };
     let filter: Vec<&str> = filter.split(",").map(|x| x.trim()).collect();
 
-    let format_type = match params.value_of("TYPE") {
+    let output_type = match params.value_of("TYPE") {
+        // TODO if OUTPUT file is set, disable terminal, default to csv
         None => if pager.is_on() {
-            // since we know we're printing to terminal, force the pager on, so colurs work
+            // since we know we're printing to terminal, force the pager on, so colors work
             colored::control::set_override(true);
-            "terminal"
+            log_parser::OutputType::Terminal
         } else {
-            "csv"
+            log_parser::OutputType::CSV
         },
-        Some(x) => x,
+        Some(x) => log_parser::OutputType::new(x),
     };
 
     for input in inputs {
-        match log_parser::transform_logs(&input, output, &filter, format_type) {
+        match log_parser::transform_logs(&input, output, &filter, &output_type) {
             Ok(_) => continue,
             Err(x) => return Err(x),
         };
