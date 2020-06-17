@@ -1,10 +1,15 @@
 # OmniSci Log Scraper
 
-A collection of utilities and libraries for parsing, collating and converting OmniSciDB logs into a variety of different representations and formats. 
+A collection of utilities and libraries for parsing, collating and converting
+OmniSciDB logs into a variety of different representations and formats.
 
 ## Building
 
-To build, make sure you first [install rust](https://www.rust-lang.org/tools/install). Then, clone the repo and run:
+To build, make sure you first [install rust](https://www.rust-lang.org/tools/install).
+The rustup install can be run with `make dev`.
+
+Then, clone the repo and run:
+
 ```
 cargo build --release
 ```
@@ -19,4 +24,24 @@ cd docker
 
 ## Usage
 
-The program currently accepts two arguments. The first argument is the path to the log file you want to parse. The second is an optional output file to write to, currently in csv format only. The timing information for each SQL query will be written to the CSV file, along with the query, session ID, and timestamp. 
+```
+omnisci-log-scraper 0.1.0
+Alex Baden <alex.baden@mapd.com>, Mike Hinchey <mike.hinchey@omnisci.com>
+Scrapes OmniSci DB logs for useful data
+
+USAGE:
+    omnisci-log-scraper [FLAGS] [OPTIONS] [INPUT]...
+
+FLAGS:
+    -d               Debugging information
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -f, --filter <FILTER>    Filter logs: all, sql
+    -o, --output <OUTPUT>    Ouput file or DB URL
+    -t, --type <TYPE>        Output format: csv, tsv, terminal
+
+ARGS:
+    <INPUT>...    Input log files
+```

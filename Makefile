@@ -7,6 +7,9 @@ SHELL = /bin/sh
 
 -include .env
 
+deps:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 build:
 	cargo build
 
@@ -19,6 +22,9 @@ test:
 install: test
 	cargo install --path .
 
+release:
+	cargo build --release
+
 all: test
 
-.PHONY: build run test all install
+.PHONY: dev build run test all install release
