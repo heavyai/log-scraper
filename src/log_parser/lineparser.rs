@@ -15,11 +15,13 @@ use std::io::Write;
 extern crate csv;
 
 // https://docs.rs/colored/1.9.3/colored/
-use colored::Colorize;
+use colored::{Colorize, ColoredString};
+
+use serde::Serialize;
 
 
-#[derive(Debug)]
-#[derive(Clone)]
+#[derive(Debug, Clone)]
+#[derive(Serialize)]
 pub enum Severity {
     INFO,
     ERROR,
@@ -37,25 +39,45 @@ impl fmt::Display for Severity {
     }
 }
 
-#[derive(Debug)]
-#[derive(Clone)]
+
+mod my_date_format {
+    use chrono::{NaiveDateTime};
+    use serde::{self, Serializer};
+
+    const FORMAT: &'static str = "%Y-%m-%d %H:%M:%S%.f";
+
+    pub fn serialize<S>(
+        date: &NaiveDateTime,
+        serializer: S,
+    ) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let s = format!("{}", date.format(FORMAT));
+        serializer.serialize_str(&s)
+    }
+}
+
+#[derive(Serialize, Debug, Clone)]
 pub struct LogLine {
+
+    // every log
+
+    #[serde(with = "my_date_format")]
     pub timestamp: NaiveDateTime,
+
     pub severity: Severity,
     pub pid: i32,
     pub fileline: String,
     pub msg: String,
-}
 
-#[derive(Debug)]
-struct QueryWithTiming<'a> {
-    timestamp: NaiveDateTime,
-    query: String,
-    execution_time: i32,
-    total_time: i32,
-    sequence: i32,
-    session: &'a str,
-    database: &'a str,
+    // stdlog
+    pub query: Option<String>,
+    pub execution_time: Option<i32>,
+    pub total_time: Option<i32>,
+    pub sequence: Option<i32>,
+    pub session: Option<String>,
+    pub database: Option<String>,
 }
 
 enum LogEntry {
@@ -64,34 +86,74 @@ enum LogEntry {
     EOF,
 }
 
-impl QueryWithTiming<'_> {
-    pub fn to_vec(&self) -> Vec<String> {
-        let mut out: Vec<String> = Vec::new();
-        out.push(self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string());
-        out.push(self.query.clone());
-        out.push(self.sequence.to_string());
-        out.push(self.session.to_string());
-        out.push(self.execution_time.to_string());
-        out.push(self.total_time.to_string());
-        out.push(self.database.to_string());
-        return out;
+trait MyColorize {
+    fn color(&self, color: &str) -> ColoredString;
+}
+
+impl MyColorize for Option<i32> {
+    fn color(&self, color: &str) -> ColoredString {
+        match self {
+            Some(x) => x.to_string(),
+            None => "".to_string(),
+        }.color(color)
+    }
+}
+
+impl MyColorize for Option<String> {
+    fn color(&self, color: &str) -> ColoredString {
+        match self {
+            Some(x) => x.to_string(),
+            None => "".to_string(),
+        }.color(color)
+    }
+}
+
+impl LogLine {
+
+    pub fn print_colorize(&self) -> String {
+        format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}\n",
+            self.timestamp.format("%m-%d %H:%M:%S%.f").to_string().color("grey"),
+            self.severity.to_string().color(
+                match &self.severity {
+                    Severity::FATAL => "red",
+                    Severity::ERROR => "red",
+                    Severity::WARNING => "red",
+                    Severity::INFO => "blue",
+                    Severity::DEBUG => "green",
+                    Severity::OTHER => "cyan",
+                }
+            ),
+            self.sequence.color("grey"),
+            self.session.color("grey"),
+            self.database.color("yellow"),
+            self.execution_time.color("green"),
+            self.total_time.color("yellow"),
+
+            self.query.color("blue"),
+            self.msg,
+            self.fileline.color("grey"),
+            self.pid.to_string().color("grey"),
+        )
     }
 
-    pub fn new(log_line: &LogLine) -> Option<QueryWithTiming> {
-        let msg_elements: Vec<&str> = log_line.msg.split(" ").map(|x| x.trim()).collect();
+    pub fn stdlog(self: &mut LogLine) {
+        let msg_elements: Vec<&str> = self.msg.split(" ").map(|x| x.trim()).collect();
         if msg_elements.len() < 3 || msg_elements[0] != "stdlog" || msg_elements[1] != "sql_execute" {
-            return None
+            return
         }
         // stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
-        let sequence: i32 = msg_elements[2].parse().unwrap();
-        let database = msg_elements[4];
-        let session = msg_elements[6];
+        self.sequence = Some(msg_elements[2].parse().unwrap());
+        self.database = Some(msg_elements[4].to_string());
+        self.session = Some(msg_elements[6].to_string());
+
         let re = regex::Regex::new(r"(?ms)(?:[^{}]+)\{(.+)\} \{(.+)\}").unwrap();
-        let captures = match re.captures(&log_line.msg) {
-            None => panic!(format!("{:?}", &log_line.msg)),
+
+        let captures = match re.captures(&self.msg) {
+            None => panic!(format!("{:?}", &self.msg)),
             Some(c) => c,
         };
         assert_eq!(captures.len(), 3);
+
         let keys_str = captures.get(1).unwrap().as_str();
         let values_str = captures.get(2).unwrap().as_str();
         let keys: Vec<&str> = keys_str.split(",").map(|x| x.trim()).collect();
@@ -110,56 +172,21 @@ impl QueryWithTiming<'_> {
                 v.trim_start_matches("\"").trim_end_matches("\""),
             );
         }
-        let query_str: String = array_data.get(&"query_str").unwrap().to_string();
-        let execution_time: i32 = match array_data.get(&"execution_time_ms") {
-            Some(v) => v.parse().unwrap(),
-            None => -1,
+        self.query = Some(array_data.get(&"query_str").unwrap().to_string());
+        self.execution_time = match array_data.get(&"execution_time_ms") {
+            Some(v) => match v.parse() {
+                Err(_) => None,
+                Ok(v) => Some(v),
+            },
+            None => None,
         };
-        let total_time: i32 = match array_data.get(&"total_time_ms") {
-            Some(v) => v.parse().unwrap(),
-            None => -1,
+        self.total_time = match array_data.get(&"total_time_ms") {
+            Some(v) => match v.parse() {
+                Err(_) => None,
+                Ok(v) => Some(v),
+            },
+            None => None,
         };
-        return Some(QueryWithTiming {
-            timestamp: log_line.timestamp,
-            query: query_str,
-            execution_time,
-            total_time,
-            sequence,
-            session,
-            database,
-        });
-    }
-}
-
-
-impl LogLine {
-    pub fn to_vec(&self) -> Vec<String> {
-        let mut out: Vec<String> = Vec::new();
-        out.push(self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string());
-        out.push(self.severity.to_string());
-        out.push(self.msg.clone());
-        out.push(self.fileline.clone());
-        out.push(self.pid.to_string());
-        return out;
-    }
-
-    pub fn print_colorize(&self) -> String {
-        format!("{}|{:5.5}| {} |{}|{}\n",
-            self.timestamp.format("%Y-%m-%d %H:%M:%S%.f").to_string().color("grey"),
-            self.severity.to_string().color(
-                match &self.severity {
-                    Severity::FATAL => "red",
-                    Severity::ERROR => "red",
-                    Severity::WARNING => "red",
-                    Severity::INFO => "blue",
-                    Severity::DEBUG => "green",
-                    Severity::OTHER => "cyan",
-                }
-            ),
-            self.msg,
-            self.fileline.color("grey"),
-            self.pid.to_string().color("grey"),
-        )
     }
 
     pub fn new(line_raw: &str) -> Result<LogLine, Error> {
@@ -200,13 +227,20 @@ impl LogLine {
           };
         let fileline = parts[3].to_string();
         let msg = parts[4..].join(" ");
-        return Ok(LogLine {
+        let result = LogLine{
             timestamp,
             severity,
             pid,
             fileline,
             msg,
-        });
+            query: None,
+            execution_time: None,
+            total_time: None,
+            sequence: None,
+            session: None,
+            database: None,
+        };
+        return Ok(result)
     }
 
     pub fn append_msg(&mut self, line_raw: &str) {
@@ -256,11 +290,16 @@ impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
                 Err(e) => return Some(Err(e)),
                 Ok(log) => match log {
                     LogEntry::EOF => {
+
+                        // TODO Can we act like tail -f by continuing to loop instead of return None?
+                        //      This would let the user refresh the pager app.
+
                         match &self.ahead {
                             None => return None,
                             Some(log) => {
-                                let ok = log.clone();
+                                let mut ok = log.clone();
                                 self.ahead = None;
+                                ok.stdlog();
                                 return Some(Ok(ok))
                             },
                         }
@@ -281,8 +320,9 @@ impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
                                 self.ahead = Some(log);
                             },
                             Some(ahead) => {
-                                let ok = ahead.clone();
+                                let mut ok = ahead.clone();
                                 self.ahead = Some(log);
+                                ok.stdlog();
                                 return Some(Ok(ok))
                             },
                         }
@@ -320,7 +360,7 @@ struct CsvFileLogWriter {
 
 impl LogWriter for CsvFileLogWriter {
     fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
-        match self.writer.write_record(log.to_vec()) {
+        match self.writer.serialize(log) {
             Ok(_) => return Ok(()),
             // return Ok on error, assumes the user quit the output early, we don't want to print an error
             Err(_) => return Ok(())
@@ -334,27 +374,10 @@ struct CsvOutLogWriter {
 
 impl LogWriter for CsvOutLogWriter {
     fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
-        match self.writer.write_record(log.to_vec()) {
+        match self.writer.serialize(log) {
             Ok(_) => return Ok(()),
             // return Ok on error, assumes the user quit the output early, we don't want to print an error
             Err(_) => return Ok(())
-        }
-    }
-}
-
-struct CsvFileQueryWriter {
-    writer: csv::Writer<std::fs::File>,
-}
-
-impl LogWriter for CsvFileQueryWriter {
-    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
-        match QueryWithTiming::new(&log) {
-            Some(timing) => match self.writer.write_record(timing.to_vec()) {
-                Ok(_) => return Ok(()),
-                // return Ok on error, assumes the user quit the output early, we don't want to print an error
-                Err(_) => return Ok(())
-            },
-            None => Ok(()),
         }
     }
 }
@@ -378,7 +401,8 @@ fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &Output
     match output {
         Some(path) => match csv::Writer::from_path(path) {
             Ok(x) => if filter.contains(&"sql") {
-                Ok(Box::new(CsvFileQueryWriter{ writer: x}))
+                // TODO write only sql fields
+                Ok(Box::new(CsvFileLogWriter{ writer: x}))
             } else {
                 Ok(Box::new(CsvFileLogWriter{ writer: x}))
             },
@@ -405,13 +429,21 @@ pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, out
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut reader = BufReader::new(buf);
-    
     let mut writer = new_log_writer(filter, output, &output_type)?;
 
     for entry in ParsingLine::new(&mut reader) {
         match entry {
             Err(e) => return Err(e),
-            Ok(log) => writer.write(&log)?,
+            Ok(log) => {
+                if filter.contains(&"sql") {
+                    match log.query {
+                        None => (),
+                        Some(_) => writer.write(&log)?
+                    }
+                } else {
+                    writer.write(&log)?
+                }
+            },
         }
     };
     Ok(())
