@@ -12,3 +12,4 @@ FROM github_1k WHERE ((github_1k.org_login = 'Microsoft'))","http:localhost:5785
 2020-05-09T23:44:14.700625 I 53988 Catalog.cpp:1474 Time to load Dictionary 1_58 was 7ms
 2020-05-09T23:44:14.728479 I 53988 DBHandler.cpp:1039 stdlog sql_execute 25 226 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT github_1k.type AS key0,COUNT(*) AS val FROM github_1k WHERE (github_1k.org_login = 'Microsoft') GROUP BY key0 ORDER BY val DESC NULLS LAST LIMIT 500","http:localhost:57866","77","226"}
 2020-05-09T23:44:15.728479 I 53989 DBHandler.cpp:1039 stdlog sql_execute 25 226 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"COPY t FROM file","http:localhost:57866","77","226"}
+2020-05-09T23:44:15.728479 I 53989 DBHandler.cpp:1039 stdlog sql_execute 25 226 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"select count(*) from tab;","http:localhost:57866","77","226"}

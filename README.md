@@ -22,6 +22,8 @@ cd docker
 ./buildbinary.sh
 ```
 
+The [Makefile](Makefile) also provides targets for `test`, `run`, `install`, and `release`.
+
 ## Usage
 
 ```

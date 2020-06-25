@@ -13,5 +13,5 @@ fn test_log_file_parse() {
     let f = File::open(test_path.as_path()).unwrap();
     let mut buf_reader = BufReader::new(f);
     let lines: Vec<Result<olog::LogLine, Error>> = olog::ParsingLine::new(&mut buf_reader).collect();
-    assert_eq!(lines.len(), 13);
+    assert_eq!(lines.len(), 14);
 }
