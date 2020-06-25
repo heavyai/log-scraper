@@ -7,3 +7,5 @@ SELECT github_1k.type AS key0,COUNT(*) AS val FROM github_1k WHERE (github_1k.or
 
 COPY t FROM file;
 
+select count(*) from tab;
+

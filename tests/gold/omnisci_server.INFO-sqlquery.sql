@@ -5,3 +5,5 @@ SELECT github_1k.repo_name AS key0,COUNT(*) AS col0 FROM github_1k WHERE (github
 
 SELECT github_1k.type AS key0,COUNT(*) AS val FROM github_1k WHERE (github_1k.org_login = 'Microsoft') GROUP BY key0 ORDER BY val DESC NULLS LAST LIMIT 500;
 
+select count(*) from tab;
+

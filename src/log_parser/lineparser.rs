@@ -423,7 +423,11 @@ impl LogWriter for SqlLogWriter {
         match &log.query {
             None => Ok(()),
             Some(x) => {
-                println!("{};\n", x);
+                if x.ends_with(";") {
+                    println!("{}\n", x);
+                } else {
+                    println!("{};\n", x);
+                }
                 Ok(())
             }
         }
