@@ -39,8 +39,8 @@ FLAGS:
 
 OPTIONS:
     -f, --filter <FILTER>    Filter logs: all, sql
-    -o, --output <OUTPUT>    Ouput file or DB URL
-    -t, --type <TYPE>        Output format: csv, tsv, terminal
+    -o, --output <OUTPUT>    Ouput file
+    -t, --type <TYPE>        Output format: csv, tsv, terminal, sql
 
 ARGS:
     <INPUT>...    Input log files
