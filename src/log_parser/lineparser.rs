@@ -337,6 +337,7 @@ pub enum OutputType {
     CSV,
     TSV,
     Terminal,
+    SQL,
 }
 
 impl OutputType {
@@ -345,6 +346,7 @@ impl OutputType {
             &"csv" => OutputType::CSV,
             &"tsv" => OutputType::TSV,
             &"terminal" => OutputType::Terminal,
+            &"sql" => OutputType::SQL,
             _ => panic!(format!("Unknown OutputType: '{}'", name))
         }
     }
@@ -397,6 +399,22 @@ impl LogWriter for TerminalWriter {
     }
 }
 
+struct SqlLogWriter {
+}
+
+impl LogWriter for SqlLogWriter {
+    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+        // io::stdout().write(log.query)?;
+        match &log.query {
+            None => Ok(()),
+            Some(x) => {
+                println!("{};\n", x);
+                Ok(())
+            }
+        }
+    }
+}
+
 fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &OutputType) -> Result<Box<dyn LogWriter>, Error> {
     match output {
         Some(path) => match csv::Writer::from_path(path) {
@@ -419,6 +437,7 @@ fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &Output
                     .delimiter(b'\t')
                     .from_writer(io::stdout())
                 })),
+            OutputType::SQL => Ok(Box::new(SqlLogWriter{})),
         }
     }
 }

@@ -33,7 +33,7 @@ fn main() -> std::io::Result<()> {
         // TODO arg file index selector: "-1", -5..-1", "..-1"
 
         // TODO arg output format type: json, load_table, kafka
-        (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal")
+        (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal, sql")
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file or DB URL")
 
