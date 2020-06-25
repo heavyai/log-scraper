@@ -73,6 +73,7 @@ pub struct LogLine {
 
     // stdlog
     pub query: Option<String>,
+    pub operation: Option<String>,
     pub execution_time: Option<i32>,
     pub total_time: Option<i32>,
     pub sequence: Option<i32>,
@@ -173,6 +174,19 @@ impl LogLine {
             );
         }
         self.query = Some(array_data.get(&"query_str").unwrap().to_string());
+        self.operation = match &self.query {
+            None => None,
+            Some(q) => {
+                match q.find(char::is_whitespace) {
+                    None => None,
+                    Some(i) => {
+                        let mut r = String::from(q[..i].to_string());
+                        r.make_ascii_uppercase();
+                        Some(r)
+                    },
+                }
+            },
+        };
         self.execution_time = match array_data.get(&"execution_time_ms") {
             Some(v) => match v.parse() {
                 Err(_) => None,
@@ -234,6 +248,7 @@ impl LogLine {
             fileline,
             msg,
             query: None,
+            operation: None,
             execution_time: None,
             total_time: None,
             sequence: None,
@@ -445,6 +460,8 @@ fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &Output
 pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, output_type: &OutputType) -> std::io::Result<()> {
     // println!("filter {:?} output {:?}", filter, output);
 
+    let query_operations = vec!("SELECT", "WITH");
+
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut reader = BufReader::new(buf);
@@ -458,6 +475,18 @@ pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, out
                     match log.query {
                         None => (),
                         Some(_) => writer.write(&log)?
+                    }
+                } else if filter.contains(&"sqlquery") {
+                    match log.query {
+                        None => (),
+                        Some(_) => match &log.operation {
+                            None => (),
+                            Some(op) => if query_operations.contains(&&op[0..]) {
+                                writer.write(&log)?
+                            } else {
+                                ()
+                            }
+                        }
                     }
                 } else {
                     writer.write(&log)?

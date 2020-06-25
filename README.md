@@ -6,7 +6,7 @@ OmniSciDB logs into a variety of different representations and formats.
 ## Building
 
 To build, make sure you first [install rust](https://www.rust-lang.org/tools/install).
-The rustup install can be run with `make dev`.
+The rustup install can be run with `make deps`.
 
 Then, clone the repo and run:
 
@@ -38,7 +38,7 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -f, --filter <FILTER>    Filter logs: all, sql
+    -f, --filter <FILTER>    Filter logs: all, sql, sqlquery
     -o, --output <OUTPUT>    Ouput file
     -t, --type <TYPE>        Output format: csv, tsv, terminal, sql
 

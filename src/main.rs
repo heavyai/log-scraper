@@ -23,7 +23,7 @@ fn main() -> std::io::Result<()> {
         (about: "Scrapes OmniSci DB logs for useful data")
 
         // TODO implement more filter tags: vega, exec, ops, connect, version, failure, error, warning
-        (@arg FILTER: -f --filter +takes_value "Filter logs: all, sql")
+        (@arg FILTER: -f --filter +takes_value "Filter logs: all, sql, sqlquery")
 
         // TODO select
         // (@arg SELECT: -s --select +takes_value "Select column sets: all, min, exec, ...")
