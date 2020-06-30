@@ -166,10 +166,13 @@ impl LogLine {
         let re = regex::Regex::new(r"(?ms)(?:[^{}]+)\{(.+)\} \{(.+)\}").unwrap();
 
         let captures = match re.captures(&self.msg) {
-            None => panic!(format!("{:?}", &self.msg)),
-            Some(c) => c,
+            None => return,
+            Some(c) => if c.len() == 3 {
+                c
+            } else {
+                return
+            },
         };
-        assert_eq!(captures.len(), 3);
 
         let keys_str = captures.get(1).unwrap().as_str();
         let values_str = captures.get(2).unwrap().as_str();
