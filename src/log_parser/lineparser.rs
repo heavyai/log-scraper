@@ -80,21 +80,22 @@ pub struct LogLine {
     // every log
 
     #[serde(with = "my_date_format")]
-    pub timestamp: NaiveDateTime,
+    pub logtime: NaiveDateTime,
 
     pub severity: Severity,
     pub pid: i32,
     pub fileline: String,
-    pub msg: String,
 
     // stdlog
-    pub query: Option<String>,
     pub operation: Option<String>,
     pub execution_time: Option<i32>,
     pub total_time: Option<i32>,
     pub sequence: Option<i32>,
     pub session: Option<String>,
-    pub database: Option<String>,
+    pub dbname: Option<String>,
+    pub query: Option<String>,
+
+    pub msg: String,
 }
 
 enum LogEntry {
@@ -129,7 +130,7 @@ impl LogLine {
 
     pub fn print_colorize(&self) -> String {
         format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}\n",
-            self.timestamp.format("%m-%d %H:%M:%S%.f").to_string().color("grey"),
+            self.logtime.format("%m-%d %H:%M:%S%.f").to_string().color("grey"),
             self.severity.to_string().color(
                 match &self.severity {
                     Severity::FATAL => "red",
@@ -142,7 +143,7 @@ impl LogLine {
             ),
             self.sequence.color("grey"),
             self.session.color("grey"),
-            self.database.color("yellow"),
+            self.dbname.color("yellow"),
             self.execution_time.color("green"),
             self.total_time.color("yellow"),
 
@@ -160,7 +161,7 @@ impl LogLine {
         }
         // stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
         self.sequence = Some(msg_elements[2].parse().unwrap());
-        self.database = Some(msg_elements[4].to_string());
+        self.dbname = Some(msg_elements[4].to_string());
         self.session = Some(msg_elements[6].to_string());
 
         let re = regex::Regex::new(r"(?ms)(?:[^{}]+)\{(.+)\} \{(.+)\}").unwrap();
@@ -231,7 +232,7 @@ impl LogLine {
                 format!("Line does not start with timestamp: \"{}\"", line_raw),
             ));
         }
-        let timestamp = match NaiveDateTime::parse_from_str(parts[0], "%Y-%m-%dT%H:%M:%S%.f") {
+        let logtime = match NaiveDateTime::parse_from_str(parts[0], "%Y-%m-%dT%H:%M:%S%.f") {
             Err(e) => {
                 return Err(Error::new(
                     ErrorKind::InvalidData,
@@ -261,7 +262,7 @@ impl LogLine {
         let fileline = parts[3].to_string();
         let msg = parts[4..].join(" ");
         let result = LogLine{
-            timestamp,
+            logtime,
             severity,
             pid,
             fileline,
@@ -272,7 +273,7 @@ impl LogLine {
             total_time: None,
             sequence: None,
             session: None,
-            database: None,
+            dbname: None,
         };
         return Ok(result)
     }
@@ -499,7 +500,7 @@ pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, out
                         None => (),
                         Some(_) => writer.write(&log)?
                     }
-                } else if filter.contains(&"sqlquery") {
+                } else if filter.contains(&"select") {
                     match log.query {
                         None => (),
                         Some(_) => match &log.operation {

@@ -3,6 +3,23 @@
 A collection of utilities and libraries for parsing, collating and converting
 OmniSciDB logs into a variety of different representations and formats.
 
+
+## Install from Source
+
+This is a two-step process of installing `cargo`, which will
+install `omnisci-log-scraper` (by building from source, automatically downloaded from github).
+
+```
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+cargo install --git https://github.com/omnisci/log-scraper
+```
+
+Then you can run `omnisci-log-scraper --help` to see usage.
+
+Example output can be seen in [tests/gold/omnisci_server.INFO.csv](tests/gold/omnisci_server.INFO.csv).
+
+
 ## Building
 
 To build, make sure you first [install rust](https://www.rust-lang.org/tools/install).
@@ -24,6 +41,12 @@ cd docker
 
 The [Makefile](Makefile) also provides targets for `test`, `run`, `install`, and `release`.
 
+
+### Testing
+
+`make test` runs rust/cargo tests and also command line tests by comparing output to "gold" files.
+
+
 ## Usage
 
 ```
@@ -40,7 +63,7 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -f, --filter <FILTER>    Filter logs: all, sql, sqlquery
+    -f, --filter <FILTER>    Filter logs: all, sql, select
     -o, --output <OUTPUT>    Ouput file
     -t, --type <TYPE>        Output format: csv, tsv, terminal, sql
 
