@@ -1,3 +1,4 @@
+logtime|severity|sequence|session|dbname|execution_time|total_time|query| msg |fileline|pid
 05-09 23:44:14.518830|INFO ||||||| stdlog_begin sql_execute 26 0 omnisci admin 410-gxvh {"query_str"} {"SELECT github_1k.org_login AS key0,COUNT(*) AS val FROM github_1k GROUP BY key0 ORDER BY val DESC NULLS LAST LIMIT 100"} |DBHandler.cpp:1039|53988
 05-09 23:44:14.519571|INFO ||||||| User calcite catalog omnisci sql 'SELECT github_1k.org_login AS key0,COUNT(*) AS val FROM github_1k GROUP BY key0 ORDER BY val DESC NULLS LAST LIMIT 100' |Calcite.cpp:476|53988
 05-09 23:44:14.524137|INFO ||||||| Time in Thrift 1 (ms), Time in Java Calcite server 38 (ms) |Calcite.cpp:503|53988

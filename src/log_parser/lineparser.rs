@@ -128,6 +128,23 @@ impl MyColorize for Option<String> {
 
 impl LogLine {
 
+    pub fn print_colorize_header() -> String {
+        format!("{}|{}|{}|{}|{}|{}|{}|{}| {} |{}|{}\n",
+            "logtime".color("grey"),
+            "severity".color("blue"),
+            "sequence".color("grey"),
+            "session".color("grey"),
+            "dbname".color("yellow"),
+            "execution_time".color("green"),
+            "total_time".color("yellow"),
+
+            "query".color("blue"),
+            "msg",
+            "fileline".color("grey"),
+            "pid".color("grey"),
+        )
+    }
+
     pub fn print_colorize(&self) -> String {
         format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}\n",
             self.logtime.format("%m-%d %H:%M:%S%.f").to_string().color("grey"),
@@ -423,8 +440,16 @@ struct TerminalWriter {
     writer: io::Stdout,
 }
 
+impl TerminalWriter {
+    fn new() -> TerminalWriter {
+        let mut w = TerminalWriter{ writer: io::stdout() };
+        match w.writer.write_all(&LogLine::print_colorize_header().into_bytes()) {
+            _ => w,
+        }
+    }
+}
+
 impl LogWriter for TerminalWriter {
-    // TODO??? let mut writer = stdout.lock();
     fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
         match self.writer.write_all(&log.print_colorize().into_bytes()) {
             Ok(_) => return Ok(()),
@@ -466,7 +491,7 @@ fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &Output
             Err(e) => Err(Error::new(ErrorKind::InvalidData, format!("Failed to read: {}", e))),
         },
         None => match output_type {
-            OutputType::Terminal => Ok(Box::new(TerminalWriter{ writer: io::stdout() })),
+            OutputType::Terminal => Ok(Box::new(TerminalWriter::new())),
             OutputType::CSV => Ok(Box::new(CsvOutLogWriter{
                 writer: csv::WriterBuilder::new()
                     .from_writer(io::stdout())
