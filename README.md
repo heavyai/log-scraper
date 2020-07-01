@@ -69,4 +69,9 @@ OPTIONS:
 
 ARGS:
     <INPUT>...    Input log files
+
+EXAMPLES:
+    omnisci-log-scraper /var/lib/omnisci/data/mapd_log/omnisci_server.INFO
+    omnisci-log-scraper -t csv /var/lib/omnisci/data/mapd_log/omnisci_server.INFO.*.log > log.csv
+    omnisci-log-scraper -f select -t sql /var/lib/omnisci/data/mapd_log/omnisci_server.INFO | omnisql
 ```

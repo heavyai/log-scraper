@@ -33,10 +33,10 @@ fn main() -> std::io::Result<()> {
     pager.setup();
 
     let params = clap_app!(myapp =>
-        (name: "omnisci-log-scraper")
-        (version: "0.1.0")
+        (name: crate_name!())
+        (version: crate_version!())
         (author: "Alex Baden <alex.baden@mapd.com>, Mike Hinchey <mike.hinchey@omnisci.com>")
-        (about: "Scrapes OmniSci DB logs for useful data")
+        (about: crate_description!())
 
         // TODO implement more filter tags: vega, exec, ops, connect, version, failure, error, warning
         (@arg FILTER: -f --filter +takes_value "Filter logs: all, sql, select")
@@ -58,6 +58,11 @@ fn main() -> std::io::Result<()> {
         (@arg INPUT: +multiple "Input log files")
 
         (@arg debug: -d ... "Debugging information")
+
+        (after_help: "EXAMPLES:
+    omnisci-log-scraper /var/lib/omnisci/data/mapd_log/omnisci_server.INFO
+    omnisci-log-scraper -t csv /var/lib/omnisci/data/mapd_log/omnisci_server.INFO.*.log > log.csv
+    omnisci-log-scraper -f select -t sql /var/lib/omnisci/data/mapd_log/omnisci_server.INFO | omnisql")
     ).get_matches();
 
     let inputs = match params.indices_of("INPUT") {
