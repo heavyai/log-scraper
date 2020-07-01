@@ -494,11 +494,13 @@ fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &Output
             OutputType::Terminal => Ok(Box::new(TerminalWriter::new())),
             OutputType::CSV => Ok(Box::new(CsvOutLogWriter{
                 writer: csv::WriterBuilder::new()
+                    .has_headers(false)
                     .from_writer(io::stdout())
                 })),
             OutputType::TSV => Ok(Box::new(CsvOutLogWriter{
                 writer: csv::WriterBuilder::new()
                     .delimiter(b'\t')
+                    .has_headers(false)
                     .from_writer(io::stdout())
                 })),
             OutputType::SQL => Ok(Box::new(SqlLogWriter{})),

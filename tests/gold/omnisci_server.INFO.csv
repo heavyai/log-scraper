@@ -1,4 +1,3 @@
-logtime,severity,pid,fileline,operation,execution_time,total_time,sequence,session,dbname,query,msg
 2020-05-09 23:44:14.518830,INFO,53988,DBHandler.cpp:1039,,,,,,,,"stdlog_begin sql_execute 26 0 omnisci admin 410-gxvh {""query_str""} {""SELECT github_1k.org_login AS key0,COUNT(*) AS val FROM github_1k GROUP BY key0 ORDER BY val DESC NULLS LAST LIMIT 100""}"
 2020-05-09 23:44:14.519571,INFO,53988,Calcite.cpp:476,,,,,,,,"User calcite catalog omnisci sql 'SELECT github_1k.org_login AS key0,COUNT(*) AS val FROM github_1k GROUP BY key0 ORDER BY val DESC NULLS LAST LIMIT 100'"
 2020-05-09 23:44:14.524137,INFO,53988,Calcite.cpp:503,,,,,,,,"Time in Thrift 1 (ms), Time in Java Calcite server 38 (ms)"
