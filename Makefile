@@ -5,6 +5,9 @@
 SHELL = /bin/sh
 .DEFAULT_GOAL=all
 
+OMNISCI_VERSION = v5.3.0
+DB_CONTAINER = omnisci-test-db
+
 -include .env
 
 deps:
@@ -52,3 +55,24 @@ release:
 
 all: test
 .PHONY: all
+
+#
+# Docker
+#
+
+up:
+	mkdir -p /tmp/${DB_CONTAINER}
+	docker run --name ${DB_CONTAINER} -d --rm \
+		-v ${PWD}:/src \
+		-v /tmp/${DB_CONTAINER}:/omnisci-storage \
+		-p 6273-6274:6273-6274 \
+		omnisci/core-os-cpu:${OMNISCI_VERSION}
+.PHONY: up
+
+down:
+	docker rm -f ${DB_CONTAINER}
+.PHONY: down
+
+test_docker:
+	tests/test_load_db.sh
+.PHONY: test_docker

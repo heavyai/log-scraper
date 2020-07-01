@@ -1,5 +1,5 @@
 CREATE TABLE omnisci_log_rust (
-    logtime timestamp(9),
+    logtime timestamp(6),
     severity text,
     pid int,
     fileline text,
