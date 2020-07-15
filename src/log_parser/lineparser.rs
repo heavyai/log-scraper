@@ -21,7 +21,6 @@ use std::fmt;
 extern crate chrono;
 use chrono::NaiveDateTime;
 
-use std::collections::HashMap;
 use std::fs;
 use std::io;
 use std::io::BufReader;
@@ -56,7 +55,7 @@ impl fmt::Display for Severity {
 }
 
 
-mod my_date_format {
+mod serde_date_format {
     use chrono::{NaiveDateTime};
     use serde::{self, Serializer};
 
@@ -66,20 +65,50 @@ mod my_date_format {
         date: &NaiveDateTime,
         serializer: S,
     ) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    where S: Serializer,
     {
         let s = format!("{}", date.format(FORMAT));
         serializer.serialize_str(&s)
     }
 }
 
+
+mod serde_vec_format {
+    use serde::{self, Serializer};
+
+    pub fn serialize<S>(
+        strings: &Option<Vec<String>>,
+        serializer: S,
+    ) -> Result<S::Ok, S::Error>
+    where S: Serializer,
+    {
+        match strings {
+            None => serializer.serialize_str(""),
+            Some(strings) => {
+                let mut sb = "{".to_string();
+                let mut first = true;
+                for s in strings {
+                    if ! first {
+                        sb.push_str(",");
+                    } else {
+                        first = false;
+                    }
+                    sb.push_str(&s);
+                }
+                sb.push_str("}");
+                serializer.serialize_str(&sb.as_str())
+            }
+        }
+    }
+}
+
+
 #[derive(Serialize, Debug, Clone)]
 pub struct LogLine {
 
     // every log
 
-    #[serde(with = "my_date_format")]
+    #[serde(with = "serde_date_format")]
     pub logtime: NaiveDateTime,
 
     pub severity: Severity,
@@ -87,15 +116,23 @@ pub struct LogLine {
     pub fileline: String,
 
     // stdlog
+    pub event: Option<String>,
+    pub sequence: Option<i32>,
+    pub dur_ms: Option<i32>,
+    pub session: Option<String>,
+    pub dbname: Option<String>,
+    pub username: Option<String>,
+    // sql_execute
     pub operation: Option<String>,
     pub execution_time: Option<i32>,
     pub total_time: Option<i32>,
-    pub sequence: Option<i32>,
-    pub session: Option<String>,
-    pub dbname: Option<String>,
     pub query: Option<String>,
+    pub client: Option<String>,
 
     pub msg: String,
+
+    #[serde(with = "serde_vec_format")]
+    pub name_values: Option<Vec<String>>,
 }
 
 enum LogEntry {
@@ -129,24 +166,27 @@ impl MyColorize for Option<String> {
 impl LogLine {
 
     pub fn print_colorize_header() -> String {
-        format!("{}|{}|{}|{}|{}|{}|{}|{}| {} |{}|{}\n",
+        format!("{}|{}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}\n",
             "logtime".color("grey"),
             "severity".color("blue"),
+            "event".color("grey"),
             "sequence".color("grey"),
-            "session".color("grey"),
-            "dbname".color("yellow"),
-            "execution_time".color("green"),
-            "total_time".color("yellow"),
+            "dur_ms".color("green"),
+            "execution_ms".color("green"),
+            "total_ms".color("yellow"),
 
             "query".color("blue"),
             "msg",
             "fileline".color("grey"),
             "pid".color("grey"),
+            "session".color("grey"),
+            "dbname".color("yellow"),
+            "username".color("grey"),
         )
     }
 
     pub fn print_colorize(&self) -> String {
-        format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}\n",
+        format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}\n",
             self.logtime.format("%m-%d %H:%M:%S%.f").to_string().color("grey"),
             self.severity.to_string().color(
                 match &self.severity {
@@ -158,9 +198,9 @@ impl LogLine {
                     Severity::OTHER => "cyan",
                 }
             ),
+            self.event.color("grey"),
             self.sequence.color("grey"),
-            self.session.color("grey"),
-            self.dbname.color("yellow"),
+            self.dur_ms.color("green"),
             self.execution_time.color("green"),
             self.total_time.color("yellow"),
 
@@ -168,49 +208,105 @@ impl LogLine {
             self.msg,
             self.fileline.color("grey"),
             self.pid.to_string().color("grey"),
+            self.session.color("grey"),
+            self.dbname.color("yellow"),
+            self.username.color("grey"),
         )
     }
 
-    pub fn stdlog(self: &mut LogLine) {
-        let msg_elements: Vec<&str> = self.msg.split(" ").map(|x| x.trim()).collect();
-        if msg_elements.len() < 3 || msg_elements[0] != "stdlog" || msg_elements[1] != "sql_execute" {
+    // Note, the functions called in parse_msg progressively parse out more values.
+    // They quit/return if something is wrong, so the full msg text remains.
+    pub fn parse_msg(self: &mut LogLine) {
+        self.stdlog();
+    }
+
+    fn stdlog(self: &mut LogLine) {
+        let msg_elements: Vec<&str> = self.msg.splitn(8, " ").map(|x| x.trim()).collect();
+        if msg_elements.len() < 7 || (msg_elements[0] != "stdlog" && msg_elements[0] != "stdlog_begin") {
             return
         }
         // stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
+        self.event = Some(match msg_elements[0] {
+            "stdlog_begin" => format!("{}_begin", msg_elements[1]),
+            "stdlog" => msg_elements[1].to_string(),
+            x => format!("{}_{}", msg_elements[1], x),
+        });
         self.sequence = Some(msg_elements[2].parse().unwrap());
+        self.dur_ms = Some(msg_elements[3].parse().unwrap());
         self.dbname = Some(msg_elements[4].to_string());
+        self.username = Some(msg_elements[5].to_string());
         self.session = Some(msg_elements[6].to_string());
 
-        let re = regex::Regex::new(r"(?ms)(?:[^{}]+)\{(.+)\} \{(.+)\}").unwrap();
+        if msg_elements.len() == 8 {
+            let remainder = msg_elements[7].to_string();
+            self.parse_key_value_arrays(remainder);
+        }
+    }
 
-        let captures = match re.captures(&self.msg) {
+    fn parse_key_value_arrays(self: &mut LogLine, remainder: String) {
+        let (keys_str, values_str) = match remainder.find('}') {
             None => return,
-            Some(c) => if c.len() == 3 {
-                c
-            } else {
-                return
-            },
+            Some(i) => (
+                String::from(remainder[1 .. i].to_string()),
+                String::from(remainder[i+3 .. remainder.len()-1].to_string()),
+            )
         };
 
-        let keys_str = captures.get(1).unwrap().as_str();
-        let values_str = captures.get(2).unwrap().as_str();
-        let keys: Vec<&str> = keys_str.split(",").map(|x| x.trim()).collect();
-        // Values are trickier, since SQL can have embedded commas. We explicitly split on the pattern "," and rely on the cleanup during array insertion to remove unbalanced quotes.
-        let values: Vec<&str> = values_str.split("\",\"").map(|x| x.trim()).collect();
-        assert!(
-            keys.len() == values.len(),
-            format!("\nKeys: {:?}\nValues: {:?}", keys, values)
-        );
+        let delim = "\",\"";
+        let keys: Vec<&str> = keys_str.split(delim).map(|x| x.trim()).collect();
+
+        let mut values: Vec<String> = Vec::new();
+        for val in values_str.split("\",\"") {
+            let val = val.trim().replace("\"\"", "\"");
+            if val.starts_with('"') && values.len() > 0 {
+                let mut last = values.pop().unwrap().clone().to_string();
+                last.push_str(delim);
+                last.push_str(val.as_str());
+                values.push(last);
+            }
+            else {
+                values.push(val.to_string());
+            }
+        }
+
+        if keys.len() != values.len() {
+            panic!("{:?} {:?}", keys, values)
+            // return
+        }
 
         let array_iter = keys.iter().zip(values.iter());
-        let mut array_data = HashMap::new();
+        let mut unknown_values: Vec<String> = Vec::new();
         for (k, v) in array_iter {
-            array_data.insert(
-                k.trim_start_matches("\"").trim_end_matches("\""),
-                v.trim_start_matches("\"").trim_end_matches("\""),
-            );
+            let key = k.trim_start_matches("\"").trim_end_matches("\"");
+            let val = v.trim_start_matches("\"").trim_end_matches("\"");
+
+            if key == "query_str" {
+                self.query = Some(val.to_string())
+            }
+            else if key == "vega_json" {
+                self.query = Some(val.to_string())
+            }
+            else if key == "client" {
+                self.client = Some(val.to_string())
+            }
+            else if key == "execution_time_ms" {
+                self.execution_time = match val.parse() {
+                    Err(_) => None,
+                    Ok(v) => Some(v),
+                }
+            }
+            else if key == "total_time_ms" {
+                self.total_time = match val.parse() {
+                    Err(_) => None,
+                    Ok(v) => Some(v),
+                }
+            }
+            else {
+                unknown_values.push(key.to_string());
+                unknown_values.push(val.to_string());
+            }
         }
-        self.query = Some(array_data.get(&"query_str").unwrap().to_string());
+
         self.operation = match &self.query {
             None => None,
             Some(q) => {
@@ -224,20 +320,11 @@ impl LogLine {
                 }
             },
         };
-        self.execution_time = match array_data.get(&"execution_time_ms") {
-            Some(v) => match v.parse() {
-                Err(_) => None,
-                Ok(v) => Some(v),
-            },
-            None => None,
-        };
-        self.total_time = match array_data.get(&"total_time_ms") {
-            Some(v) => match v.parse() {
-                Err(_) => None,
-                Ok(v) => Some(v),
-            },
-            None => None,
-        };
+        // all values have been used, so do not keep redundant msg
+        self.msg = "".to_string();
+        if ! unknown_values.is_empty() {
+            self.name_values = Some(unknown_values)
+        }
     }
 
     pub fn new(line_raw: &str) -> Result<LogLine, Error> {
@@ -286,11 +373,16 @@ impl LogLine {
             msg,
             query: None,
             operation: None,
+            event: None,
             execution_time: None,
             total_time: None,
             sequence: None,
+            dur_ms: None,
             session: None,
             dbname: None,
+            username: None,
+            client: None,
+            name_values: None,
         };
         return Ok(result)
     }
@@ -351,7 +443,7 @@ impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
                             Some(log) => {
                                 let mut ok = log.clone();
                                 self.ahead = None;
-                                ok.stdlog();
+                                ok.parse_msg();
                                 return Some(Ok(ok))
                             },
                         }
@@ -374,7 +466,7 @@ impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
                             Some(ahead) => {
                                 let mut ok = ahead.clone();
                                 self.ahead = Some(log);
-                                ok.stdlog();
+                                ok.parse_msg();
                                 return Some(Ok(ok))
                             },
                         }
@@ -465,16 +557,26 @@ struct SqlLogWriter {
 impl LogWriter for SqlLogWriter {
     fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
         // io::stdout().write(log.query)?;
-        match &log.query {
-            None => Ok(()),
-            Some(x) => {
-                if x.ends_with(";") {
-                    println!("{}\n", x);
-                } else {
-                    println!("{};\n", x);
+        match &log.event {
+            Some(event) => {
+                if event == "sql_execute" {
+                    match &log.query {
+                        None => Ok(()),
+                        Some(x) => {
+                            if x.ends_with(";") {
+                                println!("{}\n", x);
+                            } else {
+                                println!("{};\n", x);
+                            }
+                            Ok(())
+                        }
+                    }
                 }
-                Ok(())
+                else {
+                    Ok(())
+                }
             }
+            _ => Ok(()),
         }
     }
 }

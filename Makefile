@@ -28,7 +28,7 @@ test:
 	mkdir -p target/test
 	
 	# write various types of output to files in target/test
-	cargo run tests/omnisci_server.INFO -t csv > target/test/omnisci_server.INFO.csv
+	cargo run -- -t csv tests/omnisci_server.INFO > target/test/omnisci_server.INFO.csv
 	cargo run tests/omnisci_server.INFO -t sql > target/test/omnisci_server.INFO.sql
 	cargo run tests/omnisci_server.INFO -f select -t sql > target/test/omnisci_server.INFO-select.sql
 	cargo run tests/omnisci_server.INFO -t terminal > target/test/omnisci_server.INFO.terminal.txt
