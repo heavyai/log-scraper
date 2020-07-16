@@ -14,20 +14,19 @@
  * limitations under the License.
  */
  
-use std::fs::File;
-use std::io::BufReader;
 use std::io::Error;
-use std::path::PathBuf;
 
 extern crate omnisci_log_scraper;
 use omnisci_log_scraper::log_parser as olog;
 
 #[test]
-fn test_log_file_parse() {
-    let mut test_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    test_path.push("tests/omnisci_server.INFO");
-    let f = File::open(test_path.as_path()).unwrap();
-    let mut buf_reader = BufReader::new(f);
-    let lines: Vec<Result<olog::LogLine, Error>> = olog::ParsingLine::new(&mut buf_reader).collect();
-    assert_eq!(lines.len(), 15);
+fn test_sql_execute() -> Result<(), Error> {
+    let text1 = r#"2020-07-15T08:27:53.512388 I 16 DBHandler.cpp:964 stdlog sql_execute 1 1769 omnisci admin 751-UnTT {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT count(*) from omnisci_states;","tcp:localhost:47712","1764","1768"}"#;
+    let mut rec = olog::LogLine::new(text1)?;
+    rec.parse_msg();
+    assert_eq!(rec.fileline, "DBHandler.cpp:964");
+    assert_eq!(rec.username.unwrap(), "admin");
+    assert_eq!(rec.event.unwrap(), "sql_execute");
+    assert_eq!(rec.query.unwrap(), "SELECT count(*) from omnisci_states;");
+    Ok(())
 }
