@@ -218,6 +218,8 @@ impl LogLine {
     // They quit/return if something is wrong, so the full msg text remains.
     pub fn parse_msg(self: &mut LogLine) {
         self.stdlog();
+
+        // TODO limit query and msg to length 32767
     }
 
     fn stdlog(self: &mut LogLine) {
