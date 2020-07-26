@@ -133,7 +133,35 @@ pub struct LogLine {
 
     #[serde(with = "serde_vec_format")]
     pub name_values: Option<Vec<String>>,
+
+    pub hostname: Option<String>,
+    pub logfile: Option<String>,
 }
+
+
+pub const CREATE_TABLE: &str = "CREATE TABLE omnisci_log_scraper (
+    logtime TIMESTAMP(6),
+    severity TEXT ENCODING DICT(8),
+    pid INTEGER,
+    fileline TEXT ENCODING DICT(16),
+    event TEXT ENCODING DICT(8),
+    dur_ms BIGINT,
+    sequence INTEGER,
+    session TEXT,
+    dbname TEXT ENCODING DICT(16),
+    username TEXT ENCODING DICT(16),
+    operation TEXT ENCODING DICT(16),
+    execution_ms BIGINT,
+    total_ms BIGINT,
+    query TEXT,
+    client TEXT,
+    msg TEXT,
+    name_values TEXT[],
+    hostname TEXT,
+    logfile TEXT
+) with (max_rows=640000000);
+";
+
 
 enum LogEntry {
     Unknown(String),
@@ -385,6 +413,8 @@ impl LogLine {
             username: None,
             client: None,
             name_values: None,
+            hostname: None,
+            logfile: None,
         };
         return Ok(result)
     }

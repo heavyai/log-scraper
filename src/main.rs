@@ -55,6 +55,10 @@ fn main() -> std::io::Result<()> {
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file")
 
+        (@arg DRYRUN: --dryrun "Do not execute anything")
+
+        (@arg CREATE_TABLE: --createtable "Create table")
+
         (@arg INPUT: +multiple "Input log files")
 
         (@arg debug: -d ... "Debugging information")
@@ -64,6 +68,15 @@ fn main() -> std::io::Result<()> {
     omnisci-log-scraper -t csv /var/lib/omnisci/data/mapd_log/omnisci_server.INFO.*.log > log.csv
     omnisci-log-scraper -f select -t sql /var/lib/omnisci/data/mapd_log/omnisci_server.INFO | omnisql")
     ).get_matches();
+
+    if params.is_present("DRYRUN") {
+        if params.is_present("CREATE_TABLE") {
+            // None => panic!("CREATE_TABLE not implemented yet"),
+            println!("{}", log_parser::CREATE_TABLE);
+        }
+        // TODO continue doing dryrun
+        return Ok(())
+    }
 
     let inputs = match params.indices_of("INPUT") {
         None => vec!("data/mapd_log/omnisci_server.INFO".to_string()),
