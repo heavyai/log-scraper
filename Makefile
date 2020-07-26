@@ -95,8 +95,9 @@ down:
 
 test_load:
 	cargo run -- -t csv tests/gold/omnisci_server.INFO > target/test/omnisci_server.INFO.csv
+	cargo run -- --dryrun --createtable > target/omnisci_log_scraper.sql
 	docker exec -i ${DB_CONTAINER} python3 /src/tests/test_load_db.py
-	diff tests/gold/copy_to_omnisci_log_rust.csv target/test/copy_to_omnisci_log_rust.csv
+	diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
 .PHONY: test_load
 
 test_run: down up
