@@ -28,7 +28,7 @@ use pager::Pager;
 
 use colored;
 
-fn main() -> std::io::Result<()> {
+fn main() -> log_parser::SResult<()> {
     let mut pager = Pager::new();
     pager.setup();
 
@@ -46,14 +46,14 @@ fn main() -> std::io::Result<()> {
 
         // TODO arg input dir
 
-        // TODO arg DB URL
-
         // TODO arg file index selector: "-1", -5..-1", "..-1"
 
         // TODO arg output format type: json, load_table, kafka
-        (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal, sql")
+        (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal, sql, execute, load")
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file")
+
+        (@arg DB: --db +takes_value "OmniSci DB URL, like: omnisci://admin:HyperInteractive@localhost:6274/omnisci")
 
         (@arg DRYRUN: --dryrun "Do not execute anything")
 
@@ -91,6 +91,8 @@ fn main() -> std::io::Result<()> {
     };
 
     let output = params.value_of("OUTPUT");
+    let db = params.value_of("DB");
+
     let filter = match params.value_of("FILTER") {
         None => "all",
         Some(x) => x,
@@ -110,7 +112,7 @@ fn main() -> std::io::Result<()> {
     };
 
     for input in inputs {
-        match log_parser::transform_logs(&input, output, &filter, &output_type) {
+        match log_parser::transform_logs(&input, output, &filter, &output_type, db) {
             Ok(_) => continue,
             Err(x) => return Err(x),
         };
