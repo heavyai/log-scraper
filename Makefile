@@ -74,11 +74,11 @@ build.docker: deps.docker
 .PHONY: build.docker
 
 up: deps.docker
-	mkdir -p /tmp/${DB_CONTAINER}
+	mkdir -p target/${DB_CONTAINER}
 	docker run --name ${DB_CONTAINER} \
 		-d --rm \
 		-v ${PWD}:/src \
-		-v /tmp/${DB_CONTAINER}:/omnisci-storage \
+		-v ${PWD}/target/${DB_CONTAINER}:/omnisci-storage \
 		-p 6273-6274:6273-6274 \
 		${OMNISCI_IMAGE} \
 		/omnisci/startomnisci --non-interactive --data /omnisci-storage/data --verbose=true --log-severity=DEBUG4
@@ -93,11 +93,18 @@ down:
 	# docker rm -f ${DB_CONTAINER}
 .PHONY: down
 
-test_load:
+test_copyfrom:
 	cargo run -- -t csv tests/gold/omnisci_server.INFO > target/test/omnisci_server.INFO.csv
 	cargo run -- --dryrun --createtable > target/omnisci_log_scraper.sql
 	docker exec -i ${DB_CONTAINER} python3 /src/tests/test_load_db.py
 	diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
+.PHONY: test_copyfrom
+
+test_load:
+	# cargo run -- --dryrun --createtable > target/omnisci_log_scraper.sql
+	cargo run -- -t load --db "omnisci://admin:HyperInteractive@localhost:6274/omnisci" \
+		tests/gold/omnisci_server.INFO
+	# diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
 .PHONY: test_load
 
 test_run: down up

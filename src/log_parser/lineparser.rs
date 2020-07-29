@@ -17,6 +17,7 @@
 use std::io::BufRead;
 use std::io::{Error, ErrorKind};
 use std::fmt;
+use std::error::Error as StdError;
 
 extern crate chrono;
 use chrono::NaiveDateTime;
@@ -33,6 +34,14 @@ extern crate csv;
 use colored::{Colorize, ColoredString};
 
 use serde::Serialize;
+
+use omnisci;
+use omnisci::omnisci::TColumn;
+
+
+// standard result with error boxed so original errors are preserved
+// https://doc.rust-lang.org/stable/rust-by-example/error/multiple_error_types/boxing_errors.html
+pub type SResult<T> = std::result::Result<T, Box<dyn StdError>>;
 
 
 #[derive(Debug, Clone)]
@@ -59,7 +68,7 @@ mod serde_date_format {
     use chrono::{NaiveDateTime};
     use serde::{self, Serializer};
 
-    const FORMAT: &'static str = "%Y-%m-%d %H:%M:%S%.f";
+    pub const FORMAT: &'static str = "%Y-%m-%d %H:%M:%S%.f";
 
     pub fn serialize<S>(
         date: &NaiveDateTime,
@@ -139,7 +148,7 @@ pub struct LogLine {
 }
 
 
-pub const CREATE_TABLE: &str = "CREATE TABLE omnisci_log_scraper (
+pub const CREATE_TABLE: &str = "CREATE TABLE IF NOT EXISTS omnisci_log_scraper (
     logtime TIMESTAMP(6),
     severity TEXT ENCODING DICT(8),
     pid INTEGER,
@@ -514,6 +523,8 @@ pub enum OutputType {
     TSV,
     Terminal,
     SQL,
+    Execute,
+    Load,
 }
 
 impl OutputType {
@@ -523,13 +534,16 @@ impl OutputType {
             &"tsv" => OutputType::TSV,
             &"terminal" => OutputType::Terminal,
             &"sql" => OutputType::SQL,
+            &"execute" => OutputType::Execute,
+            &"load" => OutputType::Load,
             _ => panic!(format!("Unknown OutputType: '{}'", name))
         }
     }
 }
 
 trait LogWriter {
-    fn write(&mut self, log: &LogLine) -> std::io::Result<()>;
+    fn write(&mut self, log: &LogLine) -> SResult<()>;
+    fn close(&mut self) -> SResult<()> { Ok(()) }
 }
 
 struct CsvFileLogWriter {
@@ -537,7 +551,7 @@ struct CsvFileLogWriter {
 }
 
 impl LogWriter for CsvFileLogWriter {
-    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+    fn write(&mut self, log: &LogLine) -> SResult<()> {
         match self.writer.serialize(log) {
             Ok(_) => return Ok(()),
             // return Ok on error, assumes the user quit the output early, we don't want to print an error
@@ -551,7 +565,7 @@ struct CsvOutLogWriter {
 }
 
 impl LogWriter for CsvOutLogWriter {
-    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+    fn write(&mut self, log: &LogLine) -> SResult<()> {
         match self.writer.serialize(log) {
             Ok(_) => return Ok(()),
             // return Ok on error, assumes the user quit the output early, we don't want to print an error
@@ -574,7 +588,7 @@ impl TerminalWriter {
 }
 
 impl LogWriter for TerminalWriter {
-    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+    fn write(&mut self, log: &LogLine) -> SResult<()> {
         match self.writer.write_all(&log.print_colorize().into_bytes()) {
             Ok(_) => return Ok(()),
             // return Ok on error, assumes the user quit the output early, we don't want to print an error
@@ -587,7 +601,7 @@ struct SqlLogWriter {
 }
 
 impl LogWriter for SqlLogWriter {
-    fn write(&mut self, log: &LogLine) -> std::io::Result<()> {
+    fn write(&mut self, log: &LogLine) -> SResult<()> {
         // io::stdout().write(log.query)?;
         match &log.event {
             Some(event) => {
@@ -613,16 +627,144 @@ impl LogWriter for SqlLogWriter {
     }
 }
 
-fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &OutputType) -> Result<Box<dyn LogWriter>, Error> {
+
+struct LogExecutor {
+    con: Box<dyn omnisci::client::OmniSciConnection>,
+}
+
+impl LogExecutor {
+    fn new(db: &str) -> SResult<LogExecutor> {
+        let con = omnisci::client::connect_url(db)?;
+        return Ok(LogExecutor{con})
+    }
+}
+
+impl LogWriter for LogExecutor {
+    fn write(&mut self, log: &LogLine) -> SResult<()> {
+        match &log.event {
+            Some(event) => {
+                if event == "sql_execute" {
+                    match &log.query {
+                        None => Ok(()),
+                        Some(x) => {
+                            println!("sql_execute {}", x);
+                            match self.con.sql_execute(x.to_string(), true) {
+                                Err(e) => Err(Box::new(e)),
+                                Ok(r) => {
+                                    match r.success {
+                                        None => Err(Box::new(Error::new(ErrorKind::Other, "success=None"))),
+                                        Some(x) => if x {
+                                            println!("success={:?}, total_time_ms={:?}, execution_time_ms={:?}, query_type={:?}",
+                                                r.success, r.total_time_ms, r. execution_time_ms, r.query_type);
+                                            Ok(())
+                                        } else {
+                                            Err(Box::new(Error::new(ErrorKind::Other, "success=false")))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    Ok(())
+                }
+            }
+            _ => Ok(()),
+        }
+    }
+}
+
+
+struct LogLoader {
+    con: Box<dyn omnisci::client::OmniSciConnection>,
+    buffer: Vec<LogLine>,
+    buf_size: usize,
+}
+
+impl LogLoader {
+    fn new(db: &str) -> SResult<LogLoader> {
+        let mut con = omnisci::client::connect_url(db)?;
+
+        match con.sql_execute(String::from(CREATE_TABLE), false) {
+            Err(e) => return Err(Box::new(e)),
+            Ok(res) => println!("{:?}", res),
+        };
+
+        match con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false) {
+            Err(e) => return Err(Box::new(e)),
+            Ok(res) => println!("{:?}", res),
+        };
+        return Ok(LogLoader{con, buffer: vec![], buf_size: 10000})
+    }
+
+    fn to_tcolumns(lines: &Vec<LogLine>) -> Vec<TColumn> {
+        vec![
+            TColumn::from(lines.iter().map(|val| val.logtime.timestamp()).collect::<Vec<i64>>()),
+            TColumn::from(lines.iter().map(|val| val.severity.to_string()).collect::<Vec<String>>()),
+            TColumn::from(lines.iter().map(|val| val.pid as i64).collect::<Vec<i64>>()),
+            TColumn::from(lines.iter().map(|val| val.fileline.to_string()).collect::<Vec<String>>()),
+            TColumn::from(lines.iter().map(|val| &val.event).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| val.sequence).collect::<Vec<Option<i32>>>()),
+            TColumn::from(lines.iter().map(|val| val.dur_ms).collect::<Vec<Option<i32>>>()),
+            TColumn::from(lines.iter().map(|val| &val.session).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| &val.dbname).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| &val.username).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| &val.operation).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| val.execution_time).collect::<Vec<Option<i32>>>()),
+            TColumn::from(lines.iter().map(|val| val.total_time).collect::<Vec<Option<i32>>>()),
+            TColumn::from(lines.iter().map(|val| &val.query).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| &val.client).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| val.msg.to_string()).collect::<Vec<String>>()),
+            TColumn::from(&lines.iter().map(|val| &val.name_values).collect()),
+            TColumn::from(lines.iter().map(|val| &val.hostname).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| &val.logfile).collect::<Vec<&Option<String>>>()),
+        ]
+    }
+}
+
+impl LogWriter for LogLoader {
+    fn write(&mut self, log: &LogLine) -> SResult<()> {
+        if self.buffer.len() < self.buf_size {
+            self.buffer.push(log.clone());
+            Ok(())
+        } else {
+            let data = LogLoader::to_tcolumns(&self.buffer);
+            self.buffer.clear();
+            match self.con.load_table_binary_columnar(&"omnisci_log_scraper".to_string(), data) {
+                Ok(ok) => Ok(ok),
+                Err(e) => Err(Box::new(e)),
+            }
+        }
+    }
+
+    fn close(&mut self) -> SResult<()> {
+        let data = LogLoader::to_tcolumns(&self.buffer);
+        self.buffer.clear();
+        match self.con.load_table_binary_columnar(&"omnisci_log_scraper".to_string(), data) {
+            Ok(ok) => {
+                match self.con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false) {
+                    Err(e) => return Err(Box::new(e)),
+                    Ok(res) => println!("{:?}", res),
+                };
+                Ok(ok)
+            },
+            Err(e) => Err(Box::new(e)),
+        }
+    }
+}
+
+
+fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &OutputType, db: Option<&str>) -> SResult<Box<dyn LogWriter>> {
     match output {
-        Some(path) => match csv::Writer::from_path(path) {
-            Ok(x) => if filter.contains(&"sql") {
+        Some(path) => {
+            let x = csv::Writer::from_path(path)?;
+            if filter.contains(&"sql") {
                 // TODO write only sql fields
                 Ok(Box::new(CsvFileLogWriter{ writer: x}))
             } else {
                 Ok(Box::new(CsvFileLogWriter{ writer: x}))
-            },
-            Err(e) => Err(Error::new(ErrorKind::InvalidData, format!("Failed to read: {}", e))),
+            }
         },
         None => match output_type {
             OutputType::Terminal => Ok(Box::new(TerminalWriter::new())),
@@ -638,11 +780,19 @@ fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &Output
                     .from_writer(io::stdout())
                 })),
             OutputType::SQL => Ok(Box::new(SqlLogWriter{})),
+            OutputType::Execute => match db {
+                None => panic!("EXECUTE requires DB URL"),
+                Some(db) => Ok(Box::new(LogExecutor::new(db)?)),
+            },
+            OutputType::Load => match db {
+                None => panic!("LOAD requires DB URL"),
+                Some(db) => Ok(Box::new(LogLoader::new(db)?)),
+            },
         }
     }
 }
 
-pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, output_type: &OutputType) -> std::io::Result<()> {
+pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, output_type: &OutputType, db: Option<&str>) -> SResult<()> {
     // println!("filter {:?} output {:?}", filter, output);
 
     let query_operations = vec!("SELECT", "WITH");
@@ -650,11 +800,11 @@ pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, out
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut reader = BufReader::new(buf);
-    let mut writer = new_log_writer(filter, output, &output_type)?;
+    let mut writer = new_log_writer(filter, output, &output_type, db)?;
 
     for entry in ParsingLine::new(&mut reader) {
         match entry {
-            Err(e) => return Err(e),
+            Err(e) => return Err(Box::new(e)),
             Ok(log) => {
                 if filter.contains(&"sql") {
                     match log.query {
@@ -679,5 +829,5 @@ pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, out
             },
         }
     };
-    Ok(())
+    writer.close()
 }

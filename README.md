@@ -58,14 +58,17 @@ USAGE:
     omnisci-log-scraper [FLAGS] [OPTIONS] [INPUT]...
 
 FLAGS:
-    -d               Debugging information
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+        --createtable    Create table
+        --dryrun         Do not execute anything
+    -d                   Debugging information
+    -h, --help           Prints help information
+    -V, --version        Prints version information
 
 OPTIONS:
+        --db <DB>            OmniSci DB URL, like: omnisci://admin:HyperInteractive@localhost:6274/omnisci
     -f, --filter <FILTER>    Filter logs: all, sql, select
     -o, --output <OUTPUT>    Ouput file
-    -t, --type <TYPE>        Output format: csv, tsv, terminal, sql
+    -t, --type <TYPE>        Output format: csv, tsv, terminal, sql, execute
 
 ARGS:
     <INPUT>...    Input log files
