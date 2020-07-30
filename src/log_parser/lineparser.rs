@@ -124,6 +124,7 @@ pub struct LogLine {
 
     pub severity: Severity,
     pub pid: i32,
+    pub threadid: Option<i32>,
     pub fileline: String,
 
     // stdlog
@@ -154,6 +155,7 @@ pub const CREATE_TABLE: &str = "CREATE TABLE IF NOT EXISTS omnisci_log_scraper (
     logtime TIMESTAMP(6),
     severity TEXT ENCODING DICT(8),
     pid INTEGER,
+    threadid INTEGER,
     fileline TEXT ENCODING DICT(16),
     event TEXT ENCODING DICT(8),
     dur_ms BIGINT,
@@ -180,8 +182,15 @@ enum LogEntry {
     EOF,
 }
 
+
 trait MyColorize {
     fn color(&self, color: &str) -> ColoredString;
+}
+
+impl MyColorize for i32 {
+    fn color(&self, color: &str) -> ColoredString {
+        self.to_string().color(color)
+    }
 }
 
 impl MyColorize for Option<i32> {
@@ -205,7 +214,7 @@ impl MyColorize for Option<String> {
 impl LogLine {
 
     pub fn print_colorize_header() -> String {
-        format!("{}|{}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}\n",
+        format!("{}|{}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}|{}\n",
             "logtime".color("grey"),
             "severity".color("blue"),
             "event".color("grey"),
@@ -218,6 +227,7 @@ impl LogLine {
             "msg",
             "fileline".color("grey"),
             "pid".color("grey"),
+            "threadid".color("grey"),
             "session".color("grey"),
             "dbname".color("yellow"),
             "username".color("grey"),
@@ -225,7 +235,7 @@ impl LogLine {
     }
 
     pub fn print_colorize(&self) -> String {
-        format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}\n",
+        format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}|{}\n",
             self.logtime.format("%m-%d %H:%M:%S%.f").to_string().color("grey"),
             self.severity.to_string().color(
                 match &self.severity {
@@ -246,7 +256,8 @@ impl LogLine {
             self.query.color("blue"),
             self.msg,
             self.fileline.color("grey"),
-            self.pid.to_string().color("grey"),
+            self.pid.color("grey"),
+            self.threadid.color("grey"),
             self.session.color("grey"),
             self.dbname.color("yellow"),
             self.username.color("grey"),
@@ -396,7 +407,8 @@ impl LogLine {
     pub fn new(line_raw: &str) -> Result<LogLine, Error> {
         let parts: Vec<&str> = line_raw.split(" ").map(|x| x.trim()).collect();
 
-        if parts[0].len() < 26 {
+        let i = 0;
+        if parts[i].len() < 26 {
             return Err(Error::new(
                 ErrorKind::InvalidData,
                 format!("Line does not start with timestamp: \"{}\"", line_raw),
@@ -412,7 +424,8 @@ impl LogLine {
             Ok(t) => t,
         };
         
-        let severity = match parts[1] {
+        let i = i + 1;
+        let severity = match parts[i] {
             "I" => Severity::INFO,
             "E" => Severity::ERROR,
             "W" => Severity::WARNING,
@@ -420,7 +433,8 @@ impl LogLine {
             "1" => Severity::DEBUG,
             _ => Severity::OTHER,
         };
-        let pid: i32 = match parts[2].parse() {
+        let i = i + 1;
+        let pid: i32 = match parts[i].parse() {
             Ok(n) => n,
             Err(e) => {
                 return Err(Error::new(
@@ -428,13 +442,24 @@ impl LogLine {
                     format!("Failed to parse pid: \"{}\" ({})", parts[2], e),
                 ))
             }
-          };
-        let fileline = parts[3].to_string();
-        let msg = parts[4..].join(" ");
+        };
+        let mut i = i + 1;
+        let threadid: Option<i32> = match parts[i].parse() {
+            Ok(n) => Some(n),
+            Err(_) => {
+                i -= 1;
+                None
+            }
+        };
+        let i = i + 1;
+        let fileline = parts[i].to_string();
+        let i = i + 1;
+        let msg = parts[i..].join(" ");
         let result = LogLine{
             logtime,
             severity,
             pid,
+            threadid,
             fileline,
             msg,
             query: None,
