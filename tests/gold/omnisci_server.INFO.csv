@@ -36,9 +36,9 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 2020-07-01 00:00:00.000035,INFO,16,0,DBHandler.cpp:340,,,,,,,,,,,,Started in CPU mode,,db,tests/gold/omnisci_server.INFO
 2020-07-01 00:00:00.000036,INFO,16,0,DBHandler.cpp:390,,,,,,,,,,,,Overriding default geos library with 'libgeos_c.so',,db,tests/gold/omnisci_server.INFO
 2020-07-01 00:00:00.000037,INFO,16,0,MapDServer.cpp:457,,,,,,,,,,,, OmniSci server using unencrypted connection,,db,tests/gold/omnisci_server.INFO
-2020-07-01 00:00:00.000038,INFO,16,,DBHandler.cpp:534,connect_begin,0,0,,,,,,,,,stdlog_begin connect 0 0     ,,db,tests/gold/omnisci_server.INFO
+2020-07-01 00:00:00.000038,AUTH,16,,DBHandler.cpp:534,connect_begin,0,0,,,,,,,,,stdlog_begin connect 0 0     ,,db,tests/gold/omnisci_server.INFO
 2020-07-01 00:00:00.000039,INFO,16,2,DBHandler.cpp:583,,,,,,,,,,,,User admin connected to database omnisci,,db,tests/gold/omnisci_server.INFO
-2020-07-01 00:00:00.000040,INFO,16,,DBHandler.cpp:534,connect,0,262,343-6YjO,omnisci,admin,,,,,tcp:localhost:46380,,"{roles,super}",db,tests/gold/omnisci_server.INFO
+2020-07-01 00:00:00.000040,AUTH,16,,DBHandler.cpp:534,connect,0,262,343-6YjO,omnisci,admin,,,,,tcp:localhost:46380,,"{roles,super}",db,tests/gold/omnisci_server.INFO
 2020-07-01 00:00:00.000041,INFO,16,,DBHandler.cpp:1054,sql_execute_begin,1,0,343-6YjO,omnisci,admin,SELECT,,,SELECT count(*) from omnisci_states;,,,,db,tests/gold/omnisci_server.INFO
 2020-07-01 00:00:00.000042,DEBUG,16,2,DBHandler.cpp:5163,,,,,,,,,,,,query type: READ,,db,tests/gold/omnisci_server.INFO
 2020-07-01 00:00:00.000043,INFO,16,2,Calcite.cpp:486,,,,,,,,,,,,User calcite catalog omnisci sql 'SELECT count(*) from omnisci_states;',,db,tests/gold/omnisci_server.INFO
@@ -338,6 +338,6 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
     processImpl 140710812563200 - total time 26 ms
   execute_rel_alg 140710695130880 - total time 9 ms
     convert_rows 140710695130880 - total time 0 ms",,db,tests/gold/omnisci_server.INFO
-2020-07-01 00:00:00.000137,INFO,16,,DBHandler.cpp:614,disconnect_begin,5,0,,,,,,,,,stdlog_begin disconnect 5 0     ,,db,tests/gold/omnisci_server.INFO
+2020-07-01 00:00:00.000137,AUTH,16,,DBHandler.cpp:614,disconnect_begin,5,0,,,,,,,,,stdlog_begin disconnect 5 0     ,,db,tests/gold/omnisci_server.INFO
 2020-07-01 00:00:00.000138,INFO,16,2,DBHandler.cpp:622,,,,,,,,,,,,User admin disconnected from database omnisci with public_session_id: 343-6YjO,,db,tests/gold/omnisci_server.INFO
-2020-07-01 00:00:00.000139,INFO,16,,DBHandler.cpp:614,disconnect,5,1,343-6YjO,omnisci,admin,,,,,tcp:localhost:46380,,,db,tests/gold/omnisci_server.INFO
+2020-07-01 00:00:00.000139,AUTH,16,,DBHandler.cpp:614,disconnect,5,1,343-6YjO,omnisci,admin,,,,,tcp:localhost:46380,,,db,tests/gold/omnisci_server.INFO
