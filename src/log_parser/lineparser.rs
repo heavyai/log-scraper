@@ -55,6 +55,8 @@ pub enum Severity {
     OTHER,
 }
 
+const STRING_DICT_MAX_LEN: usize = 32767;
+
 impl fmt::Display for Severity {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:?}", self)
@@ -68,7 +70,7 @@ mod serde_date_format {
     use chrono::{NaiveDateTime};
     use serde::{self, Serializer};
 
-    pub const FORMAT: &'static str = "%Y-%m-%d %H:%M:%S%.f";
+    const FORMAT: &'static str = "%Y-%m-%d %H:%M:%S%.f";
 
     pub fn serialize<S>(
         date: &NaiveDateTime,
@@ -254,15 +256,39 @@ impl LogLine {
     // Note, the functions called in parse_msg progressively parse out more values.
     // They quit/return if something is wrong, so the full msg text remains.
     pub fn parse_msg(self: &mut LogLine) {
-        self.stdlog();
+        if self.stdlog() {
+        }
+        else if self.extra_fatalities() {
+        }
 
-        // TODO limit query and msg to length 32767
+        match &self.query {
+            None => (),
+            Some(v) =>
+            if v.len() >= STRING_DICT_MAX_LEN {
+                let a = v[..STRING_DICT_MAX_LEN].to_string();
+                if self.msg.is_empty() {
+                    let b = v[STRING_DICT_MAX_LEN .. STRING_DICT_MAX_LEN*2].to_string();
+                    self.msg = b;
+                }
+                self.query = Some(a);
+            }
+        };
+        if self.msg.len() >= STRING_DICT_MAX_LEN {
+            self.msg = self.msg[..STRING_DICT_MAX_LEN].to_string();
+        }
     }
 
-    fn stdlog(self: &mut LogLine) {
+    fn extra_fatalities(self: &mut LogLine) -> bool {
+        if self.msg.starts_with("Interrupt signal") {
+            self.severity = Severity::FATAL
+        }
+        return false
+    }
+
+    fn stdlog(self: &mut LogLine) -> bool {
         let msg_elements: Vec<&str> = self.msg.splitn(8, " ").map(|x| x.trim()).collect();
         if msg_elements.len() < 7 || (msg_elements[0] != "stdlog" && msg_elements[0] != "stdlog_begin") {
-            return
+            return false
         }
         // stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
         self.event = Some(match msg_elements[0] {
@@ -280,6 +306,7 @@ impl LogLine {
             let remainder = msg_elements[7].to_string();
             self.parse_key_value_arrays(remainder);
         }
+        return true
     }
 
     fn parse_key_value_arrays(self: &mut LogLine, remainder: String) {
@@ -362,7 +389,7 @@ impl LogLine {
         // all values have been used, so do not keep redundant msg
         self.msg = "".to_string();
         if ! unknown_values.is_empty() {
-            self.name_values = Some(unknown_values)
+            self.name_values = Some(unknown_values);
         }
     }
 
