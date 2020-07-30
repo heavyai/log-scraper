@@ -55,7 +55,7 @@ release:
 	cargo build --release
 .PHONY: release
 
-all: test_cases
+all: test
 .PHONY: all
 
 #

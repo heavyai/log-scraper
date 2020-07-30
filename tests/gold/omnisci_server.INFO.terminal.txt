@@ -36,9 +36,9 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 07-01 00:00:00.000035|INFO ||||||| Started in CPU mode |DBHandler.cpp:340|16|0|||
 07-01 00:00:00.000036|INFO ||||||| Overriding default geos library with 'libgeos_c.so' |DBHandler.cpp:390|16|0|||
 07-01 00:00:00.000037|INFO |||||||  OmniSci server using unencrypted connection |MapDServer.cpp:457|16|0|||
-07-01 00:00:00.000038|INFO |connect_begin|0|0|||| stdlog_begin connect 0 0      |DBHandler.cpp:534|16||||
+07-01 00:00:00.000038|AUTH |connect_begin|0|0|||| stdlog_begin connect 0 0      |DBHandler.cpp:534|16||||
 07-01 00:00:00.000039|INFO ||||||| User admin connected to database omnisci |DBHandler.cpp:583|16|2|||
-07-01 00:00:00.000040|INFO |connect|0|262||||  |DBHandler.cpp:534|16||343-6YjO|omnisci|admin
+07-01 00:00:00.000040|AUTH |connect|0|262||||  |DBHandler.cpp:534|16||343-6YjO|omnisci|admin
 07-01 00:00:00.000041|INFO |sql_execute_begin|1|0|||SELECT count(*) from omnisci_states;|  |DBHandler.cpp:1054|16||343-6YjO|omnisci|admin
 07-01 00:00:00.000042|DEBUG||||||| query type: READ |DBHandler.cpp:5163|16|2|||
 07-01 00:00:00.000043|INFO ||||||| User calcite catalog omnisci sql 'SELECT count(*) from omnisci_states;' |Calcite.cpp:486|16|2|||
@@ -338,6 +338,6 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
     processImpl 140710812563200 - total time 26 ms
   execute_rel_alg 140710695130880 - total time 9 ms
     convert_rows 140710695130880 - total time 0 ms |DBHandler.cpp:1054|16||||
-07-01 00:00:00.000137|INFO |disconnect_begin|5|0|||| stdlog_begin disconnect 5 0      |DBHandler.cpp:614|16||||
+07-01 00:00:00.000137|AUTH |disconnect_begin|5|0|||| stdlog_begin disconnect 5 0      |DBHandler.cpp:614|16||||
 07-01 00:00:00.000138|INFO ||||||| User admin disconnected from database omnisci with public_session_id: 343-6YjO |DBHandler.cpp:622|16|2|||
-07-01 00:00:00.000139|INFO |disconnect|5|1||||  |DBHandler.cpp:614|16||343-6YjO|omnisci|admin
+07-01 00:00:00.000139|AUTH |disconnect|5|1||||  |DBHandler.cpp:614|16||343-6YjO|omnisci|admin

@@ -274,9 +274,7 @@ impl LogLine {
     pub fn parse_msg(self: &mut LogLine) {
         if self.stdlog() {
         }
-        else {
-            self.change_severity();
-        }
+        self.change_severity();
 
         match &self.query {
             None => (),
@@ -321,6 +319,12 @@ impl LogLine {
                 else if self.msg.starts_with("Loader truncated due to reject count") {
                     self.severity = Severity::ERROR
                 }
+                else if match &self.event {
+                    None => false,
+                    Some(event) => (event == "connect" || event == "connect_begin" || event == "disconnect" || event == "disconnect_begin")
+                } {
+                    self.severity = Severity::AUTH
+                }
             },
             Severity::WARNING => {
                 if self.msg.starts_with("Local login failed") {
@@ -334,6 +338,12 @@ impl LogLine {
                     self.severity = Severity::INPUT
                 }
                 else if self.msg.starts_with("Syntax error at:") {
+                    self.severity = Severity::INPUT
+                }
+                else if self.msg.starts_with("Object with name") {
+                    self.severity = Severity::INPUT
+                }
+                else if self.msg.starts_with("Exception: Exception occurred: org.apache.calcite.runtime.CalciteContextException:") {
                     self.severity = Severity::INPUT
                 }
                 // AUTH errors should be called out distinctly from software errors
@@ -445,9 +455,20 @@ impl LogLine {
                 match q.find(char::is_whitespace) {
                     None => None,
                     Some(i) => {
-                        let mut r = String::from(q[..i].to_string());
-                        r.make_ascii_uppercase();
-                        Some(r)
+                        match &self.event {
+                            None => None,
+                            Some(event) => if event == "sql_execute" || event == "sql_execute_begin" {
+                                let mut r = String::from(q[..i].to_string());
+                                r.make_ascii_uppercase();
+                                if r == String::from("WITH") {
+                                    Some(String::from("SELECT"))
+                                } else {
+                                    Some(r)
+                                }
+                            } else {
+                                None
+                            }
+                        }
                     },
                 }
             },

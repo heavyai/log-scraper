@@ -35,9 +35,9 @@
 "1593561600000035","INFO","16","0","DBHandler.cpp:340","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","Started in CPU mode","{NULL}","db","tests/gold/omnisci_server.INFO"
 "1593561600000036","INFO","16","0","DBHandler.cpp:390","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","Overriding default geos library with 'libgeos_c.so'","{NULL}","db","tests/gold/omnisci_server.INFO"
 "1593561600000037","INFO","16","0","MapDServer.cpp:457","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","OmniSci server using unencrypted connection","{NULL}","db","tests/gold/omnisci_server.INFO"
-"1593561600000038","INFO","16","\N","DBHandler.cpp:534","connect_begin","0","0","\N","\N","\N","\N","\N","\N","\N","\N","stdlog_begin connect 0 0","{NULL}","db","tests/gold/omnisci_server.INFO"
+"1593561600000038","AUTH","16","\N","DBHandler.cpp:534","connect_begin","0","0","\N","\N","\N","\N","\N","\N","\N","\N","stdlog_begin connect 0 0","{NULL}","db","tests/gold/omnisci_server.INFO"
 "1593561600000039","INFO","16","2","DBHandler.cpp:583","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","User admin connected to database omnisci","{NULL}","db","tests/gold/omnisci_server.INFO"
-"1593561600000040","INFO","16","\N","DBHandler.cpp:534","connect","0","262","343-6YjO","omnisci","admin","\N","\N","\N","\N","tcp:localhost:46380","\N","{roles | super}","db","tests/gold/omnisci_server.INFO"
+"1593561600000040","AUTH","16","\N","DBHandler.cpp:534","connect","0","262","343-6YjO","omnisci","admin","\N","\N","\N","\N","tcp:localhost:46380","\N","{roles | super}","db","tests/gold/omnisci_server.INFO"
 "1593561600000041","INFO","16","\N","DBHandler.cpp:1054","sql_execute_begin","1","0","343-6YjO","omnisci","admin","SELECT","\N","\N","SELECT count(*) from omnisci_states;","\N","\N","{NULL}","db","tests/gold/omnisci_server.INFO"
 "1593561600000042","DEBUG","16","2","DBHandler.cpp:5163","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","query type: READ","{NULL}","db","tests/gold/omnisci_server.INFO"
 "1593561600000043","INFO","16","2","Calcite.cpp:486","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","User calcite catalog omnisci sql 'SELECT count(*) from omnisci_states;'","{NULL}","db","tests/gold/omnisci_server.INFO"
@@ -337,6 +337,6 @@
     processImpl 140710812563200 - total time 26 ms
   execute_rel_alg 140710695130880 - total time 9 ms
     convert_rows 140710695130880 - total time 0 ms","{NULL}","db","tests/gold/omnisci_server.INFO"
-"1593561600000137","INFO","16","\N","DBHandler.cpp:614","disconnect_begin","5","0","\N","\N","\N","\N","\N","\N","\N","\N","stdlog_begin disconnect 5 0","{NULL}","db","tests/gold/omnisci_server.INFO"
+"1593561600000137","AUTH","16","\N","DBHandler.cpp:614","disconnect_begin","5","0","\N","\N","\N","\N","\N","\N","\N","\N","stdlog_begin disconnect 5 0","{NULL}","db","tests/gold/omnisci_server.INFO"
 "1593561600000138","INFO","16","2","DBHandler.cpp:622","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","User admin disconnected from database omnisci with public_session_id: 343-6YjO","{NULL}","db","tests/gold/omnisci_server.INFO"
-"1593561600000139","INFO","16","\N","DBHandler.cpp:614","disconnect","5","1","343-6YjO","omnisci","admin","\N","\N","\N","\N","tcp:localhost:46380","\N","{NULL}","db","tests/gold/omnisci_server.INFO"
+"1593561600000139","AUTH","16","\N","DBHandler.cpp:614","disconnect","5","1","343-6YjO","omnisci","admin","\N","\N","\N","\N","tcp:localhost:46380","\N","{NULL}","db","tests/gold/omnisci_server.INFO"
