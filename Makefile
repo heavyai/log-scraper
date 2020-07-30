@@ -30,7 +30,7 @@ test:
 	mkdir -p target/test
 	
 	# write various types of output to files in target/test
-	cargo run -- -t csv tests/gold/omnisci_server.INFO > target/test/omnisci_server.INFO.csv
+	cargo run -- -t csv --hostname db --output target/test tests/gold/omnisci_server.INFO
 	cargo run -- -t sql tests/gold/omnisci_server.INFO > target/test/omnisci_server.INFO.sql
 	cargo run -- -f select -t sql tests/gold/omnisci_server.INFO > target/test/omnisci_server.INFO-select.sql
 	cargo run -- -t terminal tests/gold/omnisci_server.INFO > target/test/omnisci_server.INFO.terminal.txt
@@ -55,7 +55,7 @@ release:
 	cargo build --release
 .PHONY: release
 
-all: test
+all: test_cases
 .PHONY: all
 
 #
@@ -93,22 +93,23 @@ down:
 	# docker rm -f ${DB_CONTAINER}
 .PHONY: down
 
-test_copyfrom:
-	cargo run -- -t csv tests/gold/omnisci_server.INFO > target/test/omnisci_server.INFO.csv
+test_copy_to: test
 	cargo run -- --dryrun --createtable > target/omnisci_log_scraper.sql
 	docker exec -i ${DB_CONTAINER} python3 /src/tests/test_load_db.py
 	diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
-.PHONY: test_copyfrom
+.PHONY: test_copy_to
 
 test_load:
-	# cargo run -- --dryrun --createtable > target/omnisci_log_scraper.sql
 	cargo run -- -t load --db "omnisci://admin:HyperInteractive@localhost:6274/omnisci" \
 		tests/gold/omnisci_server.INFO
 	# diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
 .PHONY: test_load
 
-test_run: down up
+test_generate: down up
 	sleep 12
 	rm -f target/test/omnisci_server.INFO
 	docker exec -i ${DB_CONTAINER} python3 /src/tests/work_to_generate_log.py
-.PHONY: test_run
+.PHONY: test_generate
+
+test_all: test test_load test_copy_to
+.PHONY: test_all

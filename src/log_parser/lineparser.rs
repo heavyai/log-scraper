@@ -23,6 +23,7 @@ extern crate chrono;
 use chrono::NaiveDateTime;
 
 use std::fs;
+use std::path::Path;
 use std::io;
 use std::io::BufReader;
 use std::io::Cursor;
@@ -44,6 +45,8 @@ use omnisci::omnisci::TColumn;
 pub type SResult<T> = std::result::Result<T, Box<dyn StdError>>;
 
 
+const STRING_DICT_MAX_LEN: usize = 32767;
+
 #[derive(Debug, Clone)]
 #[derive(Serialize)]
 pub enum Severity {
@@ -56,8 +59,6 @@ pub enum Severity {
     INPUT,
     AUTH,
 }
-
-const STRING_DICT_MAX_LEN: usize = 32767;
 
 impl fmt::Display for Severity {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -316,6 +317,9 @@ impl LogLine {
                 }
                 else if self.msg.starts_with("heartbeat thread exiting") {
                     self.severity = Severity::FATAL
+                }
+                else if self.msg.starts_with("Loader truncated due to reject count") {
+                    self.severity = Severity::ERROR
                 }
             },
             Severity::WARNING => {
@@ -621,6 +625,7 @@ impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
     }
 }
 
+#[derive(Debug)]
 pub enum OutputType {
     CSV,
     TSV,
@@ -630,6 +635,11 @@ pub enum OutputType {
     Load,
 }
 
+impl fmt::Display for OutputType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
 impl OutputType {
     pub fn new(name: &str) -> OutputType {
         match &name {
@@ -857,29 +867,45 @@ impl LogWriter for LogLoader {
     }
 }
 
+fn output_filename(input: &str, output: &str, extension: &str) -> String {
+    let output_path = Path::new(output);
+    if output_path.is_dir() {
+        // TODO there must be a better way to use the Path api to constuct a new path
+        // https://doc.rust-lang.org/std/path/struct.Path.html
+        let input_path = Path::new(input);
+        let name = input_path.file_name().unwrap().to_str().unwrap();
+        format!("{}/{}.{}", output, name, extension)
+    } else {
+        String::from(output)
+    }
+}
 
-fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &OutputType, db: Option<&str>) -> SResult<Box<dyn LogWriter>> {
+fn new_log_writer(input: &str, filter: &Vec<&str>, output: Option<&str>, output_type: &OutputType, db: Option<&str>) -> SResult<Box<dyn LogWriter>> {
     match output {
-        Some(path) => {
-            let x = csv::Writer::from_path(path)?;
-            if filter.contains(&"sql") {
-                // TODO write only sql fields
-                Ok(Box::new(CsvFileLogWriter{ writer: x}))
-            } else {
-                Ok(Box::new(CsvFileLogWriter{ writer: x}))
-            }
+        Some(path) => match output_type {
+            OutputType::Terminal => Ok(Box::new(TerminalWriter::new())),
+            OutputType::CSV => {
+                let x = csv::Writer::from_path(output_filename(input, path, "csv"))?;
+                if filter.contains(&"sql") {
+                    // TODO write only sql fields
+                    Ok(Box::new(CsvFileLogWriter{ writer: x}))
+                } else {
+                    Ok(Box::new(CsvFileLogWriter{ writer: x}))
+                }
+            },
+            _ => panic!(format!("Output type not supported yet, {}", output_type)), // TODO
         },
         None => match output_type {
             OutputType::Terminal => Ok(Box::new(TerminalWriter::new())),
             OutputType::CSV => Ok(Box::new(CsvOutLogWriter{
                 writer: csv::WriterBuilder::new()
-                    .has_headers(false)
+                    // .has_headers(false)
                     .from_writer(io::stdout())
                 })),
             OutputType::TSV => Ok(Box::new(CsvOutLogWriter{
                 writer: csv::WriterBuilder::new()
                     .delimiter(b'\t')
-                    .has_headers(false)
+                    // .has_headers(false)
                     .from_writer(io::stdout())
                 })),
             OutputType::SQL => Ok(Box::new(SqlLogWriter{})),
@@ -895,7 +921,13 @@ fn new_log_writer(filter: &Vec<&str>, output: Option<&str>, output_type: &Output
     }
 }
 
-pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, output_type: &OutputType, db: Option<&str>) -> SResult<()> {
+pub fn transform_logs(input: &str,
+        output: Option<&str>,
+        filter: &Vec<&str>,
+        output_type: &OutputType,
+        db: Option<&str>,
+        hostname: Option<&str>,
+        ) -> SResult<()> {
     // println!("filter {:?} output {:?}", filter, output);
 
     let query_operations = vec!("SELECT", "WITH");
@@ -903,12 +935,21 @@ pub fn transform_logs(input: &str, output: Option<&str>, filter: &Vec<&str>, out
     let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
     let buf = Cursor::new(&file_contents_utf8);
     let mut reader = BufReader::new(buf);
-    let mut writer = new_log_writer(filter, output, &output_type, db)?;
+
+    let mut writer = new_log_writer(input, filter, output, &output_type, db)?;
+    let hostname: Option<String> = match hostname {
+        None => None,
+        Some(x) => Some(x.to_string())
+    };
 
     for entry in ParsingLine::new(&mut reader) {
         match entry {
             Err(e) => return Err(Box::new(e)),
-            Ok(log) => {
+            Ok(mut log) => {
+                // TODO use lifetime to avoid copying these for every line
+                log.hostname = hostname.clone();
+                log.logfile = Some(input.to_string());
+                
                 if filter.contains(&"sql") {
                     match log.query {
                         None => (),

@@ -65,10 +65,11 @@ FLAGS:
     -V, --version        Prints version information
 
 OPTIONS:
-        --db <DB>            OmniSci DB URL, like: omnisci://admin:HyperInteractive@localhost:6274/omnisci
-    -f, --filter <FILTER>    Filter logs: all, sql, select
-    -o, --output <OUTPUT>    Ouput file
-    -t, --type <TYPE>        Output format: csv, tsv, terminal, sql, execute
+        --db <DB>                OmniSci DB URL, like: omnisci://admin:HyperInteractive@localhost:6274/omnisci
+    -f, --filter <FILTER>        Filter logs: all, sql, select
+        --hostname <HOSTNAME>    Hostname to set for the hostname column (optional)
+    -o, --output <OUTPUT>        Ouput file, or if a dir, then output files as OUTPUT/INPUT.csv
+    -t, --type <TYPE>            Output format: csv, tsv, terminal, sql, execute, load
 
 ARGS:
     <INPUT>...    Input log files

@@ -51,7 +51,9 @@ fn main() -> log_parser::SResult<()> {
         // TODO arg output format type: json, load_table, kafka
         (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal, sql, execute, load")
 
-        (@arg OUTPUT: -o --output +takes_value "Ouput file")
+        (@arg OUTPUT: -o --output +takes_value "Ouput file, or if a dir, then output files as OUTPUT/INPUT.csv")
+
+        (@arg HOSTNAME: --hostname +takes_value "Hostname to set for the hostname column (optional)")
 
         (@arg DB: --db +takes_value "OmniSci DB URL, like: omnisci://admin:HyperInteractive@localhost:6274/omnisci")
 
@@ -92,6 +94,7 @@ fn main() -> log_parser::SResult<()> {
 
     let output = params.value_of("OUTPUT");
     let db = params.value_of("DB");
+    let hostname = params.value_of("HOSTNAME");
 
     let filter = match params.value_of("FILTER") {
         None => "all",
@@ -112,7 +115,7 @@ fn main() -> log_parser::SResult<()> {
     };
 
     for input in inputs {
-        match log_parser::transform_logs(&input, output, &filter, &output_type, db) {
+        match log_parser::transform_logs(&input, output, &filter, &output_type, db, hostname) {
             Ok(_) => continue,
             Err(x) => return Err(x),
         };
