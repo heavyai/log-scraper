@@ -11,7 +11,7 @@ with open('/src/target/omnisci_log_scraper.sql') as f:
     create_table = f.read()
 print(pd.read_sql(create_table, con))
 
-print(pd.read_sql("""copy omnisci_log_scraper from '/src/target/test/omnisci_server.INFO.csv' with (header='false', max_reject=0, threads=1)""", con))
+print(pd.read_sql("""copy omnisci_log_scraper from '/src/target/test/omnisci_server.INFO.csv' with (header='true', max_reject=0, threads=1)""", con))
 
 # StreamImporter is line oriented, so rejects multi-line records
 # TODO in lineparser.rs, replace \n with space?
