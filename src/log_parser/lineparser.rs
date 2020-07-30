@@ -282,7 +282,11 @@ impl LogLine {
             if v.len() >= STRING_DICT_MAX_LEN {
                 let a = v[..STRING_DICT_MAX_LEN].to_string();
                 if self.msg.is_empty() {
-                    let b = v[STRING_DICT_MAX_LEN .. STRING_DICT_MAX_LEN*2].to_string();
+                    let b = if a.len() >= STRING_DICT_MAX_LEN * 2 {
+                        a[STRING_DICT_MAX_LEN .. STRING_DICT_MAX_LEN * 2].to_string()
+                    } else {
+                        a[STRING_DICT_MAX_LEN ..].to_string()
+                    };
                     self.msg = b;
                 }
                 self.query = Some(a);
