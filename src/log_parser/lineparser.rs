@@ -53,6 +53,8 @@ pub enum Severity {
     FATAL,
     DEBUG,
     OTHER,
+    INPUT,
+    AUTH,
 }
 
 const STRING_DICT_MAX_LEN: usize = 32767;
@@ -245,6 +247,8 @@ impl LogLine {
                     Severity::INFO => "blue",
                     Severity::DEBUG => "green",
                     Severity::OTHER => "cyan",
+                    Severity::INPUT => "grey",
+                    Severity::AUTH => "magenta",
                 }
             ),
             self.event.color("grey"),
@@ -269,7 +273,8 @@ impl LogLine {
     pub fn parse_msg(self: &mut LogLine) {
         if self.stdlog() {
         }
-        else if self.extra_fatalities() {
+        else {
+            self.change_severity();
         }
 
         match &self.query {
@@ -289,11 +294,57 @@ impl LogLine {
         }
     }
 
-    fn extra_fatalities(self: &mut LogLine) -> bool {
-        if self.msg.starts_with("Interrupt signal") {
-            self.severity = Severity::FATAL
-        }
-        return false
+    fn change_severity(self: &mut LogLine) {
+        // IMO these logs have the wrong severity, so remedying that
+        match self.severity {
+            Severity::INFO => {
+                if self.msg.starts_with("Caught an out-of-gpu-memory error") {
+                    self.severity = Severity::ERROR
+                }
+                else if self.msg.starts_with("ALLOCATION failed to find") {
+                    self.severity = Severity::WARNING
+                }
+                else if self.msg.starts_with("ALLOCATION Attempted slab") {
+                    self.severity = Severity::WARNING
+                }
+                else if self.msg.starts_with("Query ran out of GPU memory, attempting punt to CPU") {
+                    self.severity = Severity::WARNING
+                }
+                else if self.msg.starts_with("Interrupt signal") {
+                    // the server is going to be killed, this should be logged FATAL
+                    self.severity = Severity::FATAL
+                }
+                else if self.msg.starts_with("heartbeat thread exiting") {
+                    self.severity = Severity::FATAL
+                }
+            },
+            Severity::WARNING => {
+                if self.msg.starts_with("Local login failed") {
+                    self.severity = Severity::AUTH
+                }
+            }
+            Severity::ERROR => {
+                // INPUT and AUTH are made-up severities
+                // INPUT errors are already useful to the user/client, less often to the devops admin
+                if self.msg.starts_with("Exception: Parse failed:") {
+                    self.severity = Severity::INPUT
+                }
+                else if self.msg.starts_with("Syntax error at:") {
+                    self.severity = Severity::INPUT
+                }
+                // AUTH errors should be called out distinctly from software errors
+                else if self.msg.starts_with("Authentication failure") {
+                    self.severity = Severity::AUTH
+                }
+                else if self.msg.starts_with("Session not valid.") {
+                    self.severity = Severity::AUTH
+                }
+                else if self.msg.starts_with("Unauthorized Access:") {
+                    self.severity = Severity::AUTH
+                }
+            }
+            _ => (),
+        };
     }
 
     fn stdlog(self: &mut LogLine) -> bool {
