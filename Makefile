@@ -64,7 +64,7 @@ all: test
 
 deps.docker:
 	# cd docker && ./buildbinary.sh
-	docker build -q -t omnisci-log-scraper-build docker
+	docker build -t omnisci-log-scraper-build docker
 .PHONY: deps.docker
 
 build.docker: deps.docker
