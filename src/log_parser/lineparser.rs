@@ -29,6 +29,8 @@ use std::io::BufReader;
 use std::io::Cursor;
 use std::io::Write;
 
+use regex;
+
 extern crate csv;
 
 // https://docs.rs/colored/1.9.3/colored/
@@ -151,6 +153,9 @@ pub struct LogLine {
 
     pub hostname: Option<String>,
     pub logfile: Option<String>,
+
+    // msg_norm is a simple way to match logs by stripping numbers
+    pub msg_norm: Option<String>,
 }
 
 
@@ -175,6 +180,7 @@ pub const CREATE_TABLE: &str = "CREATE TABLE IF NOT EXISTS omnisci_log_scraper (
     name_values TEXT[],
     hostname TEXT,
     logfile TEXT
+    msg_norm TEXT,
 ) with (max_rows=640000000);
 ";
 
@@ -273,9 +279,29 @@ impl LogLine {
     // They quit/return if something is wrong, so the full msg text remains.
     pub fn parse_msg(self: &mut LogLine) {
         if self.stdlog() {
+        } else {
+            self.msg_norm();
         }
         self.change_severity();
+        self.truncate_strings();
+    }
 
+    fn msg_norm(self: &mut LogLine) {
+        let re_numbers = regex::Regex::new(r"\d+").unwrap();
+        let re_singlequoted = regex::Regex::new(r"'.*'").unwrap();
+
+        if self.msg.len() > 0 {
+            let norm = re_numbers.replace_all(self.msg.as_ref(), "");
+            let norm = re_singlequoted.replace_all(norm.as_ref(), "");
+            let mut norm = norm.to_string();
+            if norm.len() > 50 {
+                norm = norm[..50].to_string();
+            }
+            self.msg_norm = Some(norm);
+        }
+    }
+
+    fn truncate_strings(self: &mut LogLine) {
         match &self.query {
             None => (),
             Some(v) =>
@@ -542,6 +568,7 @@ impl LogLine {
             threadid,
             fileline,
             msg,
+            msg_norm: None,
             query: None,
             operation: None,
             event: None,
