@@ -26,7 +26,7 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 2020-07-01 00:00:00.000025,INFO,16,0,DataMgr.cpp:181,,,,,,,,,,,,Min CPU Slab Size is 256MB,,db,tests/gold/omnisci_server.INFO,Min CPU Slab Size is MB
 2020-07-01 00:00:00.000026,INFO,16,0,DataMgr.cpp:182,,,,,,,,,,,,Max CPU Slab Size is 4096MB,,db,tests/gold/omnisci_server.INFO,Max CPU Slab Size is MB
 2020-07-01 00:00:00.000027,INFO,16,0,DataMgr.cpp:183,,,,,,,,,,,,Max memory pool size for CPU is 4760.26MB,,db,tests/gold/omnisci_server.INFO,Max memory pool size for CPU is .MB
-2020-07-01 00:00:00.000028,INFO,16,0,FileMgr.cpp:205,,,,,,,,,,,,"Completed Reading table's file metadata, Elapsed time : 4ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0'",,db,tests/gold/omnisci_server.INFO,Completed Reading table
+2020-07-01 00:00:00.000028,INFO,16,0,FileMgr.cpp:205,read_table_metadata,,,,,,,,4,,,"Completed Reading table's file metadata, Elapsed time : 4ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0'",,db,tests/gold/omnisci_server.INFO,
 2020-07-01 00:00:00.000029,OTHER,16,0,FileMgr.cpp:220,,,,,,,,,,,,Number of Headers in Vector: 0,,db,tests/gold/omnisci_server.INFO,Number of Headers in Vector: 
 2020-07-01 00:00:00.000030,INFO,16,0,Calcite.cpp:307,,,,,,,,,,,,"Creating Calcite Handler,  Calcite Port is 6279 base data dir is /omnisci-storage/data",,db,tests/gold/omnisci_server.INFO,"Creating Calcite Handler,  Calcite Port is  base d"
 2020-07-01 00:00:00.000031,INFO,16,0,Calcite.cpp:215,,,,,,,,,,,,Running Calcite server as a daemon,,db,tests/gold/omnisci_server.INFO,Running Calcite server as a daemon
@@ -47,7 +47,7 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 2020-07-01 00:00:00.000046,DEBUG,16,,DBHandler.cpp:1993,get_internal_table_details_begin,3,0,343-9FFP,omnisci,calcite,,,,,,,"{table_name,omnisci_states}",db,tests/gold/omnisci_server.INFO,
 2020-07-01 00:00:00.000047,DEBUG,16,3,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,,db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
 2020-07-01 00:00:00.000048,INFO,16,,DBHandler.cpp:1993,get_internal_table_details,3,1,343-9FFP,omnisci,calcite,,,,,tcp:localhost:46394,,"{table_name,omnisci_states}",db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000049,INFO,16,2,Calcite.cpp:513,,,,,,,,,,,,"Time in Thrift 13 (ms), Time in Java Calcite server 1532 (ms)",,db,tests/gold/omnisci_server.INFO,"Time in Thrift  (ms), Time in Java Calcite server "
+2020-07-01 00:00:00.000049,INFO,16,2,Calcite.cpp:513,sql_parse,,,,,,,13,1532,,,"Time in Thrift 13 (ms), Time in Java Calcite server 1532 (ms)",,db,tests/gold/omnisci_server.INFO,
 2020-07-01 00:00:00.000050,DEBUG,16,2,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,,db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
 2020-07-01 00:00:00.000051,OTHER,16,2,FileMgr.cpp:183,,,,,,,,,,,,File id: 0 Page size: 2097152 Num pages: 256,,db,tests/gold/omnisci_server.INFO,File id:  Page size:  Num pages: 
 2020-07-01 00:00:00.000052,OTHER,16,2,FileMgr.cpp:183,,,,,,,,,,,,File id: 1 Page size: 4096 Num pages: 4096,,db,tests/gold/omnisci_server.INFO,File id:  Page size:  Num pages: 
@@ -79,7 +79,7 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 2020-07-01 00:00:00.000078,OTHER,16,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,9,0, Page id: 0 Epoch: 0",,db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch: "
 2020-07-01 00:00:00.000079,OTHER,16,5,FileInfo.cpp:180,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,11,0, Page id: -1 Epoch: 0",,db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch: "
 2020-07-01 00:00:00.000080,OTHER,16,4,FileInfo.cpp:180,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,11,0, Page id: 0 Epoch: 0",,db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch: "
-2020-07-01 00:00:00.000081,INFO,16,2,FileMgr.cpp:205,,,,,,,,,,,,"Completed Reading table's file metadata, Elapsed time : 218ms Epoch: 1 files read: 2 table location: '/omnisci-storage/data/mapd_data/table_1_1'",,db,tests/gold/omnisci_server.INFO,Completed Reading table
+2020-07-01 00:00:00.000081,INFO,16,2,FileMgr.cpp:205,read_table_metadata,,,,,,,,218,,,"Completed Reading table's file metadata, Elapsed time : 218ms Epoch: 1 files read: 2 table location: '/omnisci-storage/data/mapd_data/table_1_1'",,db,tests/gold/omnisci_server.INFO,
 2020-07-01 00:00:00.000082,OTHER,16,2,FileMgr.cpp:220,,,,,,,,,,,,Number of Headers in Vector: 28,,db,tests/gold/omnisci_server.INFO,Number of Headers in Vector: 
 2020-07-01 00:00:00.000083,INFO,16,2,Catalog.cpp:1414,,,,,,,,,,,,Instantiating Fragmenter for table omnisci_states took 225ms,,db,tests/gold/omnisci_server.INFO,Instantiating Fragmenter for table omnisci_states 
 2020-07-01 00:00:00.000084,DEBUG,16,2,LockMgr.h:207,,,,,,,,,,,,Acquiring Table Data Read Lock for table: omnisci_states,,db,tests/gold/omnisci_server.INFO,Acquiring Table Data Read Lock for table: omnisci_
@@ -223,7 +223,7 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 2020-07-01 00:00:00.000110,INFO,16,2,Calcite.cpp:486,,,,,,,,,,,,"User calcite catalog omnisci sql 'select count(*)
     from omnisci_states as s'",,db,tests/gold/omnisci_server.INFO,"User calcite catalog omnisci sql 'select count(*)
 "
-2020-07-01 00:00:00.000111,INFO,16,2,Calcite.cpp:513,,,,,,,,,,,,"Time in Thrift 2 (ms), Time in Java Calcite server 21 (ms)",,db,tests/gold/omnisci_server.INFO,"Time in Thrift  (ms), Time in Java Calcite server "
+2020-07-01 00:00:00.000111,INFO,16,2,Calcite.cpp:513,sql_parse,,,,,,,2,21,,,"Time in Thrift 2 (ms), Time in Java Calcite server 21 (ms)",,db,tests/gold/omnisci_server.INFO,
 2020-07-01 00:00:00.000112,DEBUG,16,2,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,,db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
 2020-07-01 00:00:00.000113,DEBUG,16,2,LockMgr.h:207,,,,,,,,,,,,Acquiring Table Data Read Lock for table: omnisci_states,,db,tests/gold/omnisci_server.INFO,Acquiring Table Data Read Lock for table: omnisci_
 2020-07-01 00:00:00.000114,INFO,16,2,QueryDispatchQueue.h:49,,,,,,,,,,,,Dispatching query with 0 queries in the queue.,,db,tests/gold/omnisci_server.INFO,Dispatching query with  queries in the queue.

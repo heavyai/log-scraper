@@ -179,8 +179,8 @@ pub const CREATE_TABLE: &str = "CREATE TABLE IF NOT EXISTS omnisci_log_scraper (
     msg TEXT,
     name_values TEXT[],
     hostname TEXT,
-    logfile TEXT
-    msg_norm TEXT,
+    logfile TEXT,
+    msg_norm TEXT
 ) with (max_rows=640000000);
 ";
 
@@ -279,11 +279,51 @@ impl LogLine {
     // They quit/return if something is wrong, so the full msg text remains.
     pub fn parse_msg(self: &mut LogLine) {
         if self.stdlog() {
+        } else if self.regex_msg() {
         } else {
             self.msg_norm();
         }
         self.change_severity();
         self.truncate_strings();
+    }
+
+    fn regex_msg(self: &mut LogLine) -> bool {
+        // FileMgr.cpp:205 Completed Reading table's file metadata, Elapsed time : 4ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0'
+        // event_spec('FileMgr.cpp', r'Completed Reading table\'s file metadata, Elapsed time \: ([0-9]+)ms Epoch: [0-9]+ files read: [0-9]+ table location\: \'(.*)\'',
+        // event(name='read_table_metadata', meas_ms=1, object_tag='file', object_val=2)),
+        let re = regex::Regex::new(
+            r"Completed Reading table.s file metadata, Elapsed time . ([0-9]+)ms Epoch. [0-9]+ files read. [0-9]+ table location.*").unwrap();
+        if let Some(caps) = re.captures(self.msg.as_ref()) {
+            if let Some(m) = caps.get(1) {
+                if let Ok(ms) = m.as_str().parse() {
+                    self.total_time = Some(ms);
+                    self.event = Some(String::from("read_table_metadata"));
+                    return true
+                }
+            }
+        }
+
+        // Calcite.cpp:513 Time in Thrift 13 (ms), Time in Java Calcite server 1532 (ms)
+        // event_spec('Calcite.cpp', r'Time in Thrift [0-9]+ \(ms\), Time in Java Calcite server ([0-9]+) \(ms\)',
+        // event(name='calcite_parse', meas_ms=1, severity='PERF')),
+        let re = regex::Regex::new(
+            r"Time in Thrift ([0-9]+) \(ms\), Time in Java Calcite server ([0-9]+) \(ms\)").unwrap();
+        if let Some(caps) = re.captures(self.msg.as_ref()) {
+            if let Some(m) = caps.get(1) {
+                if let Ok(ms) = m.as_str().parse() {
+                    self.execution_time = Some(ms);
+                }
+            }
+            if let Some(m) = caps.get(2) {
+                if let Ok(ms) = m.as_str().parse() {
+                    self.total_time = Some(ms);
+                }
+            }
+            self.event = Some(String::from("sql_parse"));
+            return true
+        }
+
+        false
     }
 
     fn msg_norm(self: &mut LogLine) {
@@ -349,11 +389,12 @@ impl LogLine {
                 else if self.msg.starts_with("Loader truncated due to reject count") {
                     self.severity = Severity::ERROR
                 }
-                else if match &self.event {
-                    None => false,
-                    Some(event) => (event == "connect" || event == "connect_begin" || event == "disconnect" || event == "disconnect_begin")
-                } {
-                    self.severity = Severity::AUTH
+                else if let Some(event) = &self.event {
+                    if event == "connect" || event == "connect_begin"
+                    || event == "disconnect" || event == "disconnect_begin"
+                    || event == "clone_session" || event == "clone_session_begin" {
+                        self.severity = Severity::AUTH
+                    }
                 }
             },
             Severity::WARNING => {
@@ -504,7 +545,7 @@ impl LogLine {
             },
         };
         // all values have been used, so do not keep redundant msg
-        self.msg = "".to_string();
+        self.msg = String::from("");
         if ! unknown_values.is_empty() {
             self.name_values = Some(unknown_values);
         }
@@ -853,14 +894,14 @@ impl LogLoader {
 
         match con.sql_execute(String::from(CREATE_TABLE), false) {
             Err(e) => return Err(Box::new(e)),
-            Ok(res) => println!("{:?}", res),
+            Ok(_res) => (), // println!("{:?}", res),
         };
 
         match con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false) {
             Err(e) => return Err(Box::new(e)),
-            Ok(res) => println!("{:?}", res),
+            Ok(_res) => (), // println!("{:?}", res),
         };
-        return Ok(LogLoader{con, buffer: vec![], buf_size: 10000})
+        return Ok(LogLoader{con, buffer: vec![], buf_size: 50000})
     }
 
     fn to_tcolumns(lines: &Vec<LogLine>) -> Vec<TColumn> {
@@ -868,6 +909,7 @@ impl LogLoader {
             TColumn::from(lines.iter().map(|val| val.logtime.timestamp()).collect::<Vec<i64>>()),
             TColumn::from(lines.iter().map(|val| val.severity.to_string()).collect::<Vec<String>>()),
             TColumn::from(lines.iter().map(|val| val.pid as i64).collect::<Vec<i64>>()),
+            TColumn::from(lines.iter().map(|val| val.threadid).collect::<Vec<Option<i32>>>()),
             TColumn::from(lines.iter().map(|val| val.fileline.to_string()).collect::<Vec<String>>()),
             TColumn::from(lines.iter().map(|val| &val.event).collect::<Vec<&Option<String>>>()),
             TColumn::from(lines.iter().map(|val| val.sequence).collect::<Vec<Option<i32>>>()),
@@ -884,6 +926,7 @@ impl LogLoader {
             TColumn::from(&lines.iter().map(|val| &val.name_values).collect()),
             TColumn::from(lines.iter().map(|val| &val.hostname).collect::<Vec<&Option<String>>>()),
             TColumn::from(lines.iter().map(|val| &val.logfile).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| &val.msg_norm).collect::<Vec<&Option<String>>>()),
         ]
     }
 }
@@ -910,7 +953,7 @@ impl LogWriter for LogLoader {
             Ok(ok) => {
                 match self.con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false) {
                     Err(e) => return Err(Box::new(e)),
-                    Ok(res) => println!("{:?}", res),
+                    Ok(_res) => (), // println!("{:?}", res),
                 };
                 Ok(ok)
             },
