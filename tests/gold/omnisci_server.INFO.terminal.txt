@@ -26,7 +26,7 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 07-01 00:00:00.000025|INFO ||||||| Min CPU Slab Size is 256MB |DataMgr.cpp:181|16|0|||
 07-01 00:00:00.000026|INFO ||||||| Max CPU Slab Size is 4096MB |DataMgr.cpp:182|16|0|||
 07-01 00:00:00.000027|INFO ||||||| Max memory pool size for CPU is 4760.26MB |DataMgr.cpp:183|16|0|||
-07-01 00:00:00.000028|INFO ||||||| Completed Reading table's file metadata, Elapsed time : 4ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0' |FileMgr.cpp:205|16|0|||
+07-01 00:00:00.000028|INFO |read_table_metadata||||4|| Completed Reading table's file metadata, Elapsed time : 4ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0' |FileMgr.cpp:205|16|0|||
 07-01 00:00:00.000029|OTHER||||||| Number of Headers in Vector: 0 |FileMgr.cpp:220|16|0|||
 07-01 00:00:00.000030|INFO ||||||| Creating Calcite Handler,  Calcite Port is 6279 base data dir is /omnisci-storage/data |Calcite.cpp:307|16|0|||
 07-01 00:00:00.000031|INFO ||||||| Running Calcite server as a daemon |Calcite.cpp:215|16|0|||
@@ -47,7 +47,7 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 07-01 00:00:00.000046|DEBUG|get_internal_table_details_begin|3|0||||  |DBHandler.cpp:1993|16||343-9FFP|omnisci|calcite
 07-01 00:00:00.000047|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|16|3|||
 07-01 00:00:00.000048|INFO |get_internal_table_details|3|1||||  |DBHandler.cpp:1993|16||343-9FFP|omnisci|calcite
-07-01 00:00:00.000049|INFO ||||||| Time in Thrift 13 (ms), Time in Java Calcite server 1532 (ms) |Calcite.cpp:513|16|2|||
+07-01 00:00:00.000049|INFO |sql_parse|||13|1532|| Time in Thrift 13 (ms), Time in Java Calcite server 1532 (ms) |Calcite.cpp:513|16|2|||
 07-01 00:00:00.000050|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|16|2|||
 07-01 00:00:00.000051|OTHER||||||| File id: 0 Page size: 2097152 Num pages: 256 |FileMgr.cpp:183|16|2|||
 07-01 00:00:00.000052|OTHER||||||| File id: 1 Page size: 4096 Num pages: 4096 |FileMgr.cpp:183|16|2|||
@@ -79,7 +79,7 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 07-01 00:00:00.000078|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,9,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|16|4|||
 07-01 00:00:00.000079|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,11,0, Page id: -1 Epoch: 0 |FileInfo.cpp:180|16|5|||
 07-01 00:00:00.000080|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,11,0, Page id: 0 Epoch: 0 |FileInfo.cpp:180|16|4|||
-07-01 00:00:00.000081|INFO ||||||| Completed Reading table's file metadata, Elapsed time : 218ms Epoch: 1 files read: 2 table location: '/omnisci-storage/data/mapd_data/table_1_1' |FileMgr.cpp:205|16|2|||
+07-01 00:00:00.000081|INFO |read_table_metadata||||218|| Completed Reading table's file metadata, Elapsed time : 218ms Epoch: 1 files read: 2 table location: '/omnisci-storage/data/mapd_data/table_1_1' |FileMgr.cpp:205|16|2|||
 07-01 00:00:00.000082|OTHER||||||| Number of Headers in Vector: 28 |FileMgr.cpp:220|16|2|||
 07-01 00:00:00.000083|INFO ||||||| Instantiating Fragmenter for table omnisci_states took 225ms |Catalog.cpp:1414|16|2|||
 07-01 00:00:00.000084|DEBUG||||||| Acquiring Table Data Read Lock for table: omnisci_states |LockMgr.h:207|16|2|||
@@ -211,7 +211,7 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 07-01 00:00:00.000109|DEBUG||||||| query type: READ |DBHandler.cpp:5163|16|2|||
 07-01 00:00:00.000110|INFO ||||||| User calcite catalog omnisci sql 'select count(*)
     from omnisci_states as s' |Calcite.cpp:486|16|2|||
-07-01 00:00:00.000111|INFO ||||||| Time in Thrift 2 (ms), Time in Java Calcite server 21 (ms) |Calcite.cpp:513|16|2|||
+07-01 00:00:00.000111|INFO |sql_parse|||2|21|| Time in Thrift 2 (ms), Time in Java Calcite server 21 (ms) |Calcite.cpp:513|16|2|||
 07-01 00:00:00.000112|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|16|2|||
 07-01 00:00:00.000113|DEBUG||||||| Acquiring Table Data Read Lock for table: omnisci_states |LockMgr.h:207|16|2|||
 07-01 00:00:00.000114|INFO ||||||| Dispatching query with 0 queries in the queue. |QueryDispatchQueue.h:49|16|2|||
