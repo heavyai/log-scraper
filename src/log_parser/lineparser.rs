@@ -99,7 +99,7 @@ mod serde_vec_format {
     where S: Serializer,
     {
         match strings {
-            None => serializer.serialize_str(""),
+            None => serializer.serialize_str("NULL"),
             Some(strings) => {
                 let mut sb = "{".to_string();
                 let mut first = true;
@@ -337,6 +337,7 @@ impl LogLine {
             if norm.len() > 50 {
                 norm = norm[..50].to_string();
             }
+            norm = norm.trim().to_string();
             self.msg_norm = Some(norm);
         }
     }
@@ -434,23 +435,61 @@ impl LogLine {
 
     fn stdlog(self: &mut LogLine) -> bool {
         let msg_elements: Vec<&str> = self.msg.splitn(8, " ").map(|x| x.trim()).collect();
-        if msg_elements.len() < 7 || (msg_elements[0] != "stdlog" && msg_elements[0] != "stdlog_begin") {
+        if msg_elements.len() < 2 || (msg_elements[0] != "stdlog" && msg_elements[0] != "stdlog_begin") {
             return false
         }
         // stdlog sql_execute 19 911 omnisci admin 410-gxvh {"query_str","client","execution_time_ms","total_time_ms"} {"SELECT COUNT(*) AS n FROM t","http:10.109.0.11","910","911"}
+        let i = 1;
         self.event = Some(match msg_elements[0] {
-            "stdlog_begin" => format!("{}_begin", msg_elements[1]),
-            "stdlog" => msg_elements[1].to_string(),
-            x => format!("{}_{}", msg_elements[1], x),
+            "stdlog_begin" => format!("{}_begin", msg_elements[i]),
+            "stdlog" => msg_elements[i].to_string(),
+            x => format!("{}_{}", msg_elements[i], x),
         });
-        self.sequence = Some(msg_elements[2].parse().unwrap());
-        self.dur_ms = Some(msg_elements[3].parse().unwrap());
-        self.dbname = Some(msg_elements[4].to_string());
-        self.username = Some(msg_elements[5].to_string());
-        self.session = Some(msg_elements[6].to_string());
+        
+        let i = i + 1;
+        if i >= msg_elements.len() {
+            return false
+        } else if let Ok(x) = msg_elements[i].parse() {
+            self.sequence = Some(x);
+        } else {
+            return false
+        }
+        
+        let i = i + 1;
+        if i >= msg_elements.len() {
+            return false
+        } else if let Ok(x) = msg_elements[i].parse() {
+            self.dur_ms = Some(x);
+        } else {
+            return false
+        }
 
-        if msg_elements.len() == 8 {
-            let remainder = msg_elements[7].to_string();
+        let i = i + 1;
+        if i >= msg_elements.len() {
+            return false
+        } else {
+            self.dbname = Some(msg_elements[i].to_string());
+        }
+
+        let i = i + 1;
+        if i >= msg_elements.len() {
+            return false
+        } else {
+            self.username = Some(msg_elements[i].to_string());
+        }
+
+        let i = i + 1;
+        if i >= msg_elements.len() {
+            return false
+        } else {
+            self.session = Some(msg_elements[i].to_string());
+        }
+
+        let i = i + 1;
+        if i >= msg_elements.len() {
+            return false
+        } else {
+            let remainder = msg_elements[i].to_string();
             self.parse_key_value_arrays(remainder);
         }
         return true
@@ -601,7 +640,7 @@ impl LogLine {
         let i = i + 1;
         let fileline = parts[i].to_string();
         let i = i + 1;
-        let msg = parts[i..].join(" ");
+        let msg = parts[i..].join(" ").trim().to_string();
         let result = LogLine{
             logtime,
             severity,
@@ -906,7 +945,9 @@ impl LogLoader {
 
     fn to_tcolumns(lines: &Vec<LogLine>) -> Vec<TColumn> {
         vec![
-            TColumn::from(lines.iter().map(|val| val.logtime.timestamp()).collect::<Vec<i64>>()),
+            TColumn::from(lines.iter().map(
+                |val| val.logtime.timestamp() * 1000000 as i64 + val.logtime.timestamp_subsec_micros() as i64
+            ).collect::<Vec<i64>>()),
             TColumn::from(lines.iter().map(|val| val.severity.to_string()).collect::<Vec<String>>()),
             TColumn::from(lines.iter().map(|val| val.pid as i64).collect::<Vec<i64>>()),
             TColumn::from(lines.iter().map(|val| val.threadid).collect::<Vec<Option<i32>>>()),

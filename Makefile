@@ -1,5 +1,19 @@
+# Copyright 2020 OmniSci, Inc.
 #
-# Simple Makefile to call the rust and cargo commands
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# Makefile to call the basic rust, cargo and docker commands
 #
 
 SHELL = /bin/sh
@@ -24,9 +38,12 @@ run:
 	cargo run tests/omnisci_server.INFO
 .PHONY: run
 
-test:
+test_lib:
 	cargo test
+	diff -d tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
+.PHONY: test_lib
 
+test_gold:
 	mkdir -p target/test
 	
 	# write various types of output to files in target/test
@@ -40,6 +57,9 @@ test:
 	diff tests/gold/omnisci_server.INFO.sql target/test/omnisci_server.INFO.sql
 	diff tests/gold/omnisci_server.INFO-select.sql target/test/omnisci_server.INFO-select.sql
 	diff tests/gold/omnisci_server.INFO.terminal.txt target/test/omnisci_server.INFO.terminal.txt
+.PHONY: test_gold
+
+test: test_lib test_gold
 .PHONY: test
 
 # Run this after validating the changes to output in target/test are expected
@@ -93,17 +113,17 @@ down:
 	# docker rm -f ${DB_CONTAINER}
 .PHONY: down
 
-test_copy_to: test
+test_copy_to: test_gold
 	cargo run -- --dryrun --createtable > target/omnisci_log_scraper.sql
 	docker exec -i ${DB_CONTAINER} python3 /src/tests/test_load_db.py
 	diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
 .PHONY: test_copy_to
 
-test_load:
-	cargo run -- -t load --db "omnisci://admin:HyperInteractive@localhost:6274/omnisci" \
-		tests/gold/omnisci_server.INFO
-	# diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
-.PHONY: test_load
+# test_load:
+# 	cargo run -- -t load --db "omnisci://admin:HyperInteractive@localhost:6274/omnisci" \
+# 		tests/gold/omnisci_server.INFO
+# 	# diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
+# .PHONY: test_load
 
 test_generate: down up
 	sleep 12
@@ -111,5 +131,5 @@ test_generate: down up
 	docker exec -i ${DB_CONTAINER} python3 /src/tests/work_to_generate_log.py
 .PHONY: test_generate
 
-test_all: test test_load test_copy_to
+test_all: test test_copy_to
 .PHONY: test_all
