@@ -99,7 +99,8 @@ mod serde_vec_format {
     where S: Serializer,
     {
         match strings {
-            None => serializer.serialize_str("NULL"),
+            // Note: COPY TO prints a null array as "NULL", but COPY FROM only accepts "{}" for a null array
+            None => serializer.serialize_str("{}"),
             Some(strings) => {
                 let mut sb = "{".to_string();
                 let mut first = true;
@@ -159,6 +160,10 @@ pub struct LogLine {
 }
 
 
+// TODO dur_ms and sequence are in wrong order for csv
+// # print(con.con.execute(f'alter table {t.name} rename column sequence to tmp').fetchall())
+// # print(con.con.execute(f'alter table {t.name} rename column dur_ms to sequence').fetchall())
+// # print(con.con.execute(f'alter table {t.name} rename column tmp to dur_ms').fetchall())
 pub const CREATE_TABLE: &str = "CREATE TABLE IF NOT EXISTS omnisci_log_scraper (
     logtime TIMESTAMP(6),
     severity TEXT ENCODING DICT(8),

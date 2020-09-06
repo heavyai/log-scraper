@@ -1,6 +1,6 @@
 # FROM ubuntu:18.04
-# FROM omnisci/core-os-cpu:v5.3.1
-FROM docker-internal.mapd.com/omnisci/omnisci-ee-cpu:5.3.2rc3
+FROM omnisci/core-os-cpu:v5.3.2
+# FROM docker-internal.mapd.com/omnisci/omnisci-ee-cpu:5.3.2rc3
 
 
 RUN apt-get update && apt-get install -y curl build-essential
