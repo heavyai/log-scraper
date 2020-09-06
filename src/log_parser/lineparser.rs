@@ -160,7 +160,7 @@ pub struct LogLine {
 }
 
 
-// TODO dur_ms and sequence are in wrong order for csv
+// dur_ms and sequence were in wrong order for csv. To update old table:
 // # print(con.con.execute(f'alter table {t.name} rename column sequence to tmp').fetchall())
 // # print(con.con.execute(f'alter table {t.name} rename column dur_ms to sequence').fetchall())
 // # print(con.con.execute(f'alter table {t.name} rename column tmp to dur_ms').fetchall())
@@ -171,8 +171,8 @@ pub const CREATE_TABLE: &str = "CREATE TABLE IF NOT EXISTS omnisci_log_scraper (
     threadid INTEGER,
     fileline TEXT ENCODING DICT(16),
     event TEXT ENCODING DICT(8),
-    dur_ms BIGINT,
     sequence INTEGER,
+    dur_ms BIGINT,
     session TEXT,
     dbname TEXT ENCODING DICT(16),
     username TEXT ENCODING DICT(16),
