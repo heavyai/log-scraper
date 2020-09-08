@@ -1,3 +1,4 @@
+logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,username,operation,execution_ms,total_ms,query,client,msg,name_values,hostname,logfile,msg_norm
 "1593561600000001","INFO","16","0","CommandLineOptions.cpp:1305","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","cuda block size 0","NULL","db","tests/gold/omnisci_server.INFO","cuda block size"
 "1593561600000002","INFO","16","0","CommandLineOptions.cpp:1306","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","cuda grid size  0","NULL","db","tests/gold/omnisci_server.INFO","cuda grid size"
 "1593561600000003","INFO","16","0","CommandLineOptions.cpp:1307","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","\N","Min CPU buffer pool slab size 268435456","NULL","db","tests/gold/omnisci_server.INFO","Min CPU buffer pool slab size"
