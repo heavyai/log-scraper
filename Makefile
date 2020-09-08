@@ -39,8 +39,11 @@ run:
 .PHONY: run
 
 test_lib:
+	mkdir -p target/test
+	mkdir -p target/test2
 	cargo test
-	diff -d tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
+	# diff -d tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
+	# diff -d tests/gold/copy_to_omnisci_log_scraper.csv target/test2/copy_from_to_omnisci_log_scraper.csv
 .PHONY: test_lib
 
 test_gold:
@@ -112,24 +115,3 @@ down:
 	docker stop ${DB_CONTAINER} || echo "container not running"
 	# docker rm -f ${DB_CONTAINER}
 .PHONY: down
-
-test_copy_to: test_gold
-	cargo run -- --dryrun --createtable > target/omnisci_log_scraper.sql
-	docker exec -i ${DB_CONTAINER} python3 /src/tests/test_load_db.py
-	diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
-.PHONY: test_copy_to
-
-# test_load:
-# 	cargo run -- -t load --db "omnisci://admin:HyperInteractive@localhost:6274/omnisci" \
-# 		tests/gold/omnisci_server.INFO
-# 	# diff tests/gold/copy_to_omnisci_log_scraper.csv target/test/copy_to_omnisci_log_scraper.csv
-# .PHONY: test_load
-
-test_generate: down up
-	sleep 12
-	rm -f target/test/omnisci_server.INFO
-	docker exec -i ${DB_CONTAINER} python3 /src/tests/work_to_generate_log.py
-.PHONY: test_generate
-
-test_all: test test_copy_to
-.PHONY: test_all
