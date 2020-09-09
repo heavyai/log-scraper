@@ -1,15 +1,11 @@
 # FROM ubuntu:18.04
-FROM omnisci/core-os-cpu:v5.3.2
+# FROM omnisci/core-os-cpu:v5.3.2
+FROM omnisci/omnisci-ee-cpu:v5.4.0
 
 
 RUN apt-get update && apt-get install -y curl build-essential
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o installrust.sh && sh installrust.sh -y
 
-# RUN apt-get update && apt-get install -y \
-#         python3.7 \
-#         python3-pip
-# RUN pip3 install \
-#         "pymapd"
 
 RUN mkdir /src
 # WORKDIR /src

@@ -898,7 +898,7 @@ impl LogWriter for LogExecutor {
                         None => Ok(()),
                         Some(x) => {
                             println!("sql_execute {}", x);
-                            match self.con.sql_execute(x.to_string(), true) {
+                            match self.con.sql_execute(x.to_string(), true, String::from("omnisci_log_scraper")) {
                                 Err(e) => Err(Box::new(e)),
                                 Ok(r) => {
                                     match r.success {
@@ -936,12 +936,12 @@ impl LogLoader {
     fn new(db: &str) -> SResult<LogLoader> {
         let mut con = omnisci::client::connect_url(db)?;
 
-        match con.sql_execute(String::from(CREATE_TABLE), false) {
+        match con.sql_execute(String::from(CREATE_TABLE), false, String::from("omnisci_log_scraper")) {
             Err(e) => return Err(Box::new(e)),
             Ok(_res) => (), // println!("{:?}", res),
         };
 
-        match con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false) {
+        match con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false, String::from("omnisci_log_scraper")) {
             Err(e) => return Err(Box::new(e)),
             Ok(_res) => (), // println!("{:?}", res),
         };
@@ -997,7 +997,7 @@ impl LogWriter for LogLoader {
         self.buffer.clear();
         match self.con.load_table_binary_columnar(&"omnisci_log_scraper".to_string(), data) {
             Ok(ok) => {
-                match self.con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false) {
+                match self.con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false, String::from("omnisci_log_scraper")) {
                     Err(e) => return Err(Box::new(e)),
                     Ok(_res) => (), // println!("{:?}", res),
                 };
