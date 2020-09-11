@@ -18,7 +18,7 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 2020-07-01 00:00:00.000017,INFO,15,0,CommandLineOptions.cpp:1081,,,,,,,,,,,,Debug Timer is set to false,{},db,tests/gold/omnisci_server.INFO,Debug Timer is set to false
 2020-07-01 00:00:00.000018,INFO,15,0,CommandLineOptions.cpp:1083,,,,,,,,,,,,Maximum Idle session duration 60,{},db,tests/gold/omnisci_server.INFO,Maximum Idle session duration
 2020-07-01 00:00:00.000019,INFO,15,0,CommandLineOptions.cpp:1085,,,,,,,,,,,,Maximum active session duration 43200,{},db,tests/gold/omnisci_server.INFO,Maximum active session duration
-2020-07-01 00:00:00.000020,INFO,15,0,DBHandler.cpp:238,,,,,,,,,,,,OmniSci Server 5.4.0-20200904-1b17b5c4e2,{},db,tests/gold/omnisci_server.INFO,OmniSci Server ..--bbce
+2020-07-01 00:00:00.000020,INFO,15,0,DBHandler.cpp:238,version,,,,,,,,,,,,{},db,tests/gold/omnisci_server.INFO,5.4.0-20200904-1b17b5c4e2
 2020-07-01 00:00:00.000021,INFO,15,0,ArrowCsvForeignStorage.cpp:719,,,,,,,,,,,,CSV backed temporary tables has been activated. Create table `with (storage_type='CSV:path/to/file.csv');`,{},db,tests/gold/omnisci_server.INFO,CSV backed temporary tables has been activated. Cr
 2020-07-01 00:00:00.000022,DEBUG,15,1,MapDServer.cpp:316,,,,,,,,,,,,heartbeat thread starting,{},db,tests/gold/omnisci_server.INFO,heartbeat thread starting
 2020-07-01 00:00:00.000023,ERROR,15,0,DBHandler.cpp:254,,,,,,,,,,,,"This build isn't CUDA enabled, will run on CPU",{},db,tests/gold/omnisci_server.INFO,"This build isn't CUDA enabled, will run on CPU"
