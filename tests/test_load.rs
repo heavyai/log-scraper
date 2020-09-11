@@ -22,7 +22,8 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::io::prelude::*;
 
-// #[test]
+#[test]
+#[ignore]
 fn test_load() -> olog::SResult<()> {
     let nonce = "test_load";
 
@@ -67,6 +68,7 @@ fn test_load() -> olog::SResult<()> {
 }
 
 #[test]
+#[ignore]
 fn test_copy_from() -> olog::SResult<()> {
     let nonce = "test_copy_from";
 

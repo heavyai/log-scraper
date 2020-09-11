@@ -65,12 +65,19 @@ test_gold:
 test: test_lib test_gold
 .PHONY: test
 
+test_ignored:
+	cargo test -- --ignored
+.PHONY: test_ignored
+
+test_all: test test_ignored
+.PHONY: test_all
+
 # Run this after validating the changes to output in target/test are expected
 test_update_gold:
 	cp -R target/test/*.* tests/gold/
 .PHONY: test_update_gold
 
-install: test
+install:
 	cargo install --path .
 .PHONY: install
 
