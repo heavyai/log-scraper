@@ -328,6 +328,14 @@ impl LogLine {
             return true
         }
 
+        // DBHandler.cpp:238 OmniSci Server 5.4.0-20200904-1b17b5c4e2
+        if self.msg.starts_with("OmniSci Server 5") {
+            self.event = Some(String::from("version"));
+            self.msg_norm = Some(self.msg[15..].to_string());
+            self.msg = String::from("");
+            return true
+        }
+
         false
     }
 

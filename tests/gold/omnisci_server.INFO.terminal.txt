@@ -18,7 +18,7 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 07-01 00:00:00.000017|INFO ||||||| Debug Timer is set to false |CommandLineOptions.cpp:1081|15|0|||
 07-01 00:00:00.000018|INFO ||||||| Maximum Idle session duration 60 |CommandLineOptions.cpp:1083|15|0|||
 07-01 00:00:00.000019|INFO ||||||| Maximum active session duration 43200 |CommandLineOptions.cpp:1085|15|0|||
-07-01 00:00:00.000020|INFO ||||||| OmniSci Server 5.4.0-20200904-1b17b5c4e2 |DBHandler.cpp:238|15|0|||
+07-01 00:00:00.000020|INFO |version||||||  |DBHandler.cpp:238|15|0|||
 07-01 00:00:00.000021|INFO ||||||| CSV backed temporary tables has been activated. Create table `with (storage_type='CSV:path/to/file.csv');` |ArrowCsvForeignStorage.cpp:719|15|0|||
 07-01 00:00:00.000022|DEBUG||||||| heartbeat thread starting |MapDServer.cpp:316|15|1|||
 07-01 00:00:00.000023|ERROR||||||| This build isn't CUDA enabled, will run on CPU |DBHandler.cpp:254|15|0|||
