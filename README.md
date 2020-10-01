@@ -34,9 +34,9 @@ cargo build --release
 The binary will be in `target/release`. 
 
 Alternatively, build the Linux binary using Docker:
+
 ```
-cd docker
-./buildbinary.sh
+make build.docker
 ```
 
 The [Makefile](Makefile) also provides targets for `test`, `run`, `install`, and `release`.
