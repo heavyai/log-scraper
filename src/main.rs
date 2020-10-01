@@ -29,9 +29,6 @@ use pager::Pager;
 use colored;
 
 fn main() -> log_parser::SResult<()> {
-    let mut pager = Pager::new();
-    pager.setup();
-
     let params = clap_app!(myapp =>
         (name: crate_name!())
         (version: crate_version!())
@@ -49,7 +46,7 @@ fn main() -> log_parser::SResult<()> {
         // TODO arg file index selector: "-1", -5..-1", "..-1"
 
         // TODO arg output format type: json, load_table, kafka
-        (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal, sql, execute, load")
+        (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal, sql, execute, load (default: terminal)")
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file, or if a dir, then output files as OUTPUT/INPUT.csv")
 
@@ -63,7 +60,9 @@ fn main() -> log_parser::SResult<()> {
 
         (@arg INPUT: +multiple "Input log files")
 
-        (@arg debug: -d ... "Debugging information")
+        // (@arg debug: -d ... "Debugging information")
+
+        (@arg follow: --follow "Wait forever for appended data")
 
         (after_help: "EXAMPLES:
     omnisci-log-scraper /var/lib/omnisci/data/mapd_log/omnisci_server.INFO
@@ -102,20 +101,28 @@ fn main() -> log_parser::SResult<()> {
     };
     let filter: Vec<&str> = filter.split(",").map(|x| x.trim()).collect();
 
+    let follow = params.is_present("follow");
+
     let output_type = match params.value_of("TYPE") {
-        // TODO if OUTPUT file is set, disable terminal, default to csv
-        None => if pager.is_on() {
-            // since we know we're printing to terminal, force the pager on, so colors work
-            colored::control::set_override(true);
-            log_parser::OutputType::Terminal
-        } else {
-            log_parser::OutputType::CSV
-        },
+        None => log_parser::OutputType::Terminal,
         Some(x) => log_parser::OutputType::new(x),
     };
 
+    // TODO if OUTPUT file is set, disable terminal, default to csv
+    match output_type {
+        log_parser::OutputType::Terminal => if ! follow {
+            let mut pager = Pager::new();
+            pager.setup();
+            if pager.is_on() {
+                // since we know we're printing to terminal, force the pager on, so colors work
+                colored::control::set_override(true);
+            }
+        },
+        _ => (),
+    }
+
     for input in inputs {
-        match log_parser::transform_logs(&input, output, &filter, &output_type, db, hostname) {
+        match log_parser::transform_logs(&input, output, &filter, &output_type, db, hostname, follow) {
             Ok(_) => continue,
             Err(x) => return Err(x),
         };
