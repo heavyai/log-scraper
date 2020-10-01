@@ -51,7 +51,7 @@ The [Makefile](Makefile) also provides targets for `test`, `run`, `install`, and
 
 ```
 omnisci-log-scraper 0.1.0
-Alex Baden <alex.baden@mapd.com>, Mike Hinchey <mike.hinchey@omnisci.com>
+https://github.com/omnisci/log-scraper and https://community.omnisci.com/
 Scrapes OmniSci DB logs for useful data
 
 USAGE:
