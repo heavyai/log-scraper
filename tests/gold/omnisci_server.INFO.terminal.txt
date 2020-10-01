@@ -10,7 +10,7 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 07-01 00:00:00.000009|INFO ||||||| OmniSci Calcite Port  6279 |CommandLineOptions.cpp:1333|15|0|||
 07-01 00:00:00.000010|INFO ||||||| Enable Calcite view optimize true |CommandLineOptions.cpp:1334|15|0|||
 07-01 00:00:00.000011|INFO ||||||| Allow Local Auth Fallback: disabled |CommandLineOptions.cpp:1337|15|0|||
-07-01 00:00:00.000012|INFO ||||||| License will expire at: 2021-01-02 00:00:00+0000 |CommandLineOptions.cpp:1050|15|0|||
+07-01 00:00:00.000012|INFO ||||||| License will expire at: 2021-01-16 00:00:00+0000 |CommandLineOptions.cpp:1050|15|0|||
 07-01 00:00:00.000013|INFO ||||||| OmniSci started with data directory at '/omnisci-storage/data' |CommandLineOptions.cpp:1061|15|0|||
 07-01 00:00:00.000014|INFO ||||||| Watchdog is set to true |CommandLineOptions.cpp:1070|15|0|||
 07-01 00:00:00.000015|INFO ||||||| Dynamic Watchdog is set to false |CommandLineOptions.cpp:1071|15|0|||
@@ -18,78 +18,143 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 07-01 00:00:00.000017|INFO ||||||| Debug Timer is set to false |CommandLineOptions.cpp:1081|15|0|||
 07-01 00:00:00.000018|INFO ||||||| Maximum Idle session duration 60 |CommandLineOptions.cpp:1083|15|0|||
 07-01 00:00:00.000019|INFO ||||||| Maximum active session duration 43200 |CommandLineOptions.cpp:1085|15|0|||
-07-01 00:00:00.000020|INFO |version||||||  |DBHandler.cpp:238|15|0|||
-07-01 00:00:00.000021|INFO ||||||| CSV backed temporary tables has been activated. Create table `with (storage_type='CSV:path/to/file.csv');` |ArrowCsvForeignStorage.cpp:719|15|0|||
-07-01 00:00:00.000022|DEBUG||||||| heartbeat thread starting |MapDServer.cpp:316|15|1|||
-07-01 00:00:00.000023|ERROR||||||| This build isn't CUDA enabled, will run on CPU |DBHandler.cpp:254|15|0|||
-07-01 00:00:00.000024|DEBUG||||||| Detected 5950.31M of total system memory. |DataMgr.cpp:176|15|0|||
-07-01 00:00:00.000025|INFO ||||||| Min CPU Slab Size is 256MB |DataMgr.cpp:185|15|0|||
-07-01 00:00:00.000026|INFO ||||||| Max CPU Slab Size is 4096MB |DataMgr.cpp:186|15|0|||
-07-01 00:00:00.000027|INFO ||||||| Max memory pool size for CPU is 4760.25MB |DataMgr.cpp:187|15|0|||
-07-01 00:00:00.000028|INFO |read_table_metadata||||2|| Completed Reading table's file metadata, Elapsed time : 2ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0' |FileMgr.cpp:205|15|0|||
-07-01 00:00:00.000029|OTHER||||||| Number of Headers in Vector: 0 |FileMgr.cpp:220|15|0|||
-07-01 00:00:00.000030|INFO ||||||| Creating Calcite Handler,  Calcite Port is 6279 base data dir is /omnisci-storage/data |Calcite.cpp:307|15|0|||
-07-01 00:00:00.000031|INFO ||||||| Running Calcite server as a daemon |Calcite.cpp:215|15|0|||
-07-01 00:00:00.000032|INFO ||||||| Calcite server start took 900 ms |Calcite.cpp:255|15|0|||
-07-01 00:00:00.000033|INFO ||||||| ping took 23 ms |Calcite.cpp:256|15|0|||
-07-01 00:00:00.000034|DEBUG||||||| [{"name":"Truncate__","ret":"float","args":["float","i32"]},{"name":"area_triangle","ret":"double","args":["double","double","double","double","double","double"]},{"name":"box_contains_point","ret":"i1","args":["double*","i64","double","double"]},{"name":"Round__","ret":"float","args":["float","i32"]},{"name":"ST_YMax","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"ST_Intersects_Point_Point","ret":"i1","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"distance_point_point_squared","ret":"double","args":["double","double","double","double"]},{"name":"degrees","ret":"double","args":["double"]},{"name":"perimeter_multipolygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i1"]},{"name":"ST_Distance_Polygon_MultiPolygon","ret":"double","args":["i8*","i64","i32*","i64","i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"approx_distance_in_meters","ret":"double","args":["float","float","float","float"]},{"name":"isNan__","ret":"i1","args":["float"]},{"name":"convert_meters_to_pixel_height","ret":"double","args":["double","i8*","i64","i32","i32","i32","double","double","i32","double"]},{"name":"tol_eq","ret":"i1","args":["double","double","double"]},{"name":"ST_Intersects_LineString_MultiPolygon","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_YMin_Bounds","ret":"double","args":["double*","i64","i32","i32"]},{"name":"ST_Contains_LineString_LineString","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Log10","ret":"double","args":["double"]},{"name":"ST_YMax_Bounds","ret":"double","args":["double*","i64","i32","i32"]},{"name":"ST_MaxDistance_Point_LineString","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Log","ret":"double","args":["double"]},{"name":"ST_Perimeter_MultiPolygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32"]},{"name":"round_to_digit","ret":"double","args":["double","i32"]},{"name":"ST_YMin","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"array_append__3","ret":"{double*, i64, i8}*","args":["{double*, i64, i8}*","double"]},{"name":"ST_NPoints","ret":"i32","args":["i8*","i64","i32"]},{"name":"array_append__2","ret":"{i8*, i64, i8}*","args":["{i8*, i64, i8}*","i8"]},{"name":"Ceil","ret":"double","args":["double"]},{"name":"array_append__1","ret":"{i16*, i64, i8}*","args":["{i16*, i64, i8}*","i16"]},{"name":"ST_Distance_LineString_Point","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"array_append__4","ret":"{float*, i64, i8}*","args":["{float*, i64, i8}*","float"]},{"name":"ST_XMin_Bounds","ret":"double","args":["double*","i64","i32","i32"]},{"name":"ST_Distance_Point_LineString_Geodesic","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"distance_in_meters__","ret":"double","args":["float","float","float","float"]},{"name":"Floor__","ret":"float","args":["float"]},{"name":"box_overlaps_box","ret":"i1","args":["double*","i64","double*","i64"]},{"name":"MapD_GeoPolyRenderGroup","ret":"i32","args":["i32"]},{"name":"decompress_coord","ret":"double","args":["i8*","i32","i32","i1"]},{"name":"ST_X_Point","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"array_append_impl","ret":"{i1*, i64, i8}*","args":["{i1*, i64, i8}*","i1"]},{"name":"ST_Distance_LineString_Polygon","ret":"double","args":["i8*","i64","i32","i8*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"max_distance_point_linestring","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32","i1"]},{"name":"array_append","ret":"{i64*, i64, i8}*","args":["{i64*, i64, i8}*","i64"]},{"name":"ST_Distance_MultiPolygon_MultiPolygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"tol_zero","ret":"i1","args":["double","double"]},{"name":"ST_Length_LineString_Geodesic","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"rect_pixel_bin_packed","ret":"i32","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"tol","ret":"double","args":["i32","i32"]},{"name":"convert_meters_to_pixel_width","ret":"double","args":["double","i8*","i64","i32","i32","i32","double","double","i32","double"]},{"name":"reg_hex_vert_pixel_bin_y","ret":"float","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"reg_hex_vert_pixel_bin_x","ret":"float","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"ST_Contains_LineString_Point","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"power","ret":"double","args":["double","double"]},{"name":"ST_Area_MultiPolygon_Geodesic","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32"]},{"name":"reg_hex_horiz_pixel_bin_y","ret":"float","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"area_ring","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"MapD_GeoPolyBoundsPtr","ret":"i64","args":["double*","i64"]},{"name":"reg_hex_vert_pixel_bin_packed","ret":"i32","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"reg_hex_horiz_pixel_bin_x","ret":"float","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"ST_Distance_Point_LineString","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_NRings","ret":"i32","args":["i32*","i64"]},{"name":"area_polygon","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"length_linestring","ret":"double","args":["i8*","i64","i32","i32","i32","i1","i1"]},{"name":"Cos","ret":"double","args":["double"]},{"name":"Log__","ret":"double","args":["float"]},{"name":"tol_le","ret":"i1","args":["double","double","double"]},{"name":"Cot","ret":"double","args":["double"]},{"name":"coord_x","ret":"double","args":["i8*","i32","i32","i32","i32"]},{"name":"ST_XMax","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"coord_y","ret":"double","args":["i8*","i32","i32","i32","i32"]},{"name":"isNan","ret":"i1","args":["double"]},{"name":"box_contains_box","ret":"i1","args":["double*","i64","double*","i64"]},{"name":"ST_Perimeter_MultiPolygon_Geodesic","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32"]},{"name":"ST_Contains_Point_LineString","ret":"i1","args":["i8*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"line_intersects_line","ret":"i1","args":["double","double","double","double","double","double","double","double"]},{"name":"distance_point_linestring","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32","i1"]},{"name":"ST_Contains_Point_Polygon","ret":"i1","args":["i8*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"compression_unit_size","ret":"i32","args":["i32"]},{"name":"ST_Distance_Point_MultiPolygon","ret":"double","args":["i8*","i64","i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Area_MultiPolygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32"]},{"name":"ST_Distance_LineString_LineString","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Polygon_Point","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"OmniSci_Geo_PolyRenderGroup","ret":"i32","args":["i32"]},{"name":"Tan","ret":"double","args":["double"]},{"name":"ln","ret":"double","args":["double"]},{"name":"ST_X_LineString","ret":"double","args":["i8*","i64","i32","i32","i32","i32"]},{"name":"transform_coord","ret":"double","args":["double","i32","i32","i1"]},{"name":"Point_Overlaps_Box","ret":"i1","args":["double*","i64","double","double"]},{"name":"ST_Contains_MultiPolygon_LineString","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Floor__2","ret":"i32","args":["i32"]},{"name":"ST_Distance_Point_ClosedLineString","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Floor__3","ret":"i64","args":["i64"]},{"name":"rect_pixel_bin","ret":"float","args":["double","double","double","i32","i32"]},{"name":"ST_Distance_Point_Polygon","ret":"double","args":["i8*","i64","i8*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Point_MultiPolygon","ret":"i1","args":["i8*","i64","i8*","i64","i32*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"Floor__1","ret":"i16","args":["i16"]},{"name":"ST_Intersects_MultiPolygon_LineString","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Point_LineString","ret":"i1","args":["i8*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"array_append__","ret":"{i32*, i64, i8}*","args":["{i32*, i64, i8}*","i32"]},{"name":"ST_Distance_LineString_LineString_Geodesic","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"barray_append","ret":"{i1*, i64, i8}*","args":["{i1*, i64, i8}*","i1"]},{"name":"Ceil__2","ret":"i32","args":["i32"]},{"name":"ST_XMin","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"Ceil__1","ret":"i16","args":["i16"]},{"name":"Ceil__3","ret":"i64","args":["i64"]},{"name":"distance_point_line","ret":"double","args":["double","double","double","double","double","double"]},{"name":"ST_Area_Polygon_Geodesic","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"OmniSci_Geo_PolyBoundsPtr","ret":"i64","args":["double*","i64"]},{"name":"ST_Distance_MultiPolygon_Polygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i8*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Distance_MultiPolygon_Point","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Round2_to_digit","ret":"double","args":["double","i32"]},{"name":"ST_Intersects_LineString_Point","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Polygon_LineString","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"on_segment","ret":"i1","args":["double","double","double","double","double","double"]},{"name":"ST_Perimeter_Polygon","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"ST_Distance_Polygon_LineString","ret":"double","args":["i8*","i64","i32*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_MultiPolygon_Point","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"max_distance_point_line","ret":"double","args":["double","double","double","double","double","double"]},{"name":"distance_in_meters","ret":"double","args":["double","double","double","double"]},{"name":"ST_Contains_Polygon_Point","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Atan2","ret":"double","args":["double","double"]},{"name":"Acos","ret":"double","args":["double"]},{"name":"Sin","ret":"double","args":["double"]},{"name":"ST_Y_Point","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"ST_Distance_Polygon_Point","ret":"double","args":["i8*","i64","i32*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Distance_LineString_Point_Geodesic","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"distance_point_point","ret":"double","args":["double","double","double","double"]},{"name":"ST_Contains_Polygon_LineString","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Point_Polygon","ret":"i1","args":["i8*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Contains_Polygon_Polygon","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"Truncate","ret":"double","args":["double","i32"]},{"name":"radians","ret":"double","args":["double"]},{"name":"tol_ge","ret":"i1","args":["double","double","double"]},{"name":"ST_Contains_LineString_Polygon","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_MaxDistance_LineString_Point","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_XMax_Bounds","ret":"double","args":["double*","i64","i32","i32"]},{"name":"ST_Intersects_MultiPolygon_Polygon","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"Ceil__","ret":"float","args":["float"]},{"name":"ln__","ret":"double","args":["float"]},{"name":"ST_Y_LineString","ret":"double","args":["i8*","i64","i32","i32","i32","i32"]},{"name":"ST_Contains_MultiPolygon_Point","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"reg_hex_horiz_pixel_bin_packed","ret":"i32","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"convert_meters_to_merc_pixel_width","ret":"double","args":["double","double","double","double","double","i32","double"]},{"name":"convert_meters_to_merc_pixel_height","ret":"double","args":["double","double","double","double","double","i32","double"]},{"name":"Round","ret":"double","args":["double","i32"]},{"name":"ST_Intersects_Polygon_Polygon","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Polygon_MultiPolygon","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Length_LineString","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"conv_4326_900913_x","ret":"double","args":["double"]},{"name":"conv_4326_900913_y","ret":"double","args":["double"]},{"name":"ST_Perimeter_Polygon_Geodesic","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"ST_Contains_Point_Point","ret":"i1","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Atan","ret":"double","args":["double"]},{"name":"ST_Area_Polygon","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"Floor","ret":"double","args":["double"]},{"name":"orientation","ret":"i16","args":["double","double","double","double","double","double"]},{"name":"Truncate__1","ret":"i16","args":["i16","i32"]},{"name":"ST_Distance_Point_Point","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Truncate__2","ret":"i32","args":["i32","i32"]},{"name":"Truncate__3","ret":"i64","args":["i64","i32"]},{"name":"Log10__","ret":"double","args":["float"]},{"name":"is_point_in_merc_view","ret":"i1","args":["double","double","double","double","double","double"]},{"name":"ST_Intersects_MultiPolygon_MultiPolygon","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"Asin","ret":"double","args":["double"]},{"name":"Tan__","ret":"double","args":["float"]},{"name":"ST_Distance_MultiPolygon_LineString","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"rect_pixel_bin_x","ret":"float","args":["double","double","double","double","double","i32"]},{"name":"rect_pixel_bin_y","ret":"float","args":["double","double","double","double","double","i32"]},{"name":"ST_Intersects_LineString_Polygon","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"is_point_in_view","ret":"i1","args":["i8*","i64","i32","double","double","double","double"]},{"name":"is_point_size_in_merc_view","ret":"i1","args":["double","double","double","double","double","double","double"]},{"name":"pi","ret":"double","args":[]},{"name":"ST_Distance_LineString_MultiPolygon","ret":"double","args":["i8*","i64","i32","i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_LineString_Linestring","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Round__1","ret":"i16","args":["i16","i32"]},{"name":"ST_Distance_Point_Point_Squared","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Exp","ret":"double","args":["double"]},{"name":"Round__2","ret":"i32","args":["i32","i32"]},{"name":"Round__3","ret":"i64","args":["i64","i32"]},{"name":"ST_Distance_Polygon_Polygon","ret":"double","args":["i8*","i64","i32*","i64","i8*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"Round__4","ret":"i64","args":["i64","i32","i32"]},{"name":"ST_Distance_Point_Point_Geodesic","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]}] |Calcite.cpp:539|15|0|||
-07-01 00:00:00.000035|INFO ||||||| Started in CPU mode |DBHandler.cpp:341|15|0|||
-07-01 00:00:00.000036|INFO ||||||| Overriding default geos library with 'libgeos_c.so' |DBHandler.cpp:391|15|0|||
-07-01 00:00:00.000037|INFO ||||||| OmniSci server using unencrypted connection |MapDServer.cpp:455|15|0|||
-07-01 00:00:00.000038|AUTH |connect_begin|0|0|||| stdlog_begin connect 0 0 |DBHandler.cpp:533|15||||
-07-01 00:00:00.000039|INFO ||||||| User admin connected to database omnisci |DBHandler.cpp:581|15|2|||
-07-01 00:00:00.000040|AUTH |connect|0|272||||  |DBHandler.cpp:533|15||455-NzOR|omnisci|admin
-07-01 00:00:00.000041|INFO |sql_execute_begin|1|0|||SELECT count(*) from omnisci_states;|  |DBHandler.cpp:1058|15||455-NzOR|omnisci|admin
-07-01 00:00:00.000042|DEBUG||||||| query type: READ |DBHandler.cpp:5178|15|2|||
-07-01 00:00:00.000043|INFO ||||||| User calcite catalog omnisci sql 'SELECT count(*) from omnisci_states;' |Calcite.cpp:486|15|2|||
-07-01 00:00:00.000044|DEBUG|get_tables_begin|2|0|||| stdlog_begin get_tables 2 0 omnisci calcite 455-RrGa |DBHandler.cpp:2154|15||455-RrGa|omnisci|calcite
-07-01 00:00:00.000045|INFO |get_tables|2|0||||  |DBHandler.cpp:2154|15||455-RrGa|omnisci|calcite
-07-01 00:00:00.000046|DEBUG|get_internal_table_details_begin|3|0||||  |DBHandler.cpp:1998|15||455-RrGa|omnisci|calcite
-07-01 00:00:00.000047|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|15|3|||
-07-01 00:00:00.000048|INFO |get_internal_table_details|3|1||||  |DBHandler.cpp:1998|15||455-RrGa|omnisci|calcite
-07-01 00:00:00.000049|INFO |sql_parse|||12|1236|| Time in Thrift 12 (ms), Time in Java Calcite server 1236 (ms) |Calcite.cpp:513|15|2|||
-07-01 00:00:00.000050|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|15|2|||
-07-01 00:00:00.000051|OTHER||||||| File id: 0 Page size: 2097152 Num pages: 256 |FileMgr.cpp:183|15|2|||
-07-01 00:00:00.000052|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,1,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000053|OTHER||||||| File id: 1 Page size: 4096 Num pages: 4096 |FileMgr.cpp:183|15|2|||
-07-01 00:00:00.000054|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,2,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000055|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,3,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000056|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,4,0,2, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000057|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,4,0,1, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000058|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,5,0,2, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000059|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,5,0,1, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000060|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,1,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000061|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,6,0,2, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000062|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,2,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000063|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,6,0,1, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000064|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,3,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000065|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,7,0,2, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000066|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,4,0,1, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000067|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,7,0,1, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000068|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,4,0,2, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000069|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,8,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000070|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,5,0,1, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000071|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,5,0,2, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000072|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,6,0,1, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000073|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,6,0,2, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000074|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,9,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
-07-01 00:00:00.000075|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,7,0,1, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000076|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,7,0,2, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000077|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,8,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000078|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,9,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
-07-01 00:00:00.000079|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,11,0, Page id: -1 Epoch: 0 |FileInfo.cpp:180|15|5|||
-07-01 00:00:00.000080|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,11,0, Page id: 0 Epoch: 0 |FileInfo.cpp:180|15|4|||
-07-01 00:00:00.000081|INFO |read_table_metadata||||137|| Completed Reading table's file metadata, Elapsed time : 137ms Epoch: 1 files read: 2 table location: '/omnisci-storage/data/mapd_data/table_1_1' |FileMgr.cpp:205|15|2|||
-07-01 00:00:00.000082|OTHER||||||| Number of Headers in Vector: 28 |FileMgr.cpp:220|15|2|||
-07-01 00:00:00.000083|INFO ||||||| Instantiating Fragmenter for table omnisci_states took 144ms |Catalog.cpp:1414|15|2|||
-07-01 00:00:00.000084|DEBUG||||||| Acquiring Table Data Read Lock for table: omnisci_states |LockMgr.h:207|15|2|||
-07-01 00:00:00.000085|INFO ||||||| Dispatching query with 0 queries in the queue. |QueryDispatchQueue.h:49|15|2|||
-07-01 00:00:00.000086|INFO ||||||| Running query and returning control. There are now 0 queries in the queue. |QueryDispatchQueue.h:80|15|6|||
-07-01 00:00:00.000087|DEBUG||||||| Table Schema Locks:
+07-01 00:00:00.000020|DEBUG||||||| heartbeat thread starting |MapDServer.cpp:316|15|1|||
+07-01 00:00:00.000021|INFO |version||||||  |DBHandler.cpp:238|15|0|||
+07-01 00:00:00.000022|INFO ||||||| CSV backed temporary tables has been activated. Create table `with (storage_type='CSV:path/to/file.csv');` |ArrowCsvForeignStorage.cpp:719|15|0|||
+07-01 00:00:00.000023|INFO ||||||| Using 2 Gpus. |CudaMgr.cpp:369|15|0|||
+07-01 00:00:00.000024|DEBUG||||||| Device: 0 |CudaMgr.cpp:371|15|0|||
+07-01 00:00:00.000025|DEBUG||||||| UUID: 3e09368e-489d-bce6-5ef8-d6e0b290643a |CudaMgr.cpp:372|15|0|||
+07-01 00:00:00.000026|DEBUG||||||| Clock (khz): 745000 |CudaMgr.cpp:373|15|0|||
+07-01 00:00:00.000027|DEBUG||||||| Compute Major: 3 |CudaMgr.cpp:374|15|0|||
+07-01 00:00:00.000028|DEBUG||||||| Compute Minor: 5 |CudaMgr.cpp:375|15|0|||
+07-01 00:00:00.000029|DEBUG||||||| PCI bus id: 4 |CudaMgr.cpp:376|15|0|||
+07-01 00:00:00.000030|DEBUG||||||| PCI deviceId id: 0 |CudaMgr.cpp:377|15|0|||
+07-01 00:00:00.000031|DEBUG||||||| Per device global memory: 11.9205 GB |CudaMgr.cpp:378|15|0|||
+07-01 00:00:00.000032|DEBUG||||||| Memory clock (khz): 3004000 |CudaMgr.cpp:380|15|0|||
+07-01 00:00:00.000033|DEBUG||||||| Memory bandwidth: 144.192 GB/sec |CudaMgr.cpp:381|15|0|||
+07-01 00:00:00.000034|DEBUG||||||| Constant Memory: 65536 |CudaMgr.cpp:384|15|0|||
+07-01 00:00:00.000035|DEBUG||||||| Shared memory per multiprocessor: 49152 |CudaMgr.cpp:385|15|0|||
+07-01 00:00:00.000036|DEBUG||||||| Shared memory per block: 49152 |CudaMgr.cpp:387|15|0|||
+07-01 00:00:00.000037|DEBUG||||||| Number of MPs: 15 |CudaMgr.cpp:388|15|0|||
+07-01 00:00:00.000038|DEBUG||||||| Warp Size: 32 |CudaMgr.cpp:389|15|0|||
+07-01 00:00:00.000039|DEBUG||||||| Max threads per block: 1024 |CudaMgr.cpp:390|15|0|||
+07-01 00:00:00.000040|DEBUG||||||| Max registers per block: 65536 |CudaMgr.cpp:391|15|0|||
+07-01 00:00:00.000041|DEBUG||||||| Max register per MP: 65536 |CudaMgr.cpp:392|15|0|||
+07-01 00:00:00.000042|DEBUG||||||| Memory bus width in bits: 384 |CudaMgr.cpp:393|15|0|||
+07-01 00:00:00.000043|DEBUG||||||| Device: 1 |CudaMgr.cpp:371|15|0|||
+07-01 00:00:00.000044|DEBUG||||||| UUID: 7ff02ae8-e62b-d9aa-c814-aec3a8240cc7 |CudaMgr.cpp:372|15|0|||
+07-01 00:00:00.000045|DEBUG||||||| Clock (khz): 745000 |CudaMgr.cpp:373|15|0|||
+07-01 00:00:00.000046|DEBUG||||||| Compute Major: 3 |CudaMgr.cpp:374|15|0|||
+07-01 00:00:00.000047|DEBUG||||||| Compute Minor: 5 |CudaMgr.cpp:375|15|0|||
+07-01 00:00:00.000048|DEBUG||||||| PCI bus id: 5 |CudaMgr.cpp:376|15|0|||
+07-01 00:00:00.000049|DEBUG||||||| PCI deviceId id: 0 |CudaMgr.cpp:377|15|0|||
+07-01 00:00:00.000050|DEBUG||||||| Per device global memory: 11.9205 GB |CudaMgr.cpp:378|15|0|||
+07-01 00:00:00.000051|DEBUG||||||| Memory clock (khz): 3004000 |CudaMgr.cpp:380|15|0|||
+07-01 00:00:00.000052|DEBUG||||||| Memory bandwidth: 144.192 GB/sec |CudaMgr.cpp:381|15|0|||
+07-01 00:00:00.000053|DEBUG||||||| Constant Memory: 65536 |CudaMgr.cpp:384|15|0|||
+07-01 00:00:00.000054|DEBUG||||||| Shared memory per multiprocessor: 49152 |CudaMgr.cpp:385|15|0|||
+07-01 00:00:00.000055|DEBUG||||||| Shared memory per block: 49152 |CudaMgr.cpp:387|15|0|||
+07-01 00:00:00.000056|DEBUG||||||| Number of MPs: 15 |CudaMgr.cpp:388|15|0|||
+07-01 00:00:00.000057|DEBUG||||||| Warp Size: 32 |CudaMgr.cpp:389|15|0|||
+07-01 00:00:00.000058|DEBUG||||||| Max threads per block: 1024 |CudaMgr.cpp:390|15|0|||
+07-01 00:00:00.000059|DEBUG||||||| Max registers per block: 65536 |CudaMgr.cpp:391|15|0|||
+07-01 00:00:00.000060|DEBUG||||||| Max register per MP: 65536 |CudaMgr.cpp:392|15|0|||
+07-01 00:00:00.000061|DEBUG||||||| Memory bus width in bits: 384 |CudaMgr.cpp:393|15|0|||
+07-01 00:00:00.000062|INFO ||||||| Warming up the GPU JIT Compiler... (this may take several seconds) |CudaMgr.cpp:68|15|0|||
+07-01 00:00:00.000063|DEBUG||||||| CUDA JIT time to create link: 0.793526 |NvidiaKernel.cpp:75|15|0|||
+07-01 00:00:00.000064|DEBUG||||||| CUDA JIT time to add RT fatbinary: 35.4286 |NvidiaKernel.cpp:82|15|0|||
+07-01 00:00:00.000065|INFO ||||||| GPU JIT Compiler initialized. |CudaMgr.cpp:71|15|0|||
+07-01 00:00:00.000066|DEBUG||||||| Detected 386774M of total system memory. |DataMgr.cpp:176|15|0|||
+07-01 00:00:00.000067|INFO ||||||| Min CPU Slab Size is 256MB |DataMgr.cpp:185|15|0|||
+07-01 00:00:00.000068|INFO ||||||| Max CPU Slab Size is 4096MB |DataMgr.cpp:186|15|0|||
+07-01 00:00:00.000069|INFO ||||||| Max memory pool size for CPU is 309419MB |DataMgr.cpp:187|15|0|||
+07-01 00:00:00.000070|INFO ||||||| Reserved GPU memory is 1337.67MB includes render buffer allocation |DataMgr.cpp:190|15|0|||
+07-01 00:00:00.000071|INFO ||||||| Min GPU Slab size for GPU 0 is 256MB |DataMgr.cpp:213|15|0|||
+07-01 00:00:00.000072|INFO ||||||| Max GPU Slab size for GPU 0 is 4096MB |DataMgr.cpp:215|15|0|||
+07-01 00:00:00.000073|INFO ||||||| Max memory pool size for GPU 0 is 10869MB |DataMgr.cpp:217|15|0|||
+07-01 00:00:00.000074|INFO ||||||| Min GPU Slab size for GPU 1 is 256MB |DataMgr.cpp:213|15|0|||
+07-01 00:00:00.000075|INFO ||||||| Max GPU Slab size for GPU 1 is 4096MB |DataMgr.cpp:215|15|0|||
+07-01 00:00:00.000076|INFO ||||||| Max memory pool size for GPU 1 is 10869MB |DataMgr.cpp:217|15|0|||
+07-01 00:00:00.000077|INFO |read_table_metadata||||0|| Completed Reading table's file metadata, Elapsed time : 0ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0' |FileMgr.cpp:205|15|0|||
+07-01 00:00:00.000078|OTHER||||||| Number of Headers in Vector: 0 |FileMgr.cpp:220|15|0|||
+07-01 00:00:00.000079|INFO ||||||| Creating Calcite Handler,  Calcite Port is 6279 base data dir is /omnisci-storage/data |Calcite.cpp:307|15|0|||
+07-01 00:00:00.000080|INFO ||||||| Running Calcite server as a daemon |Calcite.cpp:215|15|0|||
+07-01 00:00:00.000081|INFO ||||||| Calcite server start took 500 ms |Calcite.cpp:255|15|0|||
+07-01 00:00:00.000082|INFO ||||||| ping took 8 ms |Calcite.cpp:256|15|0|||
+07-01 00:00:00.000083|DEBUG||||||| [{"name":"Truncate__","ret":"float","args":["float","i32"]},{"name":"area_triangle","ret":"double","args":["double","double","double","double","double","double"]},{"name":"box_contains_point","ret":"i1","args":["double*","i64","double","double"]},{"name":"Round__","ret":"float","args":["float","i32"]},{"name":"ST_YMax","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"ST_Intersects_Point_Point","ret":"i1","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"distance_point_point_squared","ret":"double","args":["double","double","double","double"]},{"name":"degrees","ret":"double","args":["double"]},{"name":"perimeter_multipolygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i1"]},{"name":"ST_Distance_Polygon_MultiPolygon","ret":"double","args":["i8*","i64","i32*","i64","i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"approx_distance_in_meters","ret":"double","args":["float","float","float","float"]},{"name":"isNan__","ret":"i1","args":["float"]},{"name":"convert_meters_to_pixel_height","ret":"double","args":["double","i8*","i64","i32","i32","i32","double","double","i32","double"]},{"name":"tol_eq","ret":"i1","args":["double","double","double"]},{"name":"ST_Intersects_LineString_MultiPolygon","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_YMin_Bounds","ret":"double","args":["double*","i64","i32","i32"]},{"name":"ST_Contains_LineString_LineString","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Log10","ret":"double","args":["double"]},{"name":"ST_YMax_Bounds","ret":"double","args":["double*","i64","i32","i32"]},{"name":"ST_MaxDistance_Point_LineString","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Log","ret":"double","args":["double"]},{"name":"ST_Perimeter_MultiPolygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32"]},{"name":"round_to_digit","ret":"double","args":["double","i32"]},{"name":"ST_YMin","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"array_append__3","ret":"{double*, i64, i8}*","args":["{double*, i64, i8}*","double"]},{"name":"ST_NPoints","ret":"i32","args":["i8*","i64","i32"]},{"name":"array_append__2","ret":"{i8*, i64, i8}*","args":["{i8*, i64, i8}*","i8"]},{"name":"Ceil","ret":"double","args":["double"]},{"name":"array_append__1","ret":"{i16*, i64, i8}*","args":["{i16*, i64, i8}*","i16"]},{"name":"ST_Distance_LineString_Point","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"array_append__4","ret":"{float*, i64, i8}*","args":["{float*, i64, i8}*","float"]},{"name":"ST_XMin_Bounds","ret":"double","args":["double*","i64","i32","i32"]},{"name":"ST_Distance_Point_LineString_Geodesic","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"distance_in_meters__","ret":"double","args":["float","float","float","float"]},{"name":"Floor__","ret":"float","args":["float"]},{"name":"box_overlaps_box","ret":"i1","args":["double*","i64","double*","i64"]},{"name":"MapD_GeoPolyRenderGroup","ret":"i32","args":["i32"]},{"name":"decompress_coord","ret":"double","args":["i8*","i32","i32","i1"]},{"name":"ST_X_Point","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"array_append_impl","ret":"{i1*, i64, i8}*","args":["{i1*, i64, i8}*","i1"]},{"name":"ST_Distance_LineString_Polygon","ret":"double","args":["i8*","i64","i32","i8*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"max_distance_point_linestring","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32","i1"]},{"name":"array_append","ret":"{i64*, i64, i8}*","args":["{i64*, i64, i8}*","i64"]},{"name":"ST_Distance_MultiPolygon_MultiPolygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"tol_zero","ret":"i1","args":["double","double"]},{"name":"ST_Length_LineString_Geodesic","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"rect_pixel_bin_packed","ret":"i32","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"tol","ret":"double","args":["i32","i32"]},{"name":"convert_meters_to_pixel_width","ret":"double","args":["double","i8*","i64","i32","i32","i32","double","double","i32","double"]},{"name":"reg_hex_vert_pixel_bin_y","ret":"float","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"reg_hex_vert_pixel_bin_x","ret":"float","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"ST_Contains_LineString_Point","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"power","ret":"double","args":["double","double"]},{"name":"ST_Area_MultiPolygon_Geodesic","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32"]},{"name":"reg_hex_horiz_pixel_bin_y","ret":"float","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"area_ring","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"MapD_GeoPolyBoundsPtr","ret":"i64","args":["double*","i64"]},{"name":"reg_hex_vert_pixel_bin_packed","ret":"i32","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"reg_hex_horiz_pixel_bin_x","ret":"float","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"ST_Distance_Point_LineString","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_NRings","ret":"i32","args":["i32*","i64"]},{"name":"area_polygon","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"length_linestring","ret":"double","args":["i8*","i64","i32","i32","i32","i1","i1"]},{"name":"Cos","ret":"double","args":["double"]},{"name":"Log__","ret":"double","args":["float"]},{"name":"tol_le","ret":"i1","args":["double","double","double"]},{"name":"Cot","ret":"double","args":["double"]},{"name":"coord_x","ret":"double","args":["i8*","i32","i32","i32","i32"]},{"name":"ST_XMax","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"coord_y","ret":"double","args":["i8*","i32","i32","i32","i32"]},{"name":"isNan","ret":"i1","args":["double"]},{"name":"box_contains_box","ret":"i1","args":["double*","i64","double*","i64"]},{"name":"ST_Perimeter_MultiPolygon_Geodesic","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32"]},{"name":"ST_Contains_Point_LineString","ret":"i1","args":["i8*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"line_intersects_line","ret":"i1","args":["double","double","double","double","double","double","double","double"]},{"name":"distance_point_linestring","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32","i1"]},{"name":"ST_Contains_Point_Polygon","ret":"i1","args":["i8*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"compression_unit_size","ret":"i32","args":["i32"]},{"name":"ST_Distance_Point_MultiPolygon","ret":"double","args":["i8*","i64","i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Area_MultiPolygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i32","i32","i32"]},{"name":"ST_Distance_LineString_LineString","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Polygon_Point","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"OmniSci_Geo_PolyRenderGroup","ret":"i32","args":["i32"]},{"name":"Tan","ret":"double","args":["double"]},{"name":"ln","ret":"double","args":["double"]},{"name":"ST_X_LineString","ret":"double","args":["i8*","i64","i32","i32","i32","i32"]},{"name":"transform_coord","ret":"double","args":["double","i32","i32","i1"]},{"name":"Point_Overlaps_Box","ret":"i1","args":["double*","i64","double","double"]},{"name":"ST_Contains_MultiPolygon_LineString","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Floor__2","ret":"i32","args":["i32"]},{"name":"ST_Distance_Point_ClosedLineString","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Floor__3","ret":"i64","args":["i64"]},{"name":"rect_pixel_bin","ret":"float","args":["double","double","double","i32","i32"]},{"name":"ST_Distance_Point_Polygon","ret":"double","args":["i8*","i64","i8*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Point_MultiPolygon","ret":"i1","args":["i8*","i64","i8*","i64","i32*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"Floor__1","ret":"i16","args":["i16"]},{"name":"ST_Intersects_MultiPolygon_LineString","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Point_LineString","ret":"i1","args":["i8*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"array_append__","ret":"{i32*, i64, i8}*","args":["{i32*, i64, i8}*","i32"]},{"name":"ST_Distance_LineString_LineString_Geodesic","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"barray_append","ret":"{i1*, i64, i8}*","args":["{i1*, i64, i8}*","i1"]},{"name":"Ceil__2","ret":"i32","args":["i32"]},{"name":"ST_XMin","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"Ceil__1","ret":"i16","args":["i16"]},{"name":"Ceil__3","ret":"i64","args":["i64"]},{"name":"distance_point_line","ret":"double","args":["double","double","double","double","double","double"]},{"name":"ST_Area_Polygon_Geodesic","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"OmniSci_Geo_PolyBoundsPtr","ret":"i64","args":["double*","i64"]},{"name":"ST_Distance_MultiPolygon_Polygon","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i8*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Distance_MultiPolygon_Point","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Round2_to_digit","ret":"double","args":["double","i32"]},{"name":"ST_Intersects_LineString_Point","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Polygon_LineString","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"on_segment","ret":"i1","args":["double","double","double","double","double","double"]},{"name":"ST_Perimeter_Polygon","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"ST_Distance_Polygon_LineString","ret":"double","args":["i8*","i64","i32*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_MultiPolygon_Point","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"max_distance_point_line","ret":"double","args":["double","double","double","double","double","double"]},{"name":"distance_in_meters","ret":"double","args":["double","double","double","double"]},{"name":"ST_Contains_Polygon_Point","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Atan2","ret":"double","args":["double","double"]},{"name":"Acos","ret":"double","args":["double"]},{"name":"Sin","ret":"double","args":["double"]},{"name":"ST_Y_Point","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"ST_Distance_Polygon_Point","ret":"double","args":["i8*","i64","i32*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Distance_LineString_Point_Geodesic","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"distance_point_point","ret":"double","args":["double","double","double","double"]},{"name":"ST_Contains_Polygon_LineString","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Point_Polygon","ret":"i1","args":["i8*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Contains_Polygon_Polygon","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"Truncate","ret":"double","args":["double","i32"]},{"name":"radians","ret":"double","args":["double"]},{"name":"tol_ge","ret":"i1","args":["double","double","double"]},{"name":"ST_Contains_LineString_Polygon","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_MaxDistance_LineString_Point","ret":"double","args":["i8*","i64","i32","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_XMax_Bounds","ret":"double","args":["double*","i64","i32","i32"]},{"name":"ST_Intersects_MultiPolygon_Polygon","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"Ceil__","ret":"float","args":["float"]},{"name":"ln__","ret":"double","args":["float"]},{"name":"ST_Y_LineString","ret":"double","args":["i8*","i64","i32","i32","i32","i32"]},{"name":"ST_Contains_MultiPolygon_Point","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"reg_hex_horiz_pixel_bin_packed","ret":"i32","args":["double","double","double","double","double","double","double","double","double","double","i32","i32"]},{"name":"convert_meters_to_merc_pixel_width","ret":"double","args":["double","double","double","double","double","i32","double"]},{"name":"convert_meters_to_merc_pixel_height","ret":"double","args":["double","double","double","double","double","i32","double"]},{"name":"Round","ret":"double","args":["double","i32"]},{"name":"ST_Intersects_Polygon_Polygon","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_Polygon_MultiPolygon","ret":"i1","args":["i8*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Length_LineString","ret":"double","args":["i8*","i64","i32","i32","i32"]},{"name":"conv_4326_900913_x","ret":"double","args":["double"]},{"name":"conv_4326_900913_y","ret":"double","args":["double"]},{"name":"ST_Perimeter_Polygon_Geodesic","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"ST_Contains_Point_Point","ret":"i1","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Atan","ret":"double","args":["double"]},{"name":"ST_Area_Polygon","ret":"double","args":["i8*","i64","i32*","i64","i32","i32","i32"]},{"name":"Floor","ret":"double","args":["double"]},{"name":"orientation","ret":"i16","args":["double","double","double","double","double","double"]},{"name":"Truncate__1","ret":"i16","args":["i16","i32"]},{"name":"ST_Distance_Point_Point","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Truncate__2","ret":"i32","args":["i32","i32"]},{"name":"Truncate__3","ret":"i64","args":["i64","i32"]},{"name":"Log10__","ret":"double","args":["float"]},{"name":"is_point_in_merc_view","ret":"i1","args":["double","double","double","double","double","double"]},{"name":"ST_Intersects_MultiPolygon_MultiPolygon","ret":"i1","args":["i8*","i64","i32*","i64","i32*","i64","double*","i64","i8*","i64","i32*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"Asin","ret":"double","args":["double"]},{"name":"Tan__","ret":"double","args":["float"]},{"name":"ST_Distance_MultiPolygon_LineString","ret":"double","args":["i8*","i64","i32*","i64","i32*","i64","i8*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"rect_pixel_bin_x","ret":"float","args":["double","double","double","double","double","i32"]},{"name":"rect_pixel_bin_y","ret":"float","args":["double","double","double","double","double","i32"]},{"name":"ST_Intersects_LineString_Polygon","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","i32*","i64","double*","i64","i32","i32","i32","i32","i32"]},{"name":"is_point_in_view","ret":"i1","args":["i8*","i64","i32","double","double","double","double"]},{"name":"is_point_size_in_merc_view","ret":"i1","args":["double","double","double","double","double","double","double"]},{"name":"pi","ret":"double","args":[]},{"name":"ST_Distance_LineString_MultiPolygon","ret":"double","args":["i8*","i64","i32","i8*","i64","i32*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"ST_Intersects_LineString_Linestring","ret":"i1","args":["i8*","i64","double*","i64","i32","i8*","i64","double*","i64","i32","i32","i32","i32","i32","i32"]},{"name":"Round__1","ret":"i16","args":["i16","i32"]},{"name":"ST_Distance_Point_Point_Squared","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]},{"name":"Exp","ret":"double","args":["double"]},{"name":"Round__2","ret":"i32","args":["i32","i32"]},{"name":"Round__3","ret":"i64","args":["i64","i32"]},{"name":"ST_Distance_Polygon_Polygon","ret":"double","args":["i8*","i64","i32*","i64","i8*","i64","i32*","i64","i32","i32","i32","i32","i32"]},{"name":"Round__4","ret":"i64","args":["i64","i32","i32"]},{"name":"ST_Distance_Point_Point_Geodesic","ret":"double","args":["i8*","i64","i8*","i64","i32","i32","i32","i32","i32"]}] |Calcite.cpp:539|15|0|||
+07-01 00:00:00.000084|INFO ||||||| Started in GPU mode |DBHandler.cpp:338|15|0|||
+07-01 00:00:00.000085|INFO ||||||| EGL Version: 1.5 |EglPlatform.cpp:257|15|0|||
+07-01 00:00:00.000086|INFO ||||||| OpenGL Version: 4.6 |OpenGLDriver.cpp:66|15|0|||
+07-01 00:00:00.000087|OTHER||||||| EglDevice is not cuda capable - skipping |EglPlatform.cpp:95|15|0|||
+07-01 00:00:00.000088|OTHER||||||| EglDevice is not cuda capable - skipping |EglPlatform.cpp:95|15|0|||
+07-01 00:00:00.000089|OTHER||||||| EglDevice is not cuda capable - skipping |EglPlatform.cpp:95|15|0|||
+07-01 00:00:00.000090|OTHER||||||| EglDevice is not cuda capable - skipping |EglPlatform.cpp:95|15|0|||
+07-01 00:00:00.000091|OTHER||||||| EglDevice is not cuda capable - skipping |EglPlatform.cpp:95|15|0|||
+07-01 00:00:00.000092|OTHER||||||| EglDevice is not cuda capable - skipping |EglPlatform.cpp:95|15|0|||
+07-01 00:00:00.000093|INFO ||||||| Found 2 valid Egl devices |EglPlatform.cpp:326|15|0|||
+07-01 00:00:00.000094|INFO ||||||| Cuda ID: 0  UUID: 3e09368e-489d-bce6-5ef8-d6e0b290643a |EglPlatform.cpp:328|15|0|||
+07-01 00:00:00.000095|INFO ||||||| Cuda ID: 1  UUID: 7ff02ae8-e62b-d9aa-c814-aec3a8240cc7 |EglPlatform.cpp:328|15|0|||
+07-01 00:00:00.000096|INFO ||||||| Using GfxDriver: OpenGL |DriverInstance.cpp:47|15|0|||
+07-01 00:00:00.000097|INFO ||||||| QueryRenderManager initialized for rendering... |QueryRenderManager.cpp:90|15|0|||
+07-01 00:00:00.000098|INFO ||||||| Num GPUs to use    2 |QueryRenderManager.cpp:91|15|0|||
+07-01 00:00:00.000099|INFO ||||||| Render Cache Limit 500 |QueryRenderManager.cpp:92|15|0|||
+07-01 00:00:00.000100|INFO ||||||| Render Mem (bytes) 1000000000 |QueryRenderManager.cpp:93|15|0|||
+07-01 00:00:00.000101|INFO ||||||| Overriding default geos library with 'libgeos_c.so' |DBHandler.cpp:391|15|0|||
+07-01 00:00:00.000102|INFO ||||||| OmniSci server using unencrypted connection |MapDServer.cpp:455|15|0|||
+07-01 00:00:00.000103|AUTH |connect_begin|0|0|||| stdlog_begin connect 0 0 |DBHandler.cpp:533|15||||
+07-01 00:00:00.000104|INFO ||||||| User admin connected to database omnisci |DBHandler.cpp:581|15|2|||
+07-01 00:00:00.000105|AUTH |connect|0|233||||  |DBHandler.cpp:533|15||409-as47|omnisci|admin
+07-01 00:00:00.000106|INFO |sql_execute_begin|1|0|||SELECT count(*) from omnisci_states;|  |DBHandler.cpp:1058|15||409-as47|omnisci|admin
+07-01 00:00:00.000107|DEBUG||||||| query type: READ |DBHandler.cpp:5178|15|2|||
+07-01 00:00:00.000108|INFO ||||||| User calcite catalog omnisci sql 'SELECT count(*) from omnisci_states;' |Calcite.cpp:486|15|2|||
+07-01 00:00:00.000109|DEBUG|get_tables_begin|2|0|||| stdlog_begin get_tables 2 0 omnisci calcite 409-pVPx |DBHandler.cpp:2154|15||409-pVPx|omnisci|calcite
+07-01 00:00:00.000110|INFO |get_tables|2|0||||  |DBHandler.cpp:2154|15||409-pVPx|omnisci|calcite
+07-01 00:00:00.000111|DEBUG|get_internal_table_details_begin|3|0||||  |DBHandler.cpp:1998|15||409-pVPx|omnisci|calcite
+07-01 00:00:00.000112|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|15|3|||
+07-01 00:00:00.000113|INFO |get_internal_table_details|3|0||||  |DBHandler.cpp:1998|15||409-pVPx|omnisci|calcite
+07-01 00:00:00.000114|INFO |sql_parse|||6|692|| Time in Thrift 6 (ms), Time in Java Calcite server 692 (ms) |Calcite.cpp:513|15|2|||
+07-01 00:00:00.000115|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|15|2|||
+07-01 00:00:00.000116|OTHER||||||| File id: 0 Page size: 2097152 Num pages: 256 |FileMgr.cpp:183|15|2|||
+07-01 00:00:00.000117|OTHER||||||| File id: 1 Page size: 4096 Num pages: 4096 |FileMgr.cpp:183|15|2|||
+07-01 00:00:00.000118|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,1,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000119|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,2,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000120|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,3,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000121|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,4,0,2, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000122|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,4,0,1, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000123|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,5,0,2, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000124|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,5,0,1, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000125|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,1,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000126|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,6,0,2, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000127|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,2,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000128|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,6,0,1, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000129|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,3,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000130|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,7,0,2, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000131|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,4,0,1, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000132|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,7,0,1, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000133|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,8,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000134|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,4,0,2, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000135|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,9,0, Page id: 0 Epoch: 0 |FileInfo.cpp:127|15|4|||
+07-01 00:00:00.000136|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,5,0,1, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000137|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,5,0,2, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000138|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,6,0,1, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000139|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,6,0,2, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000140|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,7,0,1, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000141|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,7,0,2, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000142|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,8,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000143|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,9,0, Page id: -1 Epoch: 0 |FileInfo.cpp:127|15|5|||
+07-01 00:00:00.000144|OTHER||||||| FId.PSz: 0.2097152 Chunk key: 1,1,11,0, Page id: 0 Epoch: 0 |FileInfo.cpp:180|15|4|||
+07-01 00:00:00.000145|OTHER||||||| FId.PSz: 1.4096 Chunk key: 1,1,11,0, Page id: -1 Epoch: 0 |FileInfo.cpp:180|15|5|||
+07-01 00:00:00.000146|INFO |read_table_metadata||||11|| Completed Reading table's file metadata, Elapsed time : 11ms Epoch: 1 files read: 2 table location: '/omnisci-storage/data/mapd_data/table_1_1' |FileMgr.cpp:205|15|2|||
+07-01 00:00:00.000147|OTHER||||||| Number of Headers in Vector: 28 |FileMgr.cpp:220|15|2|||
+07-01 00:00:00.000148|INFO ||||||| Instantiating Fragmenter for table omnisci_states took 12ms |Catalog.cpp:1414|15|2|||
+07-01 00:00:00.000149|DEBUG||||||| Acquiring Table Data Read Lock for table: omnisci_states |LockMgr.h:207|15|2|||
+07-01 00:00:00.000150|INFO ||||||| Dispatching query with 0 queries in the queue. |QueryDispatchQueue.h:49|15|2|||
+07-01 00:00:00.000151|INFO ||||||| Running query and returning control. There are now 0 queries in the queue. |QueryDispatchQueue.h:80|15|6|||
+07-01 00:00:00.000152|DEBUG||||||| Table Schema Locks:
 1 1 |DBHandler.cpp:4776|15|6|||
-07-01 00:00:00.000088|DEBUG||||||| Table Data Locks:
+07-01 00:00:00.000153|DEBUG||||||| Table Data Locks:
 1 1 |DBHandler.cpp:4777|15|6|||
-07-01 00:00:00.000089|OTHER||||||| Parsing query RA JSON: {
+07-01 00:00:00.000154|OTHER||||||| Parsing query RA JSON: {
   "rels": [
     {
       "id": "0",
@@ -146,14 +211,14 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
     }
   ]
 } |RelAlgDagBuilder.cpp:2582|15|6|||
-07-01 00:00:00.000090|DEBUG||||||| Executing query step 0 |RelAlgExecutor.cpp:496|15|6|||
-07-01 00:00:00.000091|OTHER||||||| used_inputs.size() = 0 |RelAlgExecutor.cpp:1070|15|6|||
-07-01 00:00:00.000092|OTHER||||||| ra_node=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|6|||
-07-01 00:00:00.000093|OTHER||||||| ra_node=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|6|||
-07-01 00:00:00.000094|OTHER||||||| input_descs=(InputDescriptor(table_id(1),nest_level(0))) |RelAlgExecutor.cpp:3265|15|6|||
-07-01 00:00:00.000095|OTHER||||||| get_scalar_sources_size((RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ]))) = 1 |RelAlgExecutor.cpp:1140|15|6|||
-07-01 00:00:00.000096|OTHER||||||| body->getId()=4 body->toString()=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) it==leaf_results_.end()=true |RelAlgExecutor.cpp:2694|15|6|||
-07-01 00:00:00.000097|DEBUG||||||| Executor 1 is executing work unit:
+07-01 00:00:00.000155|DEBUG||||||| Executing query step 0 |RelAlgExecutor.cpp:496|15|6|||
+07-01 00:00:00.000156|OTHER||||||| used_inputs.size() = 0 |RelAlgExecutor.cpp:1070|15|6|||
+07-01 00:00:00.000157|OTHER||||||| ra_node=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|6|||
+07-01 00:00:00.000158|OTHER||||||| ra_node=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|6|||
+07-01 00:00:00.000159|OTHER||||||| input_descs=(InputDescriptor(table_id(1),nest_level(0))) |RelAlgExecutor.cpp:3265|15|6|||
+07-01 00:00:00.000160|OTHER||||||| get_scalar_sources_size((RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ]))) = 1 |RelAlgExecutor.cpp:1140|15|6|||
+07-01 00:00:00.000161|OTHER||||||| body->getId()=4 body->toString()=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) it==leaf_results_.end()=true |RelAlgExecutor.cpp:2694|15|6|||
+07-01 00:00:00.000162|DEBUG||||||| Executor 1 is executing work unit:
 	Table/Col/Levels:
 	Projected targets: (COUNT *)
 	Has Estimator: True
@@ -164,9 +229,29 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 	  Offset: 0
 	Scan Limit: 0
 	Bump Allocator: False |Execute.cpp:1320|15|6|||
-07-01 00:00:00.000098|DEBUG||||||| number of hoisted literals: 0 / literal buffer usage: 0 bytes |NativeCodegen.cpp:2063|15|6|||
-07-01 00:00:00.000099|DEBUG||||||| Creating one execution kernel per fragment |Execute.cpp:2015|15|6|||
-07-01 00:00:00.000100|DEBUG||||||| Query Memory Descriptor State
+07-01 00:00:00.000163|DEBUG||||||| number of hoisted literals: 0 / literal buffer usage: 0 bytes |NativeCodegen.cpp:2063|15|6|||
+07-01 00:00:00.000164|DEBUG||||||| CUDA JIT time to create link: 0.069227 |NvidiaKernel.cpp:104|15|6|||
+07-01 00:00:00.000165|DEBUG||||||| CUDA JIT time to add RT fatbinary: 30.3433 |NvidiaKernel.cpp:116|15|6|||
+07-01 00:00:00.000166|DEBUG||||||| CUDA JIT time to add generated code: 63.69 |NvidiaKernel.cpp:128|15|6|||
+07-01 00:00:00.000167|DEBUG||||||| CUDA Linker completed: ptxas info    : 0 bytes gmem
+ptxas info    : Function properties for query_template
+ptxas         .     40 bytes stack frame, 36 bytes spill stores, 36 bytes spill loads
+ptxas info    : Compiling entry function 'multifrag_query_hoisted_literals' for 'sm_35'
+ptxas info    : Function properties for multifrag_query_hoisted_literals
+ptxas         .     40 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 20 registers, 416 bytes cmem[0]
+info    : 2586 bytes gmem, 168 bytes cmem[3]
+info    : Function properties for 'multifrag_query_hoisted_literals':
+info    : used 24 registers, 80 stack, 0 bytes smem, 416 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z24init_group_by_buffer_gpuPlPKljjjjba':
+info    : used 28 registers, 0 stack, 0 bytes smem, 354 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z26init_render_buffer_wrapperPlj':
+info    : used 8 registers, 0 stack, 0 bytes smem, 332 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z41init_columnar_group_by_buffer_gpu_wrapperPlPKljjjPKabba':
+info    : used 14 registers, 0 stack, 0 bytes smem, 363 bytes cmem[0], 0 bytes lmem |NvidiaKernel.cpp:134|15|6|||
+07-01 00:00:00.000168|DEBUG||||||| Generated GPU binary code size: 518264 bytes |NvidiaKernel.cpp:137|15|6|||
+07-01 00:00:00.000169|DEBUG||||||| Creating multifrag execution kernels |Execute.cpp:1983|15|6|||
+07-01 00:00:00.000170|DEBUG||||||| Query Memory Descriptor State
 	Query Type: Non-grouped Aggregate
 	Keyless Hash: False
 	Effective key width: 8
@@ -176,7 +261,7 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 	0 | 8 , 4
 	Allow Multifrag: True
 	Interleaved Bins on GPU: False
-	Blocks Share Memory: True
+	Blocks Share Memory: False
 	Threads Share Memory: False
 	Uses Fast Group Values: False
 	Lazy Init Groups (GPU): True
@@ -188,33 +273,34 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 	Use Streaming Top N: False
 	Output Columnar: False
 	Render Output: False
-	Use Baseline Sort: False |Execute.cpp:2016|15|6|||
-07-01 00:00:00.000101|DEBUG||||||| Launching 1 kernels for query. |Execute.cpp:2078|15|6|||
-07-01 00:00:00.000102|OTHER||||||| Returned from executeCompound(), addTemporaryTable(-4, ...) exec_desc.getResult().getDataPtr()->rowCount()=1 |RelAlgExecutor.cpp:599|15|6|||
-07-01 00:00:00.000103|DEBUG||||||| jsonlog { "name": "CPU Memory Info", "TotalMB": 5950.31, "FreeMB": 5081.02, "ProcessMB": 95.9297, "VirtualMB": 6288.14, "ProcessPlusSwapMB": 10.125, "ProcessSharedMB": 85.8047, "FragmentationPercent": 26 } |DBHandler.cpp:4826|15|6|||
-07-01 00:00:00.000104|DEBUG||||||| Table Schema Locks: |DBHandler.cpp:1137|15|2|||
-07-01 00:00:00.000105|DEBUG||||||| Table Data Locks: |DBHandler.cpp:1138|15|2|||
-07-01 00:00:00.000106|INFO |sql_execute|1|1425|1418|1425|SELECT count(*) from omnisci_states;|  |DBHandler.cpp:1058|15||455-NzOR|omnisci|admin
-07-01 00:00:00.000107|DEBUG||||||| stacked_times sql_execute 1 total time 1426 ms
-  parse_to_ra 140449750689536 - total time 1396 ms
-    processImpl 140449750689536 - total time 1250 ms
-  execute_rel_alg 140449775867648 - total time 26 ms
-    convert_rows 140449775867648 - total time 0 ms |DBHandler.cpp:1058|15||||
-07-01 00:00:00.000108|INFO |sql_execute_begin|4|0|||select count(*)
-    from omnisci_states as s|  |DBHandler.cpp:1058|15||455-NzOR|omnisci|admin
-07-01 00:00:00.000109|DEBUG||||||| query type: READ |DBHandler.cpp:5178|15|2|||
-07-01 00:00:00.000110|INFO ||||||| User calcite catalog omnisci sql 'select count(*)
+	Use Baseline Sort: False |Execute.cpp:1984|15|6|||
+07-01 00:00:00.000171|DEBUG||||||| Launching 1 kernels for query. |Execute.cpp:2078|15|6|||
+07-01 00:00:00.000172|INFO ||||||| ALLOCATION slab of 8388608 pages (4294967296B) created in 5 ms GPU_MGR:1 |BufferMgr.cpp:303|15|7|||
+07-01 00:00:00.000173|OTHER||||||| Returned from executeCompound(), addTemporaryTable(-4, ...) exec_desc.getResult().getDataPtr()->rowCount()=1 |RelAlgExecutor.cpp:599|15|6|||
+07-01 00:00:00.000174|DEBUG||||||| jsonlog { "name": "CPU Memory Info", "TotalMB": 386774, "FreeMB": 332805, "ProcessMB": 256.016, "VirtualMB": 428727, "ProcessPlusSwapMB": 95.8008, "ProcessSharedMB": 160.215, "FragmentationPercent": 83 } |DBHandler.cpp:4826|15|6|||
+07-01 00:00:00.000175|DEBUG||||||| Table Schema Locks: |DBHandler.cpp:1137|15|2|||
+07-01 00:00:00.000176|DEBUG||||||| Table Data Locks: |DBHandler.cpp:1138|15|2|||
+07-01 00:00:00.000177|INFO |sql_execute|1|906|905|906|SELECT count(*) from omnisci_states;|  |DBHandler.cpp:1058|15||409-as47|omnisci|admin
+07-01 00:00:00.000178|DEBUG||||||| stacked_times sql_execute 1 total time 906 ms
+  parse_to_ra 140690399721216 - total time 711 ms
+    processImpl 140690399721216 - total time 698 ms
+  execute_rel_alg 140691342599936 - total time 194 ms
+    convert_rows 140691342599936 - total time 0 ms |DBHandler.cpp:1058|15||||
+07-01 00:00:00.000179|INFO |sql_execute_begin|4|0|||select count(*)
+    from omnisci_states as s|  |DBHandler.cpp:1058|15||409-as47|omnisci|admin
+07-01 00:00:00.000180|DEBUG||||||| query type: READ |DBHandler.cpp:5178|15|2|||
+07-01 00:00:00.000181|INFO ||||||| User calcite catalog omnisci sql 'select count(*)
     from omnisci_states as s' |Calcite.cpp:486|15|2|||
-07-01 00:00:00.000111|INFO |sql_parse|||2|24|| Time in Thrift 2 (ms), Time in Java Calcite server 24 (ms) |Calcite.cpp:513|15|2|||
-07-01 00:00:00.000112|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|15|2|||
-07-01 00:00:00.000113|DEBUG||||||| Acquiring Table Data Read Lock for table: omnisci_states |LockMgr.h:207|15|2|||
-07-01 00:00:00.000114|INFO ||||||| Dispatching query with 0 queries in the queue. |QueryDispatchQueue.h:49|15|2|||
-07-01 00:00:00.000115|INFO ||||||| Running query and returning control. There are now 0 queries in the queue. |QueryDispatchQueue.h:80|15|6|||
-07-01 00:00:00.000116|DEBUG||||||| Table Schema Locks:
+07-01 00:00:00.000182|INFO |sql_parse|||1|13|| Time in Thrift 1 (ms), Time in Java Calcite server 13 (ms) |Calcite.cpp:513|15|2|||
+07-01 00:00:00.000183|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|15|2|||
+07-01 00:00:00.000184|DEBUG||||||| Acquiring Table Data Read Lock for table: omnisci_states |LockMgr.h:207|15|2|||
+07-01 00:00:00.000185|INFO ||||||| Dispatching query with 0 queries in the queue. |QueryDispatchQueue.h:49|15|2|||
+07-01 00:00:00.000186|INFO ||||||| Running query and returning control. There are now 0 queries in the queue. |QueryDispatchQueue.h:80|15|6|||
+07-01 00:00:00.000187|DEBUG||||||| Table Schema Locks:
 1 1 |DBHandler.cpp:4776|15|6|||
-07-01 00:00:00.000117|DEBUG||||||| Table Data Locks:
+07-01 00:00:00.000188|DEBUG||||||| Table Data Locks:
 1 1 |DBHandler.cpp:4777|15|6|||
-07-01 00:00:00.000118|OTHER||||||| Parsing query RA JSON: {
+07-01 00:00:00.000189|OTHER||||||| Parsing query RA JSON: {
   "rels": [
     {
       "id": "0",
@@ -271,14 +357,14 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
     }
   ]
 } |RelAlgDagBuilder.cpp:2582|15|6|||
-07-01 00:00:00.000119|DEBUG||||||| Executing query step 0 |RelAlgExecutor.cpp:496|15|6|||
-07-01 00:00:00.000120|OTHER||||||| used_inputs.size() = 0 |RelAlgExecutor.cpp:1070|15|6|||
-07-01 00:00:00.000121|OTHER||||||| ra_node=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|6|||
-07-01 00:00:00.000122|OTHER||||||| ra_node=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|6|||
-07-01 00:00:00.000123|OTHER||||||| input_descs=(InputDescriptor(table_id(1),nest_level(0))) |RelAlgExecutor.cpp:3265|15|6|||
-07-01 00:00:00.000124|OTHER||||||| get_scalar_sources_size((RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ]))) = 1 |RelAlgExecutor.cpp:1140|15|6|||
-07-01 00:00:00.000125|OTHER||||||| body->getId()=4 body->toString()=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) it==leaf_results_.end()=true |RelAlgExecutor.cpp:2694|15|6|||
-07-01 00:00:00.000126|DEBUG||||||| Executor 1 is executing work unit:
+07-01 00:00:00.000190|DEBUG||||||| Executing query step 0 |RelAlgExecutor.cpp:496|15|6|||
+07-01 00:00:00.000191|OTHER||||||| used_inputs.size() = 0 |RelAlgExecutor.cpp:1070|15|6|||
+07-01 00:00:00.000192|OTHER||||||| ra_node=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|6|||
+07-01 00:00:00.000193|OTHER||||||| ra_node=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|6|||
+07-01 00:00:00.000194|OTHER||||||| input_descs=(InputDescriptor(table_id(1),nest_level(0))) |RelAlgExecutor.cpp:3265|15|6|||
+07-01 00:00:00.000195|OTHER||||||| get_scalar_sources_size((RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ]))) = 1 |RelAlgExecutor.cpp:1140|15|6|||
+07-01 00:00:00.000196|OTHER||||||| body->getId()=4 body->toString()=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) it==leaf_results_.end()=true |RelAlgExecutor.cpp:2694|15|6|||
+07-01 00:00:00.000197|DEBUG||||||| Executor 1 is executing work unit:
 	Table/Col/Levels:
 	Projected targets: (COUNT *)
 	Has Estimator: True
@@ -289,9 +375,9 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 	  Offset: 0
 	Scan Limit: 0
 	Bump Allocator: False |Execute.cpp:1320|15|6|||
-07-01 00:00:00.000127|DEBUG||||||| number of hoisted literals: 0 / literal buffer usage: 0 bytes |NativeCodegen.cpp:2063|15|6|||
-07-01 00:00:00.000128|DEBUG||||||| Creating one execution kernel per fragment |Execute.cpp:2015|15|6|||
-07-01 00:00:00.000129|DEBUG||||||| Query Memory Descriptor State
+07-01 00:00:00.000198|DEBUG||||||| number of hoisted literals: 0 / literal buffer usage: 0 bytes |NativeCodegen.cpp:2063|15|6|||
+07-01 00:00:00.000199|DEBUG||||||| Creating multifrag execution kernels |Execute.cpp:1983|15|6|||
+07-01 00:00:00.000200|DEBUG||||||| Query Memory Descriptor State
 	Query Type: Non-grouped Aggregate
 	Keyless Hash: False
 	Effective key width: 8
@@ -301,7 +387,7 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 	0 | 8 , 4
 	Allow Multifrag: True
 	Interleaved Bins on GPU: False
-	Blocks Share Memory: True
+	Blocks Share Memory: False
 	Threads Share Memory: False
 	Uses Fast Group Values: False
 	Lazy Init Groups (GPU): True
@@ -313,22 +399,365 @@ logtime|severity|event|sequence|dur_ms|execution_ms|total_ms|query| msg |filelin
 	Use Streaming Top N: False
 	Output Columnar: False
 	Render Output: False
-	Use Baseline Sort: False |Execute.cpp:2016|15|6|||
-07-01 00:00:00.000130|DEBUG||||||| Launching 1 kernels for query. |Execute.cpp:2078|15|6|||
-07-01 00:00:00.000131|OTHER||||||| Returned from executeCompound(), addTemporaryTable(-4, ...) exec_desc.getResult().getDataPtr()->rowCount()=1 |RelAlgExecutor.cpp:599|15|6|||
-07-01 00:00:00.000132|DEBUG||||||| jsonlog { "name": "CPU Memory Info", "TotalMB": 5950.31, "FreeMB": 5078.2, "ProcessMB": 96.707, "VirtualMB": 6288.02, "ProcessPlusSwapMB": 10.0938, "ProcessSharedMB": 86.6133, "FragmentationPercent": 26 } |DBHandler.cpp:4826|15|6|||
-07-01 00:00:00.000133|DEBUG||||||| Table Schema Locks: |DBHandler.cpp:1137|15|2|||
-07-01 00:00:00.000134|DEBUG||||||| Table Data Locks: |DBHandler.cpp:1138|15|2|||
-07-01 00:00:00.000135|INFO |sql_execute|4|41|35|40|select count(*)
-    from omnisci_states as s|  |DBHandler.cpp:1058|15||455-NzOR|omnisci|admin
-07-01 00:00:00.000136|DEBUG||||||| stacked_times sql_execute 4 total time 41 ms
-  parse_to_ra 140449750689536 - total time 28 ms
-    processImpl 140449750689536 - total time 27 ms
-  execute_rel_alg 140449775867648 - total time 9 ms
-    convert_rows 140449775867648 - total time 0 ms |DBHandler.cpp:1058|15||||
-07-01 00:00:00.000137|INFO |render_vega_begin|5|0|||{"widget_id"",""compression_level"",""vega_json"",""nonce"",""client"} {"8702332822301651"",""3"",""{""width"":1002,""height"":726,""viewRenderOptions"":{""premultipliedAlpha"":false},""data"":[{""name"":""pointmap""","""sql"":""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000""","""enableHitTesting"":false}],""scales"":[{""name"":""x""","""type"":""linear""","""domain"":[-19828578.576412328,-7488448.674977641],""range"":""width""},{""name"":""y""","""type"":""linear""","""domain"":[-90671.43229163112,8850380.771762503],""range"":""height""},{""name"":""pointmap_fillColor""","""type"":""linear""","""domain"":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],""range"":[""rgba(17,95,154,0.475)""","""rgba(25,132,197,0.5471153846153846)""","""rgba(34,167,240,0.6192307692307691)""","""rgba(72,181,196,0.6913461538461538)""","""rgba(118,198,143,0.7634615384615384)""","""rgba(166,215,91,0.835576923076923)""","""rgba(201,229,47,0.85)""","""rgba(208,238,17,0.85)""","""rgba(208,244,0,0.85)""],""accumulator"":""density""","""minDensityCnt"":""-2ndStdDev""","""maxDensityCnt"":""2ndStdDev""","""clamp"":true}],""projections"":[],""marks"":[{""type"":""symbol""","""from"":{""data"":""pointmap""},""properties"":{""xc"":{""scale"":""x""","""field"":""x""},""yc"":{""scale"":""y""","""field"":""y""},""fillColor"":{""scale"":""pointmap_fillColor""","""value"":0},""shape"":""circle""","""width"":5,""height"":5}}]}"",""11"",""http:10.109.0.9"}|  |DBHandler.cpp:3358|15||455-NzOR|omnisci|admin
-07-01 00:00:00.000138|ERROR||||||| Backend rendering is disabled. |DBHandler.cpp:3363|15|2|||
-07-01 00:00:00.000139|INFO |render_vega|5|3|||{"widget_id"",""compression_level"",""vega_json"",""nonce"",""client"} {"8702332822301651"",""3"",""{""width"":1002,""height"":726,""viewRenderOptions"":{""premultipliedAlpha"":false},""data"":[{""name"":""pointmap""","""sql"":""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000""","""enableHitTesting"":false}],""scales"":[{""name"":""x""","""type"":""linear""","""domain"":[-19828578.576412328,-7488448.674977641],""range"":""width""},{""name"":""y""","""type"":""linear""","""domain"":[-90671.43229163112,8850380.771762503],""range"":""height""},{""name"":""pointmap_fillColor""","""type"":""linear""","""domain"":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],""range"":[""rgba(17,95,154,0.475)""","""rgba(25,132,197,0.5471153846153846)""","""rgba(34,167,240,0.6192307692307691)""","""rgba(72,181,196,0.6913461538461538)""","""rgba(118,198,143,0.7634615384615384)""","""rgba(166,215,91,0.835576923076923)""","""rgba(201,229,47,0.85)""","""rgba(208,238,17,0.85)""","""rgba(208,244,0,0.85)""],""accumulator"":""density""","""minDensityCnt"":""-2ndStdDev""","""maxDensityCnt"":""2ndStdDev""","""clamp"":true}],""projections"":[],""marks"":[{""type"":""symbol""","""from"":{""data"":""pointmap""},""properties"":{""xc"":{""scale"":""x""","""field"":""x""},""yc"":{""scale"":""y""","""field"":""y""},""fillColor"":{""scale"":""pointmap_fillColor""","""value"":0},""shape"":""circle""","""width"":5,""height"":5}}]}"",""11"",""http:10.109.0.9"}|  |DBHandler.cpp:3358|15||455-NzOR|omnisci|admin
-07-01 00:00:00.000140|AUTH |disconnect_begin|6|0|||| stdlog_begin disconnect 6 0 |DBHandler.cpp:616|15||||
-07-01 00:00:00.000141|INFO ||||||| User admin disconnected from database omnisci with public_session_id: 455-NzOR |DBHandler.cpp:624|15|2|||
-07-01 00:00:00.000142|AUTH |disconnect|6|1||||  |DBHandler.cpp:616|15||455-NzOR|omnisci|admin
+	Use Baseline Sort: False |Execute.cpp:1984|15|6|||
+07-01 00:00:00.000201|DEBUG||||||| Launching 1 kernels for query. |Execute.cpp:2078|15|6|||
+07-01 00:00:00.000202|OTHER||||||| Returned from executeCompound(), addTemporaryTable(-4, ...) exec_desc.getResult().getDataPtr()->rowCount()=1 |RelAlgExecutor.cpp:599|15|6|||
+07-01 00:00:00.000203|DEBUG||||||| jsonlog { "name": "CPU Memory Info", "TotalMB": 386774, "FreeMB": 332803, "ProcessMB": 256.609, "VirtualMB": 428727, "ProcessPlusSwapMB": 96.0039, "ProcessSharedMB": 160.605, "FragmentationPercent": 83 } |DBHandler.cpp:4826|15|6|||
+07-01 00:00:00.000204|DEBUG||||||| Table Schema Locks: |DBHandler.cpp:1137|15|2|||
+07-01 00:00:00.000205|DEBUG||||||| Table Data Locks: |DBHandler.cpp:1138|15|2|||
+07-01 00:00:00.000206|INFO |sql_execute|4|17|16|17|select count(*)
+    from omnisci_states as s|  |DBHandler.cpp:1058|15||409-as47|omnisci|admin
+07-01 00:00:00.000207|DEBUG||||||| stacked_times sql_execute 4 total time 17 ms
+  parse_to_ra 140690399721216 - total time 14 ms
+    processImpl 140690399721216 - total time 14 ms
+  execute_rel_alg 140691342599936 - total time 3 ms
+    convert_rows 140691342599936 - total time 0 ms |DBHandler.cpp:1058|15||||
+07-01 00:00:00.000208|INFO |render_vega_begin|5|0|||{"width":1002,"height":726,"viewRenderOptions":{"premultipliedAlpha":false},"data":[{"name":"pointmap","sql":"SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000","enableHitTesting":false}],"scales":[{"name":"x","type":"linear","domain":[-19828578.576412328,-7488448.674977641],"range":"width"},{"name":"y","type":"linear","domain":[-90671.43229163112,8850380.771762503],"range":"height"},{"name":"pointmap_fillColor","type":"linear","domain":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],"range":["rgba(17,95,154,0.475)","rgba(25,132,197,0.5471153846153846)","rgba(34,167,240,0.6192307692307691)","rgba(72,181,196,0.6913461538461538)","rgba(118,198,143,0.7634615384615384)","rgba(166,215,91,0.835576923076923)","rgba(201,229,47,0.85)","rgba(208,238,17,0.85)","rgba(208,244,0,0.85)"],"accumulator":"density","minDensityCnt":"-2ndStdDev","maxDensityCnt":"2ndStdDev","clamp":true}],"projections":[],"marks":[{"type":"symbol","from":{"data":"pointmap"},"properties":{"xc":{"scale":"x","field":"x"},"yc":{"scale":"y","field":"y"},"fillColor":{"scale":"pointmap_fillColor","value":0},"shape":"circle","width":5,"height":5}}]}|  |DBHandler.cpp:3358|15||409-as47|omnisci|admin
+07-01 00:00:00.000209|INFO ||||||| render_vega :409-as47:widget_id:0:compression_level:0:vega_json:{"width":1002,"height":726,"viewRenderOptions":{"premultipliedAlpha":false},"data":[{"name":"pointmap","sql":"SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000","enableHitTesting":false}],"scales":[{"name":"x","type":"linear","domain":[-19828578.576412328,-7488448.674977641],"range":"width"},{"name":"y","type":"linear","domain":[-90671.43229163112,8850380.771762503],"range":"height"},{"name":"pointmap_fillColor","type":"linear","domain":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],"range":["rgba(17,95,154,0.475)","rgba(25,132,197,0.5471153846153846)","rgba(34,167,240,0.6192307692307691)","rgba(72,181,196,0.6913461538461538)","rgba(118,198,143,0.7634615384615384)","rgba(166,215,91,0.835576923076923)","rgba(201,229,47,0.85)","rgba(208,238,17,0.85)","rgba(208,244,0,0.85)"],"accumulator":"density","minDensityCnt":"-2ndStdDev","maxDensityCnt":"2ndStdDev","clamp":true}],"projections":[],"marks":[{"type":"symbol","from":{"data":"pointmap"},"properties":{"xc":{"scale":"x","field":"x"},"yc":{"scale":"y","field":"y"},"fillColor":{"scale":"pointmap_fillColor","value":0},"shape":"circle","width":5,"height":5}}]}:nonce:{"chartId":"work_to_generate_logs","dashboardId":100} |RenderHandlerImpl.cpp:151|15|2|||
+07-01 00:00:00.000210|INFO ||||||| Multi-GPU compositor using GPU 1 |GLMultiGpuCompositor.cpp:46|15|8|||
+07-01 00:00:00.000211|INFO ||||||| Active render session [409-as47, 0] |RenderSessionMgr.cpp:65|15|8|||
+07-01 00:00:00.000212|INFO ||||||| User calcite catalog omnisci sql 'SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null           AND st_ymin(omnisci_geo ) is not null           AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000' |Calcite.cpp:486|15|8|||
+07-01 00:00:00.000213|INFO |sql_parse|||1|62|| Time in Thrift 1 (ms), Time in Java Calcite server 62 (ms) |Calcite.cpp:513|15|8|||
+07-01 00:00:00.000214|DEBUG||||||| Acquiring Table Schema Read Lock for table: omnisci_states |LockMgr.h:113|15|8|||
+07-01 00:00:00.000215|DEBUG||||||| Acquiring Table Data Read Lock for table: omnisci_states |LockMgr.h:207|15|8|||
+07-01 00:00:00.000216|OTHER||||||| Parsing query RA JSON: {
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "id",
+        "abbr",
+        "name",
+        "omnisci_geo",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "omnisci_states"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": "AND",
+        "operands": [
+          {
+            "op": "IS NOT NULL",
+            "operands": [
+              {
+                "op": "ST_XMin",
+                "operands": [
+                  {
+                    "input": 3
+                  }
+                ],
+                "type": {
+                  "type": "DOUBLE",
+                  "nullable": false
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": false
+            }
+          },
+          {
+            "op": "IS NOT NULL",
+            "operands": [
+              {
+                "op": "ST_YMin",
+                "operands": [
+                  {
+                    "input": 3
+                  }
+                ],
+                "type": {
+                  "type": "DOUBLE",
+                  "nullable": false
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": false
+            }
+          },
+          {
+            "op": ">=",
+            "operands": [
+              {
+                "op": "ST_XMin",
+                "operands": [
+                  {
+                    "input": 3
+                  }
+                ],
+                "type": {
+                  "type": "DOUBLE",
+                  "nullable": false
+                }
+              },
+              {
+                "literal": -17812315200000032,
+                "type": "DECIMAL",
+                "target_type": "DECIMAL",
+                "scale": 14,
+                "precision": 17,
+                "type_scale": 14,
+                "type_precision": 17
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": false
+            }
+          },
+          {
+            "op": "<=",
+            "operands": [
+              {
+                "op": "ST_XMin",
+                "operands": [
+                  {
+                    "input": 3
+                  }
+                ],
+                "type": {
+                  "type": "DOUBLE",
+                  "nullable": false
+                }
+              },
+              {
+                "literal": -6726987899999968,
+                "type": "DECIMAL",
+                "target_type": "DECIMAL",
+                "scale": 14,
+                "precision": 16,
+                "type_scale": 14,
+                "type_precision": 16
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": false
+            }
+          },
+          {
+            "op": ">=",
+            "operands": [
+              {
+                "op": "ST_YMin",
+                "operands": [
+                  {
+                    "input": 3
+                  }
+                ],
+                "type": {
+                  "type": "DOUBLE",
+                  "nullable": false
+                }
+              },
+              {
+                "literal": -8144879012842097,
+                "type": "DECIMAL",
+                "target_type": "DECIMAL",
+                "scale": 16,
+                "precision": 16,
+                "type_scale": 16,
+                "type_precision": 17
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": false
+            }
+          },
+          {
+            "op": "<=",
+            "operands": [
+              {
+                "op": "ST_YMin",
+                "operands": [
+                  {
+                    "input": 3
+                  }
+                ],
+                "type": {
+                  "type": "DOUBLE",
+                  "nullable": false
+                }
+              },
+              {
+                "literal": 6196302517868901,
+                "type": "DECIMAL",
+                "target_type": "DECIMAL",
+                "scale": 14,
+                "precision": 16,
+                "type_scale": 14,
+                "type_precision": 16
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": false
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": false
+        }
+      }
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalProject",
+      "fields": [
+        "x",
+        "y"
+      ],
+      "exprs": [
+        {
+          "op": "conv_4326_900913_x",
+          "operands": [
+            {
+              "op": "ST_XMin",
+              "operands": [
+                {
+                  "input": 3
+                }
+              ],
+              "type": {
+                "type": "DOUBLE",
+                "nullable": false
+              }
+            }
+          ],
+          "type": {
+            "type": "DOUBLE",
+            "nullable": true
+          }
+        },
+        {
+          "op": "conv_4326_900913_y",
+          "operands": [
+            {
+              "op": "ST_YMin",
+              "operands": [
+                {
+                  "input": 3
+                }
+              ],
+              "type": {
+                "type": "DOUBLE",
+                "nullable": false
+              }
+            }
+          ],
+          "type": {
+            "type": "DOUBLE",
+            "nullable": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalSort",
+      "collation": [],
+      "fetch": {
+        "literal": 10000000,
+        "type": "DECIMAL",
+        "target_type": "INTEGER",
+        "scale": 0,
+        "precision": 8,
+        "type_scale": 0,
+        "type_precision": 10
+      }
+    }
+  ]
+} |RelAlgDagBuilder.cpp:2582|15|8|||
+07-01 00:00:00.000217|DEBUG||||||| Executing query step 0 |RelAlgExecutor.cpp:496|15|8|||
+07-01 00:00:00.000218|OTHER||||||| used_inputs.size() = 40 |RelAlgExecutor.cpp:1070|15|8|||
+07-01 00:00:00.000219|OTHER||||||| ra_node=(RelCompound<140687846983984>((RexOperator 7 (RexOperator 17 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexOperator 17 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) (RexOperator 6 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -17812315200000032)) (RexOperator 5 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -6726987899999968)) (RexOperator 6 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral -8144879012842097)) (RexOperator 5 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral 6196302517868901))) (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) groups: [ ] sources: [ (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=40 |RelAlgExecutor.cpp:979|15|8|||
+07-01 00:00:00.000220|OTHER||||||| ra_node=(RelCompound<140687846983984>((RexOperator 7 (RexOperator 17 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexOperator 17 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) (RexOperator 6 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -17812315200000032)) (RexOperator 5 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -6726987899999968)) (RexOperator 6 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral -8144879012842097)) (RexOperator 5 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral 6196302517868901))) (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) groups: [ ] sources: [ (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) ])) input_col_descs_unique.size()=5 source_used_inputs.size()=0 |RelAlgExecutor.cpp:979|15|8|||
+07-01 00:00:00.000221|OTHER||||||| input_descs=(InputDescriptor(table_id(1),nest_level(0))) |RelAlgExecutor.cpp:3265|15|8|||
+07-01 00:00:00.000222|OTHER||||||| get_scalar_sources_size((RelCompound<140687846983984>((RexOperator 7 (RexOperator 17 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexOperator 17 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) (RexOperator 6 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -17812315200000032)) (RexOperator 5 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -6726987899999968)) (RexOperator 6 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral -8144879012842097)) (RexOperator 5 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral 6196302517868901))) (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) groups: [ ] sources: [ (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) ]))) = 2 |RelAlgExecutor.cpp:1140|15|8|||
+07-01 00:00:00.000223|OTHER||||||| body->getId()=5 body->toString()=(RelCompound<140687846983984>((RexOperator 7 (RexOperator 17 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexOperator 17 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) (RexOperator 6 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -17812315200000032)) (RexOperator 5 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -6726987899999968)) (RexOperator 6 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral -8144879012842097)) (RexOperator 5 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral 6196302517868901))) (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) groups: [ ] sources: [ (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) ])) it==leaf_results_.end()=true |RelAlgExecutor.cpp:2694|15|8|||
+07-01 00:00:00.000224|DEBUG||||||| Executor 0 is executing work unit:
+	Table/Col/Levels: (1, 5, 0) (1, 6, 0) (1, 7, 0) (1, 8, 0) (1, 9, 0)
+	Quals: (NOT (IS NULL (ST_XMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )) ) , (NOT (IS NULL (ST_YMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )) ) , (>= (ST_XMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )(Const -178.123152) ) , (<= (ST_XMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )(Const -67.269879) ) , (>= (ST_YMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )(Const -0.814488) ) , (<= (ST_YMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )(Const 61.963025) )
+	Group By: NULL
+	Projected targets: (conv_4326_900913_x (ST_XMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )), (conv_4326_900913_y (ST_YMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) ))
+	Has Estimator: True
+	Sort Info:
+	  Order Entries:
+	  Algorithm: Streaming Top N
+	  Limit: 10000000
+	  Offset: 0
+	Scan Limit: 10000000
+	Bump Allocator: False |Execute.cpp:1320|15|8|||
+07-01 00:00:00.000225|DEBUG||||||| number of hoisted literals: 5 / literal buffer usage: 40 bytes |NativeCodegen.cpp:2063|15|8|||
+07-01 00:00:00.000226|DEBUG||||||| CUDA JIT time to create link: 0.070675 |NvidiaKernel.cpp:104|15|8|||
+07-01 00:00:00.000227|DEBUG||||||| CUDA JIT time to add RT fatbinary: 32.2961 |NvidiaKernel.cpp:116|15|8|||
+07-01 00:00:00.000228|DEBUG||||||| CUDA JIT time to add generated code: 74.4749 |NvidiaKernel.cpp:128|15|8|||
+07-01 00:00:00.000229|DEBUG||||||| CUDA Linker completed: ptxas info    : 0 bytes gmem
+ptxas info    : Function properties for row_func_hoisted_literals
+ptxas         .     64 bytes stack frame, 64 bytes spill stores, 64 bytes spill loads
+ptxas info    : Compiling entry function 'multifrag_query_hoisted_literals' for 'sm_35'
+ptxas info    : Function properties for multifrag_query_hoisted_literals
+ptxas         .     40 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 20 registers, 416 bytes cmem[0]
+ptxas info    : Function properties for query_group_by_template
+ptxas         .     336 bytes stack frame, 196 bytes spill stores, 204 bytes spill loads
+info    : 2586 bytes gmem, 168 bytes cmem[3]
+info    : Function properties for 'multifrag_query_hoisted_literals':
+info    : used 64 registers, 496 stack, 0 bytes smem, 416 bytes cmem[0], 672 bytes cmem[2], 0 bytes lmem
+info    : Function properties for '_Z24init_group_by_buffer_gpuPlPKljjjjba':
+info    : used 28 registers, 0 stack, 0 bytes smem, 354 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z26init_render_buffer_wrapperPlj':
+info    : used 8 registers, 0 stack, 0 bytes smem, 332 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z41init_columnar_group_by_buffer_gpu_wrapperPlPKljjjPKabba':
+info    : used 14 registers, 0 stack, 0 bytes smem, 363 bytes cmem[0], 0 bytes lmem |NvidiaKernel.cpp:134|15|8|||
+07-01 00:00:00.000230|DEBUG||||||| Generated GPU binary code size: 537976 bytes |NvidiaKernel.cpp:137|15|8|||
+07-01 00:00:00.000231|DEBUG||||||| Creating multifrag execution kernels |Execute.cpp:1983|15|8|||
+07-01 00:00:00.000232|DEBUG||||||| Query Memory Descriptor State
+	Query Type: Projection
+	Keyless Hash: False
+	Effective key width: 8
+	Number of group columns: 1
+	Col Slot Context State
+	N | P , L
+	0 | 8 , 8
+	1 | 8 , 8
+	Allow Multifrag: True
+	Interleaved Bins on GPU: False
+	Blocks Share Memory: True
+	Threads Share Memory: True
+	Uses Fast Group Values: False
+	Lazy Init Groups (GPU): False
+	Entry Count: 10000000
+	Min Val (perfect hash only): 0
+	Max Val (perfect hash only): 0
+	Bucket Val (perfect hash only): 0
+	Sort on GPU: False
+	Use Streaming Top N: False
+	Output Columnar: False
+	Render Output: True
+	Use Baseline Sort: False |Execute.cpp:1984|15|8|||
+07-01 00:00:00.000233|DEBUG||||||| Launching 1 kernels for query. |Execute.cpp:2078|15|8|||
+07-01 00:00:00.000234|INFO ||||||| ALLOCATION slab of 8388608 pages (4294967296B) created in 0 ms CPU_MGR:0 |BufferMgr.cpp:303|15|9|||
+07-01 00:00:00.000235|OTHER||||||| bool(ra_exe_unit.union_all)=false ra_exe_unit.input_descs=(InputDescriptor(table_id(1),nest_level(0))) ra_exe_unit.input_col_descs=(InputColDescriptor(col_id(5),InputDescriptor(table_id(1),nest_level(0))) InputColDescriptor(col_id(6),InputDescriptor(table_id(1),nest_level(0))) InputColDescriptor(col_id(7),InputDescriptor(table_id(1),nest_level(0))) InputColDescriptor(col_id(8),InputDescriptor(table_id(1),nest_level(0))) InputColDescriptor(col_id(9),InputDescriptor(table_id(1),nest_level(0)))) ra_exe_unit.scan_limit=10000000 num_rows=((52)) frag_offsets=((0)) query_exe_context->query_buffers_->num_rows_=-1 query_exe_context->query_mem_desc_.getEntryCount()=10000000 device_id=1 outer_table_id=1 scan_limit=10000000 start_rowid=0 num_tables=1 |Execute.cpp:2887|15|9|||
+07-01 00:00:00.000236|DEBUG||||||| null device_results. |ExecutionKernel.cpp:329|15|9|||
+07-01 00:00:00.000237|DEBUG||||||| Caching query "SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null           AND st_ymin(omnisci_geo ) is not null           AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000" for hit testing with id: -2. Num bytes in cache: 0. Total used bytes in cache: 0 |ResultCache.cpp:174|15|8|||
+07-01 00:00:00.000238|INFO ||||||| render_vega-COMPLETED nonce:{"chartId":"work_to_generate_logs","dashboardId":100} Total Execution: 259 (ms), Total Render: 550 (ms) |RenderHandlerImpl.cpp:155|15|2|||
+07-01 00:00:00.000239|INFO |render_vega|5|1039|||{"width":1002,"height":726,"viewRenderOptions":{"premultipliedAlpha":false},"data":[{"name":"pointmap","sql":"SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000","enableHitTesting":false}],"scales":[{"name":"x","type":"linear","domain":[-19828578.576412328,-7488448.674977641],"range":"width"},{"name":"y","type":"linear","domain":[-90671.43229163112,8850380.771762503],"range":"height"},{"name":"pointmap_fillColor","type":"linear","domain":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],"range":["rgba(17,95,154,0.475)","rgba(25,132,197,0.5471153846153846)","rgba(34,167,240,0.6192307692307691)","rgba(72,181,196,0.6913461538461538)","rgba(118,198,143,0.7634615384615384)","rgba(166,215,91,0.835576923076923)","rgba(201,229,47,0.85)","rgba(208,238,17,0.85)","rgba(208,244,0,0.85)"],"accumulator":"density","minDensityCnt":"-2ndStdDev","maxDensityCnt":"2ndStdDev","clamp":true}],"projections":[],"marks":[{"type":"symbol","from":{"data":"pointmap"},"properties":{"xc":{"scale":"x","field":"x"},"yc":{"scale":"y","field":"y"},"fillColor":{"scale":"pointmap_fillColor","value":0},"shape":"circle","width":5,"height":5}}]}|  |DBHandler.cpp:3358|15||409-as47|omnisci|admin
+07-01 00:00:00.000240|AUTH |disconnect_begin|6|0|||| stdlog_begin disconnect 6 0 |DBHandler.cpp:616|15||||
+07-01 00:00:00.000241|INFO ||||||| User admin disconnected from database omnisci with public_session_id: 409-as47 |DBHandler.cpp:624|15|2|||
+07-01 00:00:00.000242|INFO ||||||| Active render session UNSET |RenderSessionMgr.cpp:162|15|8|||
+07-01 00:00:00.000243|DEBUG||||||| QueryResultCache: removing results for query "SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null           AND st_ymin(omnisci_geo ) is not null           AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000". Cache id: -2. Freeing up 0 bytes. Remaining use_count: 2 |ResultCache.cpp:217|15|8|||
+07-01 00:00:00.000244|AUTH |disconnect|6|0||||  |DBHandler.cpp:616|15||409-as47|omnisci|admin

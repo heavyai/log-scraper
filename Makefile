@@ -110,7 +110,8 @@ up:
 		-d --rm \
 		-v ${PWD}:/src \
 		-v ${PWD}/target/${DB_CONTAINER}:/omnisci-storage \
-		-p 6273-6274:6273-6274 \
+		-p 46273-46274:6273-6274 \
+		-e CUDA_VISIBLE_DEVICES="0,1" \
 		${OMNISCI_IMAGE} \
 		/omnisci/startomnisci --non-interactive --data /omnisci-storage/data --verbose=true --log-severity=DEBUG4
 .PHONY: up
