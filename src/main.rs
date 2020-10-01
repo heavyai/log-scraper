@@ -32,7 +32,7 @@ fn main() -> log_parser::SResult<()> {
     let params = clap_app!(myapp =>
         (name: crate_name!())
         (version: crate_version!())
-        (author: "Alex Baden <alex.baden@mapd.com>, Mike Hinchey <mike.hinchey@omnisci.com>")
+        (author: "https://github.com/omnisci/log-scraper and https://community.omnisci.com/")
         (about: crate_description!())
 
         // TODO implement more filter tags: vega, exec, ops, connect, version, failure, error, warning
