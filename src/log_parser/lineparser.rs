@@ -224,6 +224,8 @@ impl MyColorize for Option<String> {
     }
 }
 
+const SQL_ARRAY_DELIM: &'static str = "\",\"";
+
 impl LogLine {
 
     pub fn print_colorize_header() -> String {
@@ -516,17 +518,22 @@ impl LogLine {
             )
         };
 
-        let delim = "\",\"";
-        let keys: Vec<&str> = keys_str.split(delim).map(|x| x.trim()).collect();
+        let keys: Vec<String> = keys_str.split(SQL_ARRAY_DELIM).map(|x| x.trim()).map(|x| x.replace("\"", "")).collect();
 
         let mut values: Vec<String> = Vec::new();
-        for val in values_str.split("\",\"") {
-            let val = val.trim().replace("\"\"", "\"");
-            if val.starts_with('"') && values.len() > 0 {
+        for val in values_str.split(SQL_ARRAY_DELIM) {
+            let val = val.trim().replace("\"\"", "\""); // .replace("\"", "");
+            if values.len() > 0 {
                 let mut last = values.pop().unwrap().clone().to_string();
-                last.push_str(delim);
-                last.push_str(val.as_str());
-                values.push(last);
+                if last.starts_with('{') && ! last.ends_with('}') {
+                    last.push(',');
+                    last.push_str(val.as_str());
+                    values.push(last);
+                }
+                else {
+                    values.push(last);
+                    values.push(val.to_string());
+                }
             }
             else {
                 values.push(val.to_string());
@@ -534,7 +541,7 @@ impl LogLine {
         }
 
         if keys.len() != values.len() {
-            panic!("{:?} {:?}", keys, values)
+            panic!("keys_str={:?}\nkeys={:} {:?}\nvalues_str={:?}\nvalues={:} {:?}", keys_str, keys.len(), keys, values_str, values.len(), values)
             // return
         }
 

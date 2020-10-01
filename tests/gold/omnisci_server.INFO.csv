@@ -10,7 +10,7 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 2020-07-01 00:00:00.000009,INFO,15,0,CommandLineOptions.cpp:1333,,,,,,,,,,,,OmniSci Calcite Port  6279,{},db,tests/gold/omnisci_server.INFO,OmniSci Calcite Port
 2020-07-01 00:00:00.000010,INFO,15,0,CommandLineOptions.cpp:1334,,,,,,,,,,,,Enable Calcite view optimize true,{},db,tests/gold/omnisci_server.INFO,Enable Calcite view optimize true
 2020-07-01 00:00:00.000011,INFO,15,0,CommandLineOptions.cpp:1337,,,,,,,,,,,,Allow Local Auth Fallback: disabled,{},db,tests/gold/omnisci_server.INFO,Allow Local Auth Fallback: disabled
-2020-07-01 00:00:00.000012,INFO,15,0,CommandLineOptions.cpp:1050,,,,,,,,,,,,License will expire at: 2021-01-02 00:00:00+0000,{},db,tests/gold/omnisci_server.INFO,License will expire at: -- ::+
+2020-07-01 00:00:00.000012,INFO,15,0,CommandLineOptions.cpp:1050,,,,,,,,,,,,License will expire at: 2021-01-16 00:00:00+0000,{},db,tests/gold/omnisci_server.INFO,License will expire at: -- ::+
 2020-07-01 00:00:00.000013,INFO,15,0,CommandLineOptions.cpp:1061,,,,,,,,,,,,OmniSci started with data directory at '/omnisci-storage/data',{},db,tests/gold/omnisci_server.INFO,OmniSci started with data directory at
 2020-07-01 00:00:00.000014,INFO,15,0,CommandLineOptions.cpp:1070,,,,,,,,,,,,Watchdog is set to true,{},db,tests/gold/omnisci_server.INFO,Watchdog is set to true
 2020-07-01 00:00:00.000015,INFO,15,0,CommandLineOptions.cpp:1071,,,,,,,,,,,,Dynamic Watchdog is set to false,{},db,tests/gold/omnisci_server.INFO,Dynamic Watchdog is set to false
@@ -18,78 +18,143 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 2020-07-01 00:00:00.000017,INFO,15,0,CommandLineOptions.cpp:1081,,,,,,,,,,,,Debug Timer is set to false,{},db,tests/gold/omnisci_server.INFO,Debug Timer is set to false
 2020-07-01 00:00:00.000018,INFO,15,0,CommandLineOptions.cpp:1083,,,,,,,,,,,,Maximum Idle session duration 60,{},db,tests/gold/omnisci_server.INFO,Maximum Idle session duration
 2020-07-01 00:00:00.000019,INFO,15,0,CommandLineOptions.cpp:1085,,,,,,,,,,,,Maximum active session duration 43200,{},db,tests/gold/omnisci_server.INFO,Maximum active session duration
-2020-07-01 00:00:00.000020,INFO,15,0,DBHandler.cpp:238,version,,,,,,,,,,,,{},db,tests/gold/omnisci_server.INFO,5.4.0-20200904-1b17b5c4e2
-2020-07-01 00:00:00.000021,INFO,15,0,ArrowCsvForeignStorage.cpp:719,,,,,,,,,,,,CSV backed temporary tables has been activated. Create table `with (storage_type='CSV:path/to/file.csv');`,{},db,tests/gold/omnisci_server.INFO,CSV backed temporary tables has been activated. Cr
-2020-07-01 00:00:00.000022,DEBUG,15,1,MapDServer.cpp:316,,,,,,,,,,,,heartbeat thread starting,{},db,tests/gold/omnisci_server.INFO,heartbeat thread starting
-2020-07-01 00:00:00.000023,ERROR,15,0,DBHandler.cpp:254,,,,,,,,,,,,"This build isn't CUDA enabled, will run on CPU",{},db,tests/gold/omnisci_server.INFO,"This build isn't CUDA enabled, will run on CPU"
-2020-07-01 00:00:00.000024,DEBUG,15,0,DataMgr.cpp:176,,,,,,,,,,,,Detected 5950.31M of total system memory.,{},db,tests/gold/omnisci_server.INFO,Detected .M of total system memory.
-2020-07-01 00:00:00.000025,INFO,15,0,DataMgr.cpp:185,,,,,,,,,,,,Min CPU Slab Size is 256MB,{},db,tests/gold/omnisci_server.INFO,Min CPU Slab Size is MB
-2020-07-01 00:00:00.000026,INFO,15,0,DataMgr.cpp:186,,,,,,,,,,,,Max CPU Slab Size is 4096MB,{},db,tests/gold/omnisci_server.INFO,Max CPU Slab Size is MB
-2020-07-01 00:00:00.000027,INFO,15,0,DataMgr.cpp:187,,,,,,,,,,,,Max memory pool size for CPU is 4760.25MB,{},db,tests/gold/omnisci_server.INFO,Max memory pool size for CPU is .MB
-2020-07-01 00:00:00.000028,INFO,15,0,FileMgr.cpp:205,read_table_metadata,,,,,,,,2,,,"Completed Reading table's file metadata, Elapsed time : 2ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0'",{},db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000029,OTHER,15,0,FileMgr.cpp:220,,,,,,,,,,,,Number of Headers in Vector: 0,{},db,tests/gold/omnisci_server.INFO,Number of Headers in Vector:
-2020-07-01 00:00:00.000030,INFO,15,0,Calcite.cpp:307,,,,,,,,,,,,"Creating Calcite Handler,  Calcite Port is 6279 base data dir is /omnisci-storage/data",{},db,tests/gold/omnisci_server.INFO,"Creating Calcite Handler,  Calcite Port is  base d"
-2020-07-01 00:00:00.000031,INFO,15,0,Calcite.cpp:215,,,,,,,,,,,,Running Calcite server as a daemon,{},db,tests/gold/omnisci_server.INFO,Running Calcite server as a daemon
-2020-07-01 00:00:00.000032,INFO,15,0,Calcite.cpp:255,,,,,,,,,,,,Calcite server start took 900 ms,{},db,tests/gold/omnisci_server.INFO,Calcite server start took  ms
-2020-07-01 00:00:00.000033,INFO,15,0,Calcite.cpp:256,,,,,,,,,,,,ping took 23 ms,{},db,tests/gold/omnisci_server.INFO,ping took  ms
-2020-07-01 00:00:00.000034,DEBUG,15,0,Calcite.cpp:539,,,,,,,,,,,,"[{""name"":""Truncate__"",""ret"":""float"",""args"":[""float"",""i32""]},{""name"":""area_triangle"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""box_contains_point"",""ret"":""i1"",""args"":[""double*"",""i64"",""double"",""double""]},{""name"":""Round__"",""ret"":""float"",""args"":[""float"",""i32""]},{""name"":""ST_YMax"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Point_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""distance_point_point_squared"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double""]},{""name"":""degrees"",""ret"":""double"",""args"":[""double""]},{""name"":""perimeter_multipolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i1""]},{""name"":""ST_Distance_Polygon_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""approx_distance_in_meters"",""ret"":""double"",""args"":[""float"",""float"",""float"",""float""]},{""name"":""isNan__"",""ret"":""i1"",""args"":[""float""]},{""name"":""convert_meters_to_pixel_height"",""ret"":""double"",""args"":[""double"",""i8*"",""i64"",""i32"",""i32"",""i32"",""double"",""double"",""i32"",""double""]},{""name"":""tol_eq"",""ret"":""i1"",""args"":[""double"",""double"",""double""]},{""name"":""ST_Intersects_LineString_MultiPolygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_YMin_Bounds"",""ret"":""double"",""args"":[""double*"",""i64"",""i32"",""i32""]},{""name"":""ST_Contains_LineString_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Log10"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_YMax_Bounds"",""ret"":""double"",""args"":[""double*"",""i64"",""i32"",""i32""]},{""name"":""ST_MaxDistance_Point_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Log"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_Perimeter_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""round_to_digit"",""ret"":""double"",""args"":[""double"",""i32""]},{""name"":""ST_YMin"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""array_append__3"",""ret"":""{double*, i64, i8}*"",""args"":[""{double*, i64, i8}*"",""double""]},{""name"":""ST_NPoints"",""ret"":""i32"",""args"":[""i8*"",""i64"",""i32""]},{""name"":""array_append__2"",""ret"":""{i8*, i64, i8}*"",""args"":[""{i8*, i64, i8}*"",""i8""]},{""name"":""Ceil"",""ret"":""double"",""args"":[""double""]},{""name"":""array_append__1"",""ret"":""{i16*, i64, i8}*"",""args"":[""{i16*, i64, i8}*"",""i16""]},{""name"":""ST_Distance_LineString_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""array_append__4"",""ret"":""{float*, i64, i8}*"",""args"":[""{float*, i64, i8}*"",""float""]},{""name"":""ST_XMin_Bounds"",""ret"":""double"",""args"":[""double*"",""i64"",""i32"",""i32""]},{""name"":""ST_Distance_Point_LineString_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""distance_in_meters__"",""ret"":""double"",""args"":[""float"",""float"",""float"",""float""]},{""name"":""Floor__"",""ret"":""float"",""args"":[""float""]},{""name"":""box_overlaps_box"",""ret"":""i1"",""args"":[""double*"",""i64"",""double*"",""i64""]},{""name"":""MapD_GeoPolyRenderGroup"",""ret"":""i32"",""args"":[""i32""]},{""name"":""decompress_coord"",""ret"":""double"",""args"":[""i8*"",""i32"",""i32"",""i1""]},{""name"":""ST_X_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""array_append_impl"",""ret"":""{i1*, i64, i8}*"",""args"":[""{i1*, i64, i8}*"",""i1""]},{""name"":""ST_Distance_LineString_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""max_distance_point_linestring"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32"",""i1""]},{""name"":""array_append"",""ret"":""{i64*, i64, i8}*"",""args"":[""{i64*, i64, i8}*"",""i64""]},{""name"":""ST_Distance_MultiPolygon_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""tol_zero"",""ret"":""i1"",""args"":[""double"",""double""]},{""name"":""ST_Length_LineString_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""rect_pixel_bin_packed"",""ret"":""i32"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""tol"",""ret"":""double"",""args"":[""i32"",""i32""]},{""name"":""convert_meters_to_pixel_width"",""ret"":""double"",""args"":[""double"",""i8*"",""i64"",""i32"",""i32"",""i32"",""double"",""double"",""i32"",""double""]},{""name"":""reg_hex_vert_pixel_bin_y"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""reg_hex_vert_pixel_bin_x"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""ST_Contains_LineString_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""power"",""ret"":""double"",""args"":[""double"",""double""]},{""name"":""ST_Area_MultiPolygon_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""reg_hex_horiz_pixel_bin_y"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""area_ring"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""MapD_GeoPolyBoundsPtr"",""ret"":""i64"",""args"":[""double*"",""i64""]},{""name"":""reg_hex_vert_pixel_bin_packed"",""ret"":""i32"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""reg_hex_horiz_pixel_bin_x"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""ST_Distance_Point_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_NRings"",""ret"":""i32"",""args"":[""i32*"",""i64""]},{""name"":""area_polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""length_linestring"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32"",""i1"",""i1""]},{""name"":""Cos"",""ret"":""double"",""args"":[""double""]},{""name"":""Log__"",""ret"":""double"",""args"":[""float""]},{""name"":""tol_le"",""ret"":""i1"",""args"":[""double"",""double"",""double""]},{""name"":""Cot"",""ret"":""double"",""args"":[""double""]},{""name"":""coord_x"",""ret"":""double"",""args"":[""i8*"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_XMax"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""coord_y"",""ret"":""double"",""args"":[""i8*"",""i32"",""i32"",""i32"",""i32""]},{""name"":""isNan"",""ret"":""i1"",""args"":[""double""]},{""name"":""box_contains_box"",""ret"":""i1"",""args"":[""double*"",""i64"",""double*"",""i64""]},{""name"":""ST_Perimeter_MultiPolygon_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Contains_Point_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""line_intersects_line"",""ret"":""i1"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""distance_point_linestring"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32"",""i1""]},{""name"":""ST_Contains_Point_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""compression_unit_size"",""ret"":""i32"",""args"":[""i32""]},{""name"":""ST_Distance_Point_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Area_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_LineString_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Polygon_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""OmniSci_Geo_PolyRenderGroup"",""ret"":""i32"",""args"":[""i32""]},{""name"":""Tan"",""ret"":""double"",""args"":[""double""]},{""name"":""ln"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_X_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32"",""i32""]},{""name"":""transform_coord"",""ret"":""double"",""args"":[""double"",""i32"",""i32"",""i1""]},{""name"":""Point_Overlaps_Box"",""ret"":""i1"",""args"":[""double*"",""i64"",""double"",""double""]},{""name"":""ST_Contains_MultiPolygon_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Floor__2"",""ret"":""i32"",""args"":[""i32""]},{""name"":""ST_Distance_Point_ClosedLineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Floor__3"",""ret"":""i64"",""args"":[""i64""]},{""name"":""rect_pixel_bin"",""ret"":""float"",""args"":[""double"",""double"",""double"",""i32"",""i32""]},{""name"":""ST_Distance_Point_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Point_MultiPolygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Floor__1"",""ret"":""i16"",""args"":[""i16""]},{""name"":""ST_Intersects_MultiPolygon_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Point_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""array_append__"",""ret"":""{i32*, i64, i8}*"",""args"":[""{i32*, i64, i8}*"",""i32""]},{""name"":""ST_Distance_LineString_LineString_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""barray_append"",""ret"":""{i1*, i64, i8}*"",""args"":[""{i1*, i64, i8}*"",""i1""]},{""name"":""Ceil__2"",""ret"":""i32"",""args"":[""i32""]},{""name"":""ST_XMin"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""Ceil__1"",""ret"":""i16"",""args"":[""i16""]},{""name"":""Ceil__3"",""ret"":""i64"",""args"":[""i64""]},{""name"":""distance_point_line"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""ST_Area_Polygon_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""OmniSci_Geo_PolyBoundsPtr"",""ret"":""i64"",""args"":[""double*"",""i64""]},{""name"":""ST_Distance_MultiPolygon_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_MultiPolygon_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Round2_to_digit"",""ret"":""double"",""args"":[""double"",""i32""]},{""name"":""ST_Intersects_LineString_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Polygon_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""on_segment"",""ret"":""i1"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""ST_Perimeter_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_Polygon_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_MultiPolygon_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""max_distance_point_line"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""distance_in_meters"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double""]},{""name"":""ST_Contains_Polygon_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Atan2"",""ret"":""double"",""args"":[""double"",""double""]},{""name"":""Acos"",""ret"":""double"",""args"":[""double""]},{""name"":""Sin"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_Y_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_Polygon_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_LineString_Point_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""distance_point_point"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double""]},{""name"":""ST_Contains_Polygon_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Point_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Contains_Polygon_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Truncate"",""ret"":""double"",""args"":[""double"",""i32""]},{""name"":""radians"",""ret"":""double"",""args"":[""double""]},{""name"":""tol_ge"",""ret"":""i1"",""args"":[""double"",""double"",""double""]},{""name"":""ST_Contains_LineString_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_MaxDistance_LineString_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_XMax_Bounds"",""ret"":""double"",""args"":[""double*"",""i64"",""i32"",""i32""]},{""name"":""ST_Intersects_MultiPolygon_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Ceil__"",""ret"":""float"",""args"":[""float""]},{""name"":""ln__"",""ret"":""double"",""args"":[""float""]},{""name"":""ST_Y_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Contains_MultiPolygon_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""reg_hex_horiz_pixel_bin_packed"",""ret"":""i32"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""convert_meters_to_merc_pixel_width"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""i32"",""double""]},{""name"":""convert_meters_to_merc_pixel_height"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""i32"",""double""]},{""name"":""Round"",""ret"":""double"",""args"":[""double"",""i32""]},{""name"":""ST_Intersects_Polygon_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Polygon_MultiPolygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Length_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""conv_4326_900913_x"",""ret"":""double"",""args"":[""double""]},{""name"":""conv_4326_900913_y"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_Perimeter_Polygon_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Contains_Point_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Atan"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_Area_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""Floor"",""ret"":""double"",""args"":[""double""]},{""name"":""orientation"",""ret"":""i16"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""Truncate__1"",""ret"":""i16"",""args"":[""i16"",""i32""]},{""name"":""ST_Distance_Point_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Truncate__2"",""ret"":""i32"",""args"":[""i32"",""i32""]},{""name"":""Truncate__3"",""ret"":""i64"",""args"":[""i64"",""i32""]},{""name"":""Log10__"",""ret"":""double"",""args"":[""float""]},{""name"":""is_point_in_merc_view"",""ret"":""i1"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""ST_Intersects_MultiPolygon_MultiPolygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Asin"",""ret"":""double"",""args"":[""double""]},{""name"":""Tan__"",""ret"":""double"",""args"":[""float""]},{""name"":""ST_Distance_MultiPolygon_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""rect_pixel_bin_x"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""i32""]},{""name"":""rect_pixel_bin_y"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""i32""]},{""name"":""ST_Intersects_LineString_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""is_point_in_view"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32"",""double"",""double"",""double"",""double""]},{""name"":""is_point_size_in_merc_view"",""ret"":""i1"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""pi"",""ret"":""double"",""args"":[]},{""name"":""ST_Distance_LineString_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_LineString_Linestring"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Round__1"",""ret"":""i16"",""args"":[""i16"",""i32""]},{""name"":""ST_Distance_Point_Point_Squared"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Exp"",""ret"":""double"",""args"":[""double""]},{""name"":""Round__2"",""ret"":""i32"",""args"":[""i32"",""i32""]},{""name"":""Round__3"",""ret"":""i64"",""args"":[""i64"",""i32""]},{""name"":""ST_Distance_Polygon_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Round__4"",""ret"":""i64"",""args"":[""i64"",""i32"",""i32""]},{""name"":""ST_Distance_Point_Point_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]}]",{},db,tests/gold/omnisci_server.INFO,"[{""name"":""Truncate__"",""ret"":""float"",""args"":[""float"
-2020-07-01 00:00:00.000035,INFO,15,0,DBHandler.cpp:341,,,,,,,,,,,,Started in CPU mode,{},db,tests/gold/omnisci_server.INFO,Started in CPU mode
-2020-07-01 00:00:00.000036,INFO,15,0,DBHandler.cpp:391,,,,,,,,,,,,Overriding default geos library with 'libgeos_c.so',{},db,tests/gold/omnisci_server.INFO,Overriding default geos library with
-2020-07-01 00:00:00.000037,INFO,15,0,MapDServer.cpp:455,,,,,,,,,,,,OmniSci server using unencrypted connection,{},db,tests/gold/omnisci_server.INFO,OmniSci server using unencrypted connection
-2020-07-01 00:00:00.000038,AUTH,15,,DBHandler.cpp:533,connect_begin,0,0,,,,,,,,,stdlog_begin connect 0 0,{},db,tests/gold/omnisci_server.INFO,stdlog_begin connect
-2020-07-01 00:00:00.000039,INFO,15,2,DBHandler.cpp:581,,,,,,,,,,,,User admin connected to database omnisci,{},db,tests/gold/omnisci_server.INFO,User admin connected to database omnisci
-2020-07-01 00:00:00.000040,AUTH,15,,DBHandler.cpp:533,connect,0,272,455-NzOR,omnisci,admin,,,,,tcp:172.17.0.1:52290,,"{roles,super}",db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000041,INFO,15,,DBHandler.cpp:1058,sql_execute_begin,1,0,455-NzOR,omnisci,admin,SELECT,,,SELECT count(*) from omnisci_states;,,,{},db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000042,DEBUG,15,2,DBHandler.cpp:5178,,,,,,,,,,,,query type: READ,{},db,tests/gold/omnisci_server.INFO,query type: READ
-2020-07-01 00:00:00.000043,INFO,15,2,Calcite.cpp:486,,,,,,,,,,,,User calcite catalog omnisci sql 'SELECT count(*) from omnisci_states;',{},db,tests/gold/omnisci_server.INFO,User calcite catalog omnisci sql
-2020-07-01 00:00:00.000044,DEBUG,15,,DBHandler.cpp:2154,get_tables_begin,2,0,455-RrGa,omnisci,calcite,,,,,,stdlog_begin get_tables 2 0 omnisci calcite 455-RrGa,{},db,tests/gold/omnisci_server.INFO,stdlog_begin get_tables   omnisci calcite -RrGa
-2020-07-01 00:00:00.000045,INFO,15,,DBHandler.cpp:2154,get_tables,2,0,455-RrGa,omnisci,calcite,,,,,tcp:localhost:32836,,{},db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000046,DEBUG,15,,DBHandler.cpp:1998,get_internal_table_details_begin,3,0,455-RrGa,omnisci,calcite,,,,,,,"{table_name,omnisci_states}",db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000047,DEBUG,15,3,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
-2020-07-01 00:00:00.000048,INFO,15,,DBHandler.cpp:1998,get_internal_table_details,3,1,455-RrGa,omnisci,calcite,,,,,tcp:localhost:32838,,"{table_name,omnisci_states}",db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000049,INFO,15,2,Calcite.cpp:513,sql_parse,,,,,,,12,1236,,,"Time in Thrift 12 (ms), Time in Java Calcite server 1236 (ms)",{},db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000050,DEBUG,15,2,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
-2020-07-01 00:00:00.000051,OTHER,15,2,FileMgr.cpp:183,,,,,,,,,,,,File id: 0 Page size: 2097152 Num pages: 256,{},db,tests/gold/omnisci_server.INFO,File id:  Page size:  Num pages:
-2020-07-01 00:00:00.000052,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,1,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000053,OTHER,15,2,FileMgr.cpp:183,,,,,,,,,,,,File id: 1 Page size: 4096 Num pages: 4096,{},db,tests/gold/omnisci_server.INFO,File id:  Page size:  Num pages:
-2020-07-01 00:00:00.000054,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,2,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000055,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,3,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000056,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,4,0,2, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000057,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,4,0,1, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000058,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,5,0,2, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000059,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,5,0,1, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000060,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,1,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000061,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,6,0,2, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000062,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,2,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000063,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,6,0,1, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000064,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,3,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000065,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,7,0,2, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000066,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,4,0,1, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000067,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,7,0,1, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000068,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,4,0,2, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000069,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,8,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000070,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,5,0,1, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000071,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,5,0,2, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000072,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,6,0,1, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000073,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,6,0,2, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000074,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,9,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000075,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,7,0,1, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000076,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,7,0,2, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000077,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,8,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000078,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,9,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000079,OTHER,15,5,FileInfo.cpp:180,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,11,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
-2020-07-01 00:00:00.000080,OTHER,15,4,FileInfo.cpp:180,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,11,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
-2020-07-01 00:00:00.000081,INFO,15,2,FileMgr.cpp:205,read_table_metadata,,,,,,,,137,,,"Completed Reading table's file metadata, Elapsed time : 137ms Epoch: 1 files read: 2 table location: '/omnisci-storage/data/mapd_data/table_1_1'",{},db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000082,OTHER,15,2,FileMgr.cpp:220,,,,,,,,,,,,Number of Headers in Vector: 28,{},db,tests/gold/omnisci_server.INFO,Number of Headers in Vector:
-2020-07-01 00:00:00.000083,INFO,15,2,Catalog.cpp:1414,,,,,,,,,,,,Instantiating Fragmenter for table omnisci_states took 144ms,{},db,tests/gold/omnisci_server.INFO,Instantiating Fragmenter for table omnisci_states
-2020-07-01 00:00:00.000084,DEBUG,15,2,LockMgr.h:207,,,,,,,,,,,,Acquiring Table Data Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Data Read Lock for table: omnisci_
-2020-07-01 00:00:00.000085,INFO,15,2,QueryDispatchQueue.h:49,,,,,,,,,,,,Dispatching query with 0 queries in the queue.,{},db,tests/gold/omnisci_server.INFO,Dispatching query with  queries in the queue.
-2020-07-01 00:00:00.000086,INFO,15,6,QueryDispatchQueue.h:80,,,,,,,,,,,,Running query and returning control. There are now 0 queries in the queue.,{},db,tests/gold/omnisci_server.INFO,Running query and returning control. There are now
-2020-07-01 00:00:00.000087,DEBUG,15,6,DBHandler.cpp:4776,,,,,,,,,,,,"Table Schema Locks:
+2020-07-01 00:00:00.000020,DEBUG,15,1,MapDServer.cpp:316,,,,,,,,,,,,heartbeat thread starting,{},db,tests/gold/omnisci_server.INFO,heartbeat thread starting
+2020-07-01 00:00:00.000021,INFO,15,0,DBHandler.cpp:238,version,,,,,,,,,,,,{},db,tests/gold/omnisci_server.INFO,5.4.1-20200925-6728b9462b
+2020-07-01 00:00:00.000022,INFO,15,0,ArrowCsvForeignStorage.cpp:719,,,,,,,,,,,,CSV backed temporary tables has been activated. Create table `with (storage_type='CSV:path/to/file.csv');`,{},db,tests/gold/omnisci_server.INFO,CSV backed temporary tables has been activated. Cr
+2020-07-01 00:00:00.000023,INFO,15,0,CudaMgr.cpp:369,,,,,,,,,,,,Using 2 Gpus.,{},db,tests/gold/omnisci_server.INFO,Using  Gpus.
+2020-07-01 00:00:00.000024,DEBUG,15,0,CudaMgr.cpp:371,,,,,,,,,,,,Device: 0,{},db,tests/gold/omnisci_server.INFO,Device:
+2020-07-01 00:00:00.000025,DEBUG,15,0,CudaMgr.cpp:372,,,,,,,,,,,,UUID: 3e09368e-489d-bce6-5ef8-d6e0b290643a,{},db,tests/gold/omnisci_server.INFO,UUID: ee-d-bce-ef-deba
+2020-07-01 00:00:00.000026,DEBUG,15,0,CudaMgr.cpp:373,,,,,,,,,,,,Clock (khz): 745000,{},db,tests/gold/omnisci_server.INFO,Clock (khz):
+2020-07-01 00:00:00.000027,DEBUG,15,0,CudaMgr.cpp:374,,,,,,,,,,,,Compute Major: 3,{},db,tests/gold/omnisci_server.INFO,Compute Major:
+2020-07-01 00:00:00.000028,DEBUG,15,0,CudaMgr.cpp:375,,,,,,,,,,,,Compute Minor: 5,{},db,tests/gold/omnisci_server.INFO,Compute Minor:
+2020-07-01 00:00:00.000029,DEBUG,15,0,CudaMgr.cpp:376,,,,,,,,,,,,PCI bus id: 4,{},db,tests/gold/omnisci_server.INFO,PCI bus id:
+2020-07-01 00:00:00.000030,DEBUG,15,0,CudaMgr.cpp:377,,,,,,,,,,,,PCI deviceId id: 0,{},db,tests/gold/omnisci_server.INFO,PCI deviceId id:
+2020-07-01 00:00:00.000031,DEBUG,15,0,CudaMgr.cpp:378,,,,,,,,,,,,Per device global memory: 11.9205 GB,{},db,tests/gold/omnisci_server.INFO,Per device global memory: . GB
+2020-07-01 00:00:00.000032,DEBUG,15,0,CudaMgr.cpp:380,,,,,,,,,,,,Memory clock (khz): 3004000,{},db,tests/gold/omnisci_server.INFO,Memory clock (khz):
+2020-07-01 00:00:00.000033,DEBUG,15,0,CudaMgr.cpp:381,,,,,,,,,,,,Memory bandwidth: 144.192 GB/sec,{},db,tests/gold/omnisci_server.INFO,Memory bandwidth: . GB/sec
+2020-07-01 00:00:00.000034,DEBUG,15,0,CudaMgr.cpp:384,,,,,,,,,,,,Constant Memory: 65536,{},db,tests/gold/omnisci_server.INFO,Constant Memory:
+2020-07-01 00:00:00.000035,DEBUG,15,0,CudaMgr.cpp:385,,,,,,,,,,,,Shared memory per multiprocessor: 49152,{},db,tests/gold/omnisci_server.INFO,Shared memory per multiprocessor:
+2020-07-01 00:00:00.000036,DEBUG,15,0,CudaMgr.cpp:387,,,,,,,,,,,,Shared memory per block: 49152,{},db,tests/gold/omnisci_server.INFO,Shared memory per block:
+2020-07-01 00:00:00.000037,DEBUG,15,0,CudaMgr.cpp:388,,,,,,,,,,,,Number of MPs: 15,{},db,tests/gold/omnisci_server.INFO,Number of MPs:
+2020-07-01 00:00:00.000038,DEBUG,15,0,CudaMgr.cpp:389,,,,,,,,,,,,Warp Size: 32,{},db,tests/gold/omnisci_server.INFO,Warp Size:
+2020-07-01 00:00:00.000039,DEBUG,15,0,CudaMgr.cpp:390,,,,,,,,,,,,Max threads per block: 1024,{},db,tests/gold/omnisci_server.INFO,Max threads per block:
+2020-07-01 00:00:00.000040,DEBUG,15,0,CudaMgr.cpp:391,,,,,,,,,,,,Max registers per block: 65536,{},db,tests/gold/omnisci_server.INFO,Max registers per block:
+2020-07-01 00:00:00.000041,DEBUG,15,0,CudaMgr.cpp:392,,,,,,,,,,,,Max register per MP: 65536,{},db,tests/gold/omnisci_server.INFO,Max register per MP:
+2020-07-01 00:00:00.000042,DEBUG,15,0,CudaMgr.cpp:393,,,,,,,,,,,,Memory bus width in bits: 384,{},db,tests/gold/omnisci_server.INFO,Memory bus width in bits:
+2020-07-01 00:00:00.000043,DEBUG,15,0,CudaMgr.cpp:371,,,,,,,,,,,,Device: 1,{},db,tests/gold/omnisci_server.INFO,Device:
+2020-07-01 00:00:00.000044,DEBUG,15,0,CudaMgr.cpp:372,,,,,,,,,,,,UUID: 7ff02ae8-e62b-d9aa-c814-aec3a8240cc7,{},db,tests/gold/omnisci_server.INFO,UUID: ffae-eb-daa-c-aecacc
+2020-07-01 00:00:00.000045,DEBUG,15,0,CudaMgr.cpp:373,,,,,,,,,,,,Clock (khz): 745000,{},db,tests/gold/omnisci_server.INFO,Clock (khz):
+2020-07-01 00:00:00.000046,DEBUG,15,0,CudaMgr.cpp:374,,,,,,,,,,,,Compute Major: 3,{},db,tests/gold/omnisci_server.INFO,Compute Major:
+2020-07-01 00:00:00.000047,DEBUG,15,0,CudaMgr.cpp:375,,,,,,,,,,,,Compute Minor: 5,{},db,tests/gold/omnisci_server.INFO,Compute Minor:
+2020-07-01 00:00:00.000048,DEBUG,15,0,CudaMgr.cpp:376,,,,,,,,,,,,PCI bus id: 5,{},db,tests/gold/omnisci_server.INFO,PCI bus id:
+2020-07-01 00:00:00.000049,DEBUG,15,0,CudaMgr.cpp:377,,,,,,,,,,,,PCI deviceId id: 0,{},db,tests/gold/omnisci_server.INFO,PCI deviceId id:
+2020-07-01 00:00:00.000050,DEBUG,15,0,CudaMgr.cpp:378,,,,,,,,,,,,Per device global memory: 11.9205 GB,{},db,tests/gold/omnisci_server.INFO,Per device global memory: . GB
+2020-07-01 00:00:00.000051,DEBUG,15,0,CudaMgr.cpp:380,,,,,,,,,,,,Memory clock (khz): 3004000,{},db,tests/gold/omnisci_server.INFO,Memory clock (khz):
+2020-07-01 00:00:00.000052,DEBUG,15,0,CudaMgr.cpp:381,,,,,,,,,,,,Memory bandwidth: 144.192 GB/sec,{},db,tests/gold/omnisci_server.INFO,Memory bandwidth: . GB/sec
+2020-07-01 00:00:00.000053,DEBUG,15,0,CudaMgr.cpp:384,,,,,,,,,,,,Constant Memory: 65536,{},db,tests/gold/omnisci_server.INFO,Constant Memory:
+2020-07-01 00:00:00.000054,DEBUG,15,0,CudaMgr.cpp:385,,,,,,,,,,,,Shared memory per multiprocessor: 49152,{},db,tests/gold/omnisci_server.INFO,Shared memory per multiprocessor:
+2020-07-01 00:00:00.000055,DEBUG,15,0,CudaMgr.cpp:387,,,,,,,,,,,,Shared memory per block: 49152,{},db,tests/gold/omnisci_server.INFO,Shared memory per block:
+2020-07-01 00:00:00.000056,DEBUG,15,0,CudaMgr.cpp:388,,,,,,,,,,,,Number of MPs: 15,{},db,tests/gold/omnisci_server.INFO,Number of MPs:
+2020-07-01 00:00:00.000057,DEBUG,15,0,CudaMgr.cpp:389,,,,,,,,,,,,Warp Size: 32,{},db,tests/gold/omnisci_server.INFO,Warp Size:
+2020-07-01 00:00:00.000058,DEBUG,15,0,CudaMgr.cpp:390,,,,,,,,,,,,Max threads per block: 1024,{},db,tests/gold/omnisci_server.INFO,Max threads per block:
+2020-07-01 00:00:00.000059,DEBUG,15,0,CudaMgr.cpp:391,,,,,,,,,,,,Max registers per block: 65536,{},db,tests/gold/omnisci_server.INFO,Max registers per block:
+2020-07-01 00:00:00.000060,DEBUG,15,0,CudaMgr.cpp:392,,,,,,,,,,,,Max register per MP: 65536,{},db,tests/gold/omnisci_server.INFO,Max register per MP:
+2020-07-01 00:00:00.000061,DEBUG,15,0,CudaMgr.cpp:393,,,,,,,,,,,,Memory bus width in bits: 384,{},db,tests/gold/omnisci_server.INFO,Memory bus width in bits:
+2020-07-01 00:00:00.000062,INFO,15,0,CudaMgr.cpp:68,,,,,,,,,,,,Warming up the GPU JIT Compiler... (this may take several seconds),{},db,tests/gold/omnisci_server.INFO,Warming up the GPU JIT Compiler... (this may take
+2020-07-01 00:00:00.000063,DEBUG,15,0,NvidiaKernel.cpp:75,,,,,,,,,,,,CUDA JIT time to create link: 0.793526,{},db,tests/gold/omnisci_server.INFO,CUDA JIT time to create link: .
+2020-07-01 00:00:00.000064,DEBUG,15,0,NvidiaKernel.cpp:82,,,,,,,,,,,,CUDA JIT time to add RT fatbinary: 35.4286,{},db,tests/gold/omnisci_server.INFO,CUDA JIT time to add RT fatbinary: .
+2020-07-01 00:00:00.000065,INFO,15,0,CudaMgr.cpp:71,,,,,,,,,,,,GPU JIT Compiler initialized.,{},db,tests/gold/omnisci_server.INFO,GPU JIT Compiler initialized.
+2020-07-01 00:00:00.000066,DEBUG,15,0,DataMgr.cpp:176,,,,,,,,,,,,Detected 386774M of total system memory.,{},db,tests/gold/omnisci_server.INFO,Detected M of total system memory.
+2020-07-01 00:00:00.000067,INFO,15,0,DataMgr.cpp:185,,,,,,,,,,,,Min CPU Slab Size is 256MB,{},db,tests/gold/omnisci_server.INFO,Min CPU Slab Size is MB
+2020-07-01 00:00:00.000068,INFO,15,0,DataMgr.cpp:186,,,,,,,,,,,,Max CPU Slab Size is 4096MB,{},db,tests/gold/omnisci_server.INFO,Max CPU Slab Size is MB
+2020-07-01 00:00:00.000069,INFO,15,0,DataMgr.cpp:187,,,,,,,,,,,,Max memory pool size for CPU is 309419MB,{},db,tests/gold/omnisci_server.INFO,Max memory pool size for CPU is MB
+2020-07-01 00:00:00.000070,INFO,15,0,DataMgr.cpp:190,,,,,,,,,,,,Reserved GPU memory is 1337.67MB includes render buffer allocation,{},db,tests/gold/omnisci_server.INFO,Reserved GPU memory is .MB includes render buffer
+2020-07-01 00:00:00.000071,INFO,15,0,DataMgr.cpp:213,,,,,,,,,,,,Min GPU Slab size for GPU 0 is 256MB,{},db,tests/gold/omnisci_server.INFO,Min GPU Slab size for GPU  is MB
+2020-07-01 00:00:00.000072,INFO,15,0,DataMgr.cpp:215,,,,,,,,,,,,Max GPU Slab size for GPU 0 is 4096MB,{},db,tests/gold/omnisci_server.INFO,Max GPU Slab size for GPU  is MB
+2020-07-01 00:00:00.000073,INFO,15,0,DataMgr.cpp:217,,,,,,,,,,,,Max memory pool size for GPU 0 is 10869MB,{},db,tests/gold/omnisci_server.INFO,Max memory pool size for GPU  is MB
+2020-07-01 00:00:00.000074,INFO,15,0,DataMgr.cpp:213,,,,,,,,,,,,Min GPU Slab size for GPU 1 is 256MB,{},db,tests/gold/omnisci_server.INFO,Min GPU Slab size for GPU  is MB
+2020-07-01 00:00:00.000075,INFO,15,0,DataMgr.cpp:215,,,,,,,,,,,,Max GPU Slab size for GPU 1 is 4096MB,{},db,tests/gold/omnisci_server.INFO,Max GPU Slab size for GPU  is MB
+2020-07-01 00:00:00.000076,INFO,15,0,DataMgr.cpp:217,,,,,,,,,,,,Max memory pool size for GPU 1 is 10869MB,{},db,tests/gold/omnisci_server.INFO,Max memory pool size for GPU  is MB
+2020-07-01 00:00:00.000077,INFO,15,0,FileMgr.cpp:205,read_table_metadata,,,,,,,,0,,,"Completed Reading table's file metadata, Elapsed time : 0ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0'",{},db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000078,OTHER,15,0,FileMgr.cpp:220,,,,,,,,,,,,Number of Headers in Vector: 0,{},db,tests/gold/omnisci_server.INFO,Number of Headers in Vector:
+2020-07-01 00:00:00.000079,INFO,15,0,Calcite.cpp:307,,,,,,,,,,,,"Creating Calcite Handler,  Calcite Port is 6279 base data dir is /omnisci-storage/data",{},db,tests/gold/omnisci_server.INFO,"Creating Calcite Handler,  Calcite Port is  base d"
+2020-07-01 00:00:00.000080,INFO,15,0,Calcite.cpp:215,,,,,,,,,,,,Running Calcite server as a daemon,{},db,tests/gold/omnisci_server.INFO,Running Calcite server as a daemon
+2020-07-01 00:00:00.000081,INFO,15,0,Calcite.cpp:255,,,,,,,,,,,,Calcite server start took 500 ms,{},db,tests/gold/omnisci_server.INFO,Calcite server start took  ms
+2020-07-01 00:00:00.000082,INFO,15,0,Calcite.cpp:256,,,,,,,,,,,,ping took 8 ms,{},db,tests/gold/omnisci_server.INFO,ping took  ms
+2020-07-01 00:00:00.000083,DEBUG,15,0,Calcite.cpp:539,,,,,,,,,,,,"[{""name"":""Truncate__"",""ret"":""float"",""args"":[""float"",""i32""]},{""name"":""area_triangle"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""box_contains_point"",""ret"":""i1"",""args"":[""double*"",""i64"",""double"",""double""]},{""name"":""Round__"",""ret"":""float"",""args"":[""float"",""i32""]},{""name"":""ST_YMax"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Point_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""distance_point_point_squared"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double""]},{""name"":""degrees"",""ret"":""double"",""args"":[""double""]},{""name"":""perimeter_multipolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i1""]},{""name"":""ST_Distance_Polygon_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""approx_distance_in_meters"",""ret"":""double"",""args"":[""float"",""float"",""float"",""float""]},{""name"":""isNan__"",""ret"":""i1"",""args"":[""float""]},{""name"":""convert_meters_to_pixel_height"",""ret"":""double"",""args"":[""double"",""i8*"",""i64"",""i32"",""i32"",""i32"",""double"",""double"",""i32"",""double""]},{""name"":""tol_eq"",""ret"":""i1"",""args"":[""double"",""double"",""double""]},{""name"":""ST_Intersects_LineString_MultiPolygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_YMin_Bounds"",""ret"":""double"",""args"":[""double*"",""i64"",""i32"",""i32""]},{""name"":""ST_Contains_LineString_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Log10"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_YMax_Bounds"",""ret"":""double"",""args"":[""double*"",""i64"",""i32"",""i32""]},{""name"":""ST_MaxDistance_Point_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Log"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_Perimeter_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""round_to_digit"",""ret"":""double"",""args"":[""double"",""i32""]},{""name"":""ST_YMin"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""array_append__3"",""ret"":""{double*, i64, i8}*"",""args"":[""{double*, i64, i8}*"",""double""]},{""name"":""ST_NPoints"",""ret"":""i32"",""args"":[""i8*"",""i64"",""i32""]},{""name"":""array_append__2"",""ret"":""{i8*, i64, i8}*"",""args"":[""{i8*, i64, i8}*"",""i8""]},{""name"":""Ceil"",""ret"":""double"",""args"":[""double""]},{""name"":""array_append__1"",""ret"":""{i16*, i64, i8}*"",""args"":[""{i16*, i64, i8}*"",""i16""]},{""name"":""ST_Distance_LineString_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""array_append__4"",""ret"":""{float*, i64, i8}*"",""args"":[""{float*, i64, i8}*"",""float""]},{""name"":""ST_XMin_Bounds"",""ret"":""double"",""args"":[""double*"",""i64"",""i32"",""i32""]},{""name"":""ST_Distance_Point_LineString_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""distance_in_meters__"",""ret"":""double"",""args"":[""float"",""float"",""float"",""float""]},{""name"":""Floor__"",""ret"":""float"",""args"":[""float""]},{""name"":""box_overlaps_box"",""ret"":""i1"",""args"":[""double*"",""i64"",""double*"",""i64""]},{""name"":""MapD_GeoPolyRenderGroup"",""ret"":""i32"",""args"":[""i32""]},{""name"":""decompress_coord"",""ret"":""double"",""args"":[""i8*"",""i32"",""i32"",""i1""]},{""name"":""ST_X_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""array_append_impl"",""ret"":""{i1*, i64, i8}*"",""args"":[""{i1*, i64, i8}*"",""i1""]},{""name"":""ST_Distance_LineString_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""max_distance_point_linestring"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32"",""i1""]},{""name"":""array_append"",""ret"":""{i64*, i64, i8}*"",""args"":[""{i64*, i64, i8}*"",""i64""]},{""name"":""ST_Distance_MultiPolygon_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""tol_zero"",""ret"":""i1"",""args"":[""double"",""double""]},{""name"":""ST_Length_LineString_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""rect_pixel_bin_packed"",""ret"":""i32"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""tol"",""ret"":""double"",""args"":[""i32"",""i32""]},{""name"":""convert_meters_to_pixel_width"",""ret"":""double"",""args"":[""double"",""i8*"",""i64"",""i32"",""i32"",""i32"",""double"",""double"",""i32"",""double""]},{""name"":""reg_hex_vert_pixel_bin_y"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""reg_hex_vert_pixel_bin_x"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""ST_Contains_LineString_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""power"",""ret"":""double"",""args"":[""double"",""double""]},{""name"":""ST_Area_MultiPolygon_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""reg_hex_horiz_pixel_bin_y"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""area_ring"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""MapD_GeoPolyBoundsPtr"",""ret"":""i64"",""args"":[""double*"",""i64""]},{""name"":""reg_hex_vert_pixel_bin_packed"",""ret"":""i32"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""reg_hex_horiz_pixel_bin_x"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""ST_Distance_Point_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_NRings"",""ret"":""i32"",""args"":[""i32*"",""i64""]},{""name"":""area_polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""length_linestring"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32"",""i1"",""i1""]},{""name"":""Cos"",""ret"":""double"",""args"":[""double""]},{""name"":""Log__"",""ret"":""double"",""args"":[""float""]},{""name"":""tol_le"",""ret"":""i1"",""args"":[""double"",""double"",""double""]},{""name"":""Cot"",""ret"":""double"",""args"":[""double""]},{""name"":""coord_x"",""ret"":""double"",""args"":[""i8*"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_XMax"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""coord_y"",""ret"":""double"",""args"":[""i8*"",""i32"",""i32"",""i32"",""i32""]},{""name"":""isNan"",""ret"":""i1"",""args"":[""double""]},{""name"":""box_contains_box"",""ret"":""i1"",""args"":[""double*"",""i64"",""double*"",""i64""]},{""name"":""ST_Perimeter_MultiPolygon_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Contains_Point_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""line_intersects_line"",""ret"":""i1"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""distance_point_linestring"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32"",""i1""]},{""name"":""ST_Contains_Point_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""compression_unit_size"",""ret"":""i32"",""args"":[""i32""]},{""name"":""ST_Distance_Point_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Area_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_LineString_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Polygon_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""OmniSci_Geo_PolyRenderGroup"",""ret"":""i32"",""args"":[""i32""]},{""name"":""Tan"",""ret"":""double"",""args"":[""double""]},{""name"":""ln"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_X_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32"",""i32""]},{""name"":""transform_coord"",""ret"":""double"",""args"":[""double"",""i32"",""i32"",""i1""]},{""name"":""Point_Overlaps_Box"",""ret"":""i1"",""args"":[""double*"",""i64"",""double"",""double""]},{""name"":""ST_Contains_MultiPolygon_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Floor__2"",""ret"":""i32"",""args"":[""i32""]},{""name"":""ST_Distance_Point_ClosedLineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Floor__3"",""ret"":""i64"",""args"":[""i64""]},{""name"":""rect_pixel_bin"",""ret"":""float"",""args"":[""double"",""double"",""double"",""i32"",""i32""]},{""name"":""ST_Distance_Point_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Point_MultiPolygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Floor__1"",""ret"":""i16"",""args"":[""i16""]},{""name"":""ST_Intersects_MultiPolygon_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Point_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""array_append__"",""ret"":""{i32*, i64, i8}*"",""args"":[""{i32*, i64, i8}*"",""i32""]},{""name"":""ST_Distance_LineString_LineString_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""barray_append"",""ret"":""{i1*, i64, i8}*"",""args"":[""{i1*, i64, i8}*"",""i1""]},{""name"":""Ceil__2"",""ret"":""i32"",""args"":[""i32""]},{""name"":""ST_XMin"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""Ceil__1"",""ret"":""i16"",""args"":[""i16""]},{""name"":""Ceil__3"",""ret"":""i64"",""args"":[""i64""]},{""name"":""distance_point_line"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""ST_Area_Polygon_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""OmniSci_Geo_PolyBoundsPtr"",""ret"":""i64"",""args"":[""double*"",""i64""]},{""name"":""ST_Distance_MultiPolygon_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_MultiPolygon_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Round2_to_digit"",""ret"":""double"",""args"":[""double"",""i32""]},{""name"":""ST_Intersects_LineString_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Polygon_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""on_segment"",""ret"":""i1"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""ST_Perimeter_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_Polygon_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_MultiPolygon_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""max_distance_point_line"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""distance_in_meters"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double""]},{""name"":""ST_Contains_Polygon_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Atan2"",""ret"":""double"",""args"":[""double"",""double""]},{""name"":""Acos"",""ret"":""double"",""args"":[""double""]},{""name"":""Sin"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_Y_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_Polygon_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Distance_LineString_Point_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""distance_point_point"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double""]},{""name"":""ST_Contains_Polygon_LineString"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Point_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Contains_Polygon_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Truncate"",""ret"":""double"",""args"":[""double"",""i32""]},{""name"":""radians"",""ret"":""double"",""args"":[""double""]},{""name"":""tol_ge"",""ret"":""i1"",""args"":[""double"",""double"",""double""]},{""name"":""ST_Contains_LineString_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_MaxDistance_LineString_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_XMax_Bounds"",""ret"":""double"",""args"":[""double*"",""i64"",""i32"",""i32""]},{""name"":""ST_Intersects_MultiPolygon_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Ceil__"",""ret"":""float"",""args"":[""float""]},{""name"":""ln__"",""ret"":""double"",""args"":[""float""]},{""name"":""ST_Y_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Contains_MultiPolygon_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""reg_hex_horiz_pixel_bin_packed"",""ret"":""i32"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""double"",""i32"",""i32""]},{""name"":""convert_meters_to_merc_pixel_width"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""i32"",""double""]},{""name"":""convert_meters_to_merc_pixel_height"",""ret"":""double"",""args"":[""double"",""double"",""double"",""double"",""double"",""i32"",""double""]},{""name"":""Round"",""ret"":""double"",""args"":[""double"",""i32""]},{""name"":""ST_Intersects_Polygon_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_Polygon_MultiPolygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Length_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""conv_4326_900913_x"",""ret"":""double"",""args"":[""double""]},{""name"":""conv_4326_900913_y"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_Perimeter_Polygon_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""ST_Contains_Point_Point"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Atan"",""ret"":""double"",""args"":[""double""]},{""name"":""ST_Area_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32""]},{""name"":""Floor"",""ret"":""double"",""args"":[""double""]},{""name"":""orientation"",""ret"":""i16"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""Truncate__1"",""ret"":""i16"",""args"":[""i16"",""i32""]},{""name"":""ST_Distance_Point_Point"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Truncate__2"",""ret"":""i32"",""args"":[""i32"",""i32""]},{""name"":""Truncate__3"",""ret"":""i64"",""args"":[""i64"",""i32""]},{""name"":""Log10__"",""ret"":""double"",""args"":[""float""]},{""name"":""is_point_in_merc_view"",""ret"":""i1"",""args"":[""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""ST_Intersects_MultiPolygon_MultiPolygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Asin"",""ret"":""double"",""args"":[""double""]},{""name"":""Tan__"",""ret"":""double"",""args"":[""float""]},{""name"":""ST_Distance_MultiPolygon_LineString"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""rect_pixel_bin_x"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""i32""]},{""name"":""rect_pixel_bin_y"",""ret"":""float"",""args"":[""double"",""double"",""double"",""double"",""double"",""i32""]},{""name"":""ST_Intersects_LineString_Polygon"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""is_point_in_view"",""ret"":""i1"",""args"":[""i8*"",""i64"",""i32"",""double"",""double"",""double"",""double""]},{""name"":""is_point_size_in_merc_view"",""ret"":""i1"",""args"":[""double"",""double"",""double"",""double"",""double"",""double"",""double""]},{""name"":""pi"",""ret"":""double"",""args"":[]},{""name"":""ST_Distance_LineString_MultiPolygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32"",""i8*"",""i64"",""i32*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""ST_Intersects_LineString_Linestring"",""ret"":""i1"",""args"":[""i8*"",""i64"",""double*"",""i64"",""i32"",""i8*"",""i64"",""double*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Round__1"",""ret"":""i16"",""args"":[""i16"",""i32""]},{""name"":""ST_Distance_Point_Point_Squared"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Exp"",""ret"":""double"",""args"":[""double""]},{""name"":""Round__2"",""ret"":""i32"",""args"":[""i32"",""i32""]},{""name"":""Round__3"",""ret"":""i64"",""args"":[""i64"",""i32""]},{""name"":""ST_Distance_Polygon_Polygon"",""ret"":""double"",""args"":[""i8*"",""i64"",""i32*"",""i64"",""i8*"",""i64"",""i32*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]},{""name"":""Round__4"",""ret"":""i64"",""args"":[""i64"",""i32"",""i32""]},{""name"":""ST_Distance_Point_Point_Geodesic"",""ret"":""double"",""args"":[""i8*"",""i64"",""i8*"",""i64"",""i32"",""i32"",""i32"",""i32"",""i32""]}]",{},db,tests/gold/omnisci_server.INFO,"[{""name"":""Truncate__"",""ret"":""float"",""args"":[""float"
+2020-07-01 00:00:00.000084,INFO,15,0,DBHandler.cpp:338,,,,,,,,,,,,Started in GPU mode,{},db,tests/gold/omnisci_server.INFO,Started in GPU mode
+2020-07-01 00:00:00.000085,INFO,15,0,EglPlatform.cpp:257,,,,,,,,,,,,EGL Version: 1.5,{},db,tests/gold/omnisci_server.INFO,EGL Version: .
+2020-07-01 00:00:00.000086,INFO,15,0,OpenGLDriver.cpp:66,,,,,,,,,,,,OpenGL Version: 4.6,{},db,tests/gold/omnisci_server.INFO,OpenGL Version: .
+2020-07-01 00:00:00.000087,OTHER,15,0,EglPlatform.cpp:95,,,,,,,,,,,,EglDevice is not cuda capable - skipping,{},db,tests/gold/omnisci_server.INFO,EglDevice is not cuda capable - skipping
+2020-07-01 00:00:00.000088,OTHER,15,0,EglPlatform.cpp:95,,,,,,,,,,,,EglDevice is not cuda capable - skipping,{},db,tests/gold/omnisci_server.INFO,EglDevice is not cuda capable - skipping
+2020-07-01 00:00:00.000089,OTHER,15,0,EglPlatform.cpp:95,,,,,,,,,,,,EglDevice is not cuda capable - skipping,{},db,tests/gold/omnisci_server.INFO,EglDevice is not cuda capable - skipping
+2020-07-01 00:00:00.000090,OTHER,15,0,EglPlatform.cpp:95,,,,,,,,,,,,EglDevice is not cuda capable - skipping,{},db,tests/gold/omnisci_server.INFO,EglDevice is not cuda capable - skipping
+2020-07-01 00:00:00.000091,OTHER,15,0,EglPlatform.cpp:95,,,,,,,,,,,,EglDevice is not cuda capable - skipping,{},db,tests/gold/omnisci_server.INFO,EglDevice is not cuda capable - skipping
+2020-07-01 00:00:00.000092,OTHER,15,0,EglPlatform.cpp:95,,,,,,,,,,,,EglDevice is not cuda capable - skipping,{},db,tests/gold/omnisci_server.INFO,EglDevice is not cuda capable - skipping
+2020-07-01 00:00:00.000093,INFO,15,0,EglPlatform.cpp:326,,,,,,,,,,,,Found 2 valid Egl devices,{},db,tests/gold/omnisci_server.INFO,Found  valid Egl devices
+2020-07-01 00:00:00.000094,INFO,15,0,EglPlatform.cpp:328,,,,,,,,,,,,Cuda ID: 0  UUID: 3e09368e-489d-bce6-5ef8-d6e0b290643a,{},db,tests/gold/omnisci_server.INFO,Cuda ID:   UUID: ee-d-bce-ef-deba
+2020-07-01 00:00:00.000095,INFO,15,0,EglPlatform.cpp:328,,,,,,,,,,,,Cuda ID: 1  UUID: 7ff02ae8-e62b-d9aa-c814-aec3a8240cc7,{},db,tests/gold/omnisci_server.INFO,Cuda ID:   UUID: ffae-eb-daa-c-aecacc
+2020-07-01 00:00:00.000096,INFO,15,0,DriverInstance.cpp:47,,,,,,,,,,,,Using GfxDriver: OpenGL,{},db,tests/gold/omnisci_server.INFO,Using GfxDriver: OpenGL
+2020-07-01 00:00:00.000097,INFO,15,0,QueryRenderManager.cpp:90,,,,,,,,,,,,QueryRenderManager initialized for rendering...,{},db,tests/gold/omnisci_server.INFO,QueryRenderManager initialized for rendering...
+2020-07-01 00:00:00.000098,INFO,15,0,QueryRenderManager.cpp:91,,,,,,,,,,,,Num GPUs to use    2,{},db,tests/gold/omnisci_server.INFO,Num GPUs to use
+2020-07-01 00:00:00.000099,INFO,15,0,QueryRenderManager.cpp:92,,,,,,,,,,,,Render Cache Limit 500,{},db,tests/gold/omnisci_server.INFO,Render Cache Limit
+2020-07-01 00:00:00.000100,INFO,15,0,QueryRenderManager.cpp:93,,,,,,,,,,,,Render Mem (bytes) 1000000000,{},db,tests/gold/omnisci_server.INFO,Render Mem (bytes)
+2020-07-01 00:00:00.000101,INFO,15,0,DBHandler.cpp:391,,,,,,,,,,,,Overriding default geos library with 'libgeos_c.so',{},db,tests/gold/omnisci_server.INFO,Overriding default geos library with
+2020-07-01 00:00:00.000102,INFO,15,0,MapDServer.cpp:455,,,,,,,,,,,,OmniSci server using unencrypted connection,{},db,tests/gold/omnisci_server.INFO,OmniSci server using unencrypted connection
+2020-07-01 00:00:00.000103,AUTH,15,,DBHandler.cpp:533,connect_begin,0,0,,,,,,,,,stdlog_begin connect 0 0,{},db,tests/gold/omnisci_server.INFO,stdlog_begin connect
+2020-07-01 00:00:00.000104,INFO,15,2,DBHandler.cpp:581,,,,,,,,,,,,User admin connected to database omnisci,{},db,tests/gold/omnisci_server.INFO,User admin connected to database omnisci
+2020-07-01 00:00:00.000105,AUTH,15,,DBHandler.cpp:533,connect,0,233,409-as47,omnisci,admin,,,,,tcp:172.17.0.1:53140,,"{roles,super}",db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000106,INFO,15,,DBHandler.cpp:1058,sql_execute_begin,1,0,409-as47,omnisci,admin,SELECT,,,SELECT count(*) from omnisci_states;,,,{},db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000107,DEBUG,15,2,DBHandler.cpp:5178,,,,,,,,,,,,query type: READ,{},db,tests/gold/omnisci_server.INFO,query type: READ
+2020-07-01 00:00:00.000108,INFO,15,2,Calcite.cpp:486,,,,,,,,,,,,User calcite catalog omnisci sql 'SELECT count(*) from omnisci_states;',{},db,tests/gold/omnisci_server.INFO,User calcite catalog omnisci sql
+2020-07-01 00:00:00.000109,DEBUG,15,,DBHandler.cpp:2154,get_tables_begin,2,0,409-pVPx,omnisci,calcite,,,,,,stdlog_begin get_tables 2 0 omnisci calcite 409-pVPx,{},db,tests/gold/omnisci_server.INFO,stdlog_begin get_tables   omnisci calcite -pVPx
+2020-07-01 00:00:00.000110,INFO,15,,DBHandler.cpp:2154,get_tables,2,0,409-pVPx,omnisci,calcite,,,,,tcp:localhost:46548,,{},db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000111,DEBUG,15,,DBHandler.cpp:1998,get_internal_table_details_begin,3,0,409-pVPx,omnisci,calcite,,,,,,,"{table_name,omnisci_states}",db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000112,DEBUG,15,3,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
+2020-07-01 00:00:00.000113,INFO,15,,DBHandler.cpp:1998,get_internal_table_details,3,0,409-pVPx,omnisci,calcite,,,,,tcp:localhost:46550,,"{table_name,omnisci_states}",db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000114,INFO,15,2,Calcite.cpp:513,sql_parse,,,,,,,6,692,,,"Time in Thrift 6 (ms), Time in Java Calcite server 692 (ms)",{},db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000115,DEBUG,15,2,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
+2020-07-01 00:00:00.000116,OTHER,15,2,FileMgr.cpp:183,,,,,,,,,,,,File id: 0 Page size: 2097152 Num pages: 256,{},db,tests/gold/omnisci_server.INFO,File id:  Page size:  Num pages:
+2020-07-01 00:00:00.000117,OTHER,15,2,FileMgr.cpp:183,,,,,,,,,,,,File id: 1 Page size: 4096 Num pages: 4096,{},db,tests/gold/omnisci_server.INFO,File id:  Page size:  Num pages:
+2020-07-01 00:00:00.000118,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,1,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000119,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,2,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000120,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,3,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000121,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,4,0,2, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000122,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,4,0,1, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000123,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,5,0,2, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000124,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,5,0,1, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000125,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,1,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000126,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,6,0,2, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000127,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,2,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000128,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,6,0,1, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000129,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,3,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000130,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,7,0,2, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000131,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,4,0,1, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000132,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,7,0,1, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000133,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,8,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000134,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,4,0,2, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000135,OTHER,15,4,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,9,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000136,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,5,0,1, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000137,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,5,0,2, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000138,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,6,0,1, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000139,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,6,0,2, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000140,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,7,0,1, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000141,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,7,0,2, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000142,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,8,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000143,OTHER,15,5,FileInfo.cpp:127,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,9,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000144,OTHER,15,4,FileInfo.cpp:180,,,,,,,,,,,,"FId.PSz: 0.2097152 Chunk key: 1,1,11,0, Page id: 0 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id:  Epoch:"
+2020-07-01 00:00:00.000145,OTHER,15,5,FileInfo.cpp:180,,,,,,,,,,,,"FId.PSz: 1.4096 Chunk key: 1,1,11,0, Page id: -1 Epoch: 0",{},db,tests/gold/omnisci_server.INFO,"FId.PSz: . Chunk key: ,,,, Page id: - Epoch:"
+2020-07-01 00:00:00.000146,INFO,15,2,FileMgr.cpp:205,read_table_metadata,,,,,,,,11,,,"Completed Reading table's file metadata, Elapsed time : 11ms Epoch: 1 files read: 2 table location: '/omnisci-storage/data/mapd_data/table_1_1'",{},db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000147,OTHER,15,2,FileMgr.cpp:220,,,,,,,,,,,,Number of Headers in Vector: 28,{},db,tests/gold/omnisci_server.INFO,Number of Headers in Vector:
+2020-07-01 00:00:00.000148,INFO,15,2,Catalog.cpp:1414,,,,,,,,,,,,Instantiating Fragmenter for table omnisci_states took 12ms,{},db,tests/gold/omnisci_server.INFO,Instantiating Fragmenter for table omnisci_states
+2020-07-01 00:00:00.000149,DEBUG,15,2,LockMgr.h:207,,,,,,,,,,,,Acquiring Table Data Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Data Read Lock for table: omnisci_
+2020-07-01 00:00:00.000150,INFO,15,2,QueryDispatchQueue.h:49,,,,,,,,,,,,Dispatching query with 0 queries in the queue.,{},db,tests/gold/omnisci_server.INFO,Dispatching query with  queries in the queue.
+2020-07-01 00:00:00.000151,INFO,15,6,QueryDispatchQueue.h:80,,,,,,,,,,,,Running query and returning control. There are now 0 queries in the queue.,{},db,tests/gold/omnisci_server.INFO,Running query and returning control. There are now
+2020-07-01 00:00:00.000152,DEBUG,15,6,DBHandler.cpp:4776,,,,,,,,,,,,"Table Schema Locks:
 1 1",{},db,tests/gold/omnisci_server.INFO,Table Schema Locks:
-2020-07-01 00:00:00.000088,DEBUG,15,6,DBHandler.cpp:4777,,,,,,,,,,,,"Table Data Locks:
+2020-07-01 00:00:00.000153,DEBUG,15,6,DBHandler.cpp:4777,,,,,,,,,,,,"Table Data Locks:
 1 1",{},db,tests/gold/omnisci_server.INFO,Table Data Locks:
-2020-07-01 00:00:00.000089,OTHER,15,6,RelAlgDagBuilder.cpp:2582,,,,,,,,,,,,"Parsing query RA JSON: {
+2020-07-01 00:00:00.000154,OTHER,15,6,RelAlgDagBuilder.cpp:2582,,,,,,,,,,,,"Parsing query RA JSON: {
   ""rels"": [
     {
       ""id"": ""0"",
@@ -149,14 +214,14 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
   ""rels"": [
     {
       """
-2020-07-01 00:00:00.000090,DEBUG,15,6,RelAlgExecutor.cpp:496,,,,,,,,,,,,Executing query step 0,{},db,tests/gold/omnisci_server.INFO,Executing query step
-2020-07-01 00:00:00.000091,OTHER,15,6,RelAlgExecutor.cpp:1070,,,,,,,,,,,,used_inputs.size() = 0,{},db,tests/gold/omnisci_server.INFO,used_inputs.size() =
-2020-07-01 00:00:00.000092,OTHER,15,6,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>(null (RexAgg   BIGINT NONE)
-2020-07-01 00:00:00.000093,OTHER,15,6,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>(null (RexAgg   BIGINT NONE)
-2020-07-01 00:00:00.000094,OTHER,15,6,RelAlgExecutor.cpp:3265,,,,,,,,,,,,"input_descs=(InputDescriptor(table_id(1),nest_level(0)))",{},db,tests/gold/omnisci_server.INFO,"input_descs=(InputDescriptor(table_id(),nest_level"
-2020-07-01 00:00:00.000095,OTHER,15,6,RelAlgExecutor.cpp:1140,,,,,,,,,,,,get_scalar_sources_size((RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ]))) = 1,{},db,tests/gold/omnisci_server.INFO,get_scalar_sources_size((RelCompound<>(null (RexAg
-2020-07-01 00:00:00.000096,OTHER,15,6,RelAlgExecutor.cpp:2694,,,,,,,,,,,,body->getId()=4 body->toString()=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) it==leaf_results_.end()=true,{},db,tests/gold/omnisci_server.INFO,body->getId()= body->toString()=(RelCompound<>(nul
-2020-07-01 00:00:00.000097,DEBUG,15,6,Execute.cpp:1320,,,,,,,,,,,,"Executor 1 is executing work unit:
+2020-07-01 00:00:00.000155,DEBUG,15,6,RelAlgExecutor.cpp:496,,,,,,,,,,,,Executing query step 0,{},db,tests/gold/omnisci_server.INFO,Executing query step
+2020-07-01 00:00:00.000156,OTHER,15,6,RelAlgExecutor.cpp:1070,,,,,,,,,,,,used_inputs.size() = 0,{},db,tests/gold/omnisci_server.INFO,used_inputs.size() =
+2020-07-01 00:00:00.000157,OTHER,15,6,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>(null (RexAgg   BIGINT NONE)
+2020-07-01 00:00:00.000158,OTHER,15,6,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>(null (RexAgg   BIGINT NONE)
+2020-07-01 00:00:00.000159,OTHER,15,6,RelAlgExecutor.cpp:3265,,,,,,,,,,,,"input_descs=(InputDescriptor(table_id(1),nest_level(0)))",{},db,tests/gold/omnisci_server.INFO,"input_descs=(InputDescriptor(table_id(),nest_level"
+2020-07-01 00:00:00.000160,OTHER,15,6,RelAlgExecutor.cpp:1140,,,,,,,,,,,,get_scalar_sources_size((RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ]))) = 1,{},db,tests/gold/omnisci_server.INFO,get_scalar_sources_size((RelCompound<>(null (RexAg
+2020-07-01 00:00:00.000161,OTHER,15,6,RelAlgExecutor.cpp:2694,,,,,,,,,,,,body->getId()=4 body->toString()=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) it==leaf_results_.end()=true,{},db,tests/gold/omnisci_server.INFO,body->getId()= body->toString()=(RelCompound<>(nul
+2020-07-01 00:00:00.000162,DEBUG,15,6,Execute.cpp:1320,,,,,,,,,,,,"Executor 1 is executing work unit:
 	Table/Col/Levels:
 	Projected targets: (COUNT *)
 	Has Estimator: True
@@ -168,9 +233,29 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 	Scan Limit: 0
 	Bump Allocator: False",{},db,tests/gold/omnisci_server.INFO,"Executor  is executing work unit:
 	Table/Col/Level"
-2020-07-01 00:00:00.000098,DEBUG,15,6,NativeCodegen.cpp:2063,,,,,,,,,,,,number of hoisted literals: 0 / literal buffer usage: 0 bytes,{},db,tests/gold/omnisci_server.INFO,number of hoisted literals:  / literal buffer usag
-2020-07-01 00:00:00.000099,DEBUG,15,6,Execute.cpp:2015,,,,,,,,,,,,Creating one execution kernel per fragment,{},db,tests/gold/omnisci_server.INFO,Creating one execution kernel per fragment
-2020-07-01 00:00:00.000100,DEBUG,15,6,Execute.cpp:2016,,,,,,,,,,,,"Query Memory Descriptor State
+2020-07-01 00:00:00.000163,DEBUG,15,6,NativeCodegen.cpp:2063,,,,,,,,,,,,number of hoisted literals: 0 / literal buffer usage: 0 bytes,{},db,tests/gold/omnisci_server.INFO,number of hoisted literals:  / literal buffer usag
+2020-07-01 00:00:00.000164,DEBUG,15,6,NvidiaKernel.cpp:104,,,,,,,,,,,,CUDA JIT time to create link: 0.069227,{},db,tests/gold/omnisci_server.INFO,CUDA JIT time to create link: .
+2020-07-01 00:00:00.000165,DEBUG,15,6,NvidiaKernel.cpp:116,,,,,,,,,,,,CUDA JIT time to add RT fatbinary: 30.3433,{},db,tests/gold/omnisci_server.INFO,CUDA JIT time to add RT fatbinary: .
+2020-07-01 00:00:00.000166,DEBUG,15,6,NvidiaKernel.cpp:128,,,,,,,,,,,,CUDA JIT time to add generated code: 63.69,{},db,tests/gold/omnisci_server.INFO,CUDA JIT time to add generated code: .
+2020-07-01 00:00:00.000167,DEBUG,15,6,NvidiaKernel.cpp:134,,,,,,,,,,,,"CUDA Linker completed: ptxas info    : 0 bytes gmem
+ptxas info    : Function properties for query_template
+ptxas         .     40 bytes stack frame, 36 bytes spill stores, 36 bytes spill loads
+ptxas info    : Compiling entry function 'multifrag_query_hoisted_literals' for 'sm_35'
+ptxas info    : Function properties for multifrag_query_hoisted_literals
+ptxas         .     40 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 20 registers, 416 bytes cmem[0]
+info    : 2586 bytes gmem, 168 bytes cmem[3]
+info    : Function properties for 'multifrag_query_hoisted_literals':
+info    : used 24 registers, 80 stack, 0 bytes smem, 416 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z24init_group_by_buffer_gpuPlPKljjjjba':
+info    : used 28 registers, 0 stack, 0 bytes smem, 354 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z26init_render_buffer_wrapperPlj':
+info    : used 8 registers, 0 stack, 0 bytes smem, 332 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z41init_columnar_group_by_buffer_gpu_wrapperPlPKljjjPKabba':
+info    : used 14 registers, 0 stack, 0 bytes smem, 363 bytes cmem[0], 0 bytes lmem",{},db,tests/gold/omnisci_server.INFO,CUDA Linker completed: ptxas info    :  bytes gmem
+2020-07-01 00:00:00.000168,DEBUG,15,6,NvidiaKernel.cpp:137,,,,,,,,,,,,Generated GPU binary code size: 518264 bytes,{},db,tests/gold/omnisci_server.INFO,Generated GPU binary code size:  bytes
+2020-07-01 00:00:00.000169,DEBUG,15,6,Execute.cpp:1983,,,,,,,,,,,,Creating multifrag execution kernels,{},db,tests/gold/omnisci_server.INFO,Creating multifrag execution kernels
+2020-07-01 00:00:00.000170,DEBUG,15,6,Execute.cpp:1984,,,,,,,,,,,,"Query Memory Descriptor State
 	Query Type: Non-grouped Aggregate
 	Keyless Hash: False
 	Effective key width: 8
@@ -180,7 +265,7 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 	0 | 8 , 4
 	Allow Multifrag: True
 	Interleaved Bins on GPU: False
-	Blocks Share Memory: True
+	Blocks Share Memory: False
 	Threads Share Memory: False
 	Uses Fast Group Values: False
 	Lazy Init Groups (GPU): True
@@ -194,33 +279,34 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 	Render Output: False
 	Use Baseline Sort: False",{},db,tests/gold/omnisci_server.INFO,"Query Memory Descriptor State
 	Query Type: Non-gro"
-2020-07-01 00:00:00.000101,DEBUG,15,6,Execute.cpp:2078,,,,,,,,,,,,Launching 1 kernels for query.,{},db,tests/gold/omnisci_server.INFO,Launching  kernels for query.
-2020-07-01 00:00:00.000102,OTHER,15,6,RelAlgExecutor.cpp:599,,,,,,,,,,,,"Returned from executeCompound(), addTemporaryTable(-4, ...) exec_desc.getResult().getDataPtr()->rowCount()=1",{},db,tests/gold/omnisci_server.INFO,"Returned from executeCompound(), addTemporaryTable"
-2020-07-01 00:00:00.000103,DEBUG,15,6,DBHandler.cpp:4826,,,,,,,,,,,,"jsonlog { ""name"": ""CPU Memory Info"", ""TotalMB"": 5950.31, ""FreeMB"": 5081.02, ""ProcessMB"": 95.9297, ""VirtualMB"": 6288.14, ""ProcessPlusSwapMB"": 10.125, ""ProcessSharedMB"": 85.8047, ""FragmentationPercent"": 26 }",{},db,tests/gold/omnisci_server.INFO,"jsonlog { ""name"": ""CPU Memory Info"", ""TotalMB"": .,"
-2020-07-01 00:00:00.000104,DEBUG,15,2,DBHandler.cpp:1137,,,,,,,,,,,,Table Schema Locks:,{},db,tests/gold/omnisci_server.INFO,Table Schema Locks:
-2020-07-01 00:00:00.000105,DEBUG,15,2,DBHandler.cpp:1138,,,,,,,,,,,,Table Data Locks:,{},db,tests/gold/omnisci_server.INFO,Table Data Locks:
-2020-07-01 00:00:00.000106,INFO,15,,DBHandler.cpp:1058,sql_execute,1,1425,455-NzOR,omnisci,admin,SELECT,1418,1425,SELECT count(*) from omnisci_states;,tcp:172.17.0.1:52290,,"{nonce,{""chartId"":""work_to_generate_logs"""",""""dashboardId"":100}}",db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000107,DEBUG,15,,DBHandler.cpp:1058,,,,,,,,,,,,"stacked_times sql_execute 1 total time 1426 ms
-  parse_to_ra 140449750689536 - total time 1396 ms
-    processImpl 140449750689536 - total time 1250 ms
-  execute_rel_alg 140449775867648 - total time 26 ms
-    convert_rows 140449775867648 - total time 0 ms",{},db,tests/gold/omnisci_server.INFO,"stacked_times sql_execute  total time  ms
+2020-07-01 00:00:00.000171,DEBUG,15,6,Execute.cpp:2078,,,,,,,,,,,,Launching 1 kernels for query.,{},db,tests/gold/omnisci_server.INFO,Launching  kernels for query.
+2020-07-01 00:00:00.000172,INFO,15,7,BufferMgr.cpp:303,,,,,,,,,,,,ALLOCATION slab of 8388608 pages (4294967296B) created in 5 ms GPU_MGR:1,{},db,tests/gold/omnisci_server.INFO,ALLOCATION slab of  pages (B) created in  ms GPU_M
+2020-07-01 00:00:00.000173,OTHER,15,6,RelAlgExecutor.cpp:599,,,,,,,,,,,,"Returned from executeCompound(), addTemporaryTable(-4, ...) exec_desc.getResult().getDataPtr()->rowCount()=1",{},db,tests/gold/omnisci_server.INFO,"Returned from executeCompound(), addTemporaryTable"
+2020-07-01 00:00:00.000174,DEBUG,15,6,DBHandler.cpp:4826,,,,,,,,,,,,"jsonlog { ""name"": ""CPU Memory Info"", ""TotalMB"": 386774, ""FreeMB"": 332805, ""ProcessMB"": 256.016, ""VirtualMB"": 428727, ""ProcessPlusSwapMB"": 95.8008, ""ProcessSharedMB"": 160.215, ""FragmentationPercent"": 83 }",{},db,tests/gold/omnisci_server.INFO,"jsonlog { ""name"": ""CPU Memory Info"", ""TotalMB"": ,"
+2020-07-01 00:00:00.000175,DEBUG,15,2,DBHandler.cpp:1137,,,,,,,,,,,,Table Schema Locks:,{},db,tests/gold/omnisci_server.INFO,Table Schema Locks:
+2020-07-01 00:00:00.000176,DEBUG,15,2,DBHandler.cpp:1138,,,,,,,,,,,,Table Data Locks:,{},db,tests/gold/omnisci_server.INFO,Table Data Locks:
+2020-07-01 00:00:00.000177,INFO,15,,DBHandler.cpp:1058,sql_execute,1,906,409-as47,omnisci,admin,SELECT,905,906,SELECT count(*) from omnisci_states;,tcp:172.17.0.1:53140,,"{nonce,{""chartId"":""work_to_generate_logs"",""dashboardId"":100}}",db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000178,DEBUG,15,,DBHandler.cpp:1058,,,,,,,,,,,,"stacked_times sql_execute 1 total time 906 ms
+  parse_to_ra 140690399721216 - total time 711 ms
+    processImpl 140690399721216 - total time 698 ms
+  execute_rel_alg 140691342599936 - total time 194 ms
+    convert_rows 140691342599936 - total time 0 ms",{},db,tests/gold/omnisci_server.INFO,"stacked_times sql_execute  total time  ms
   parse_"
-2020-07-01 00:00:00.000108,INFO,15,,DBHandler.cpp:1058,sql_execute_begin,4,0,455-NzOR,omnisci,admin,SELECT,,,"select count(*)
+2020-07-01 00:00:00.000179,INFO,15,,DBHandler.cpp:1058,sql_execute_begin,4,0,409-as47,omnisci,admin,SELECT,,,"select count(*)
     from omnisci_states as s",,,{},db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000109,DEBUG,15,2,DBHandler.cpp:5178,,,,,,,,,,,,query type: READ,{},db,tests/gold/omnisci_server.INFO,query type: READ
-2020-07-01 00:00:00.000110,INFO,15,2,Calcite.cpp:486,,,,,,,,,,,,"User calcite catalog omnisci sql 'select count(*)
+2020-07-01 00:00:00.000180,DEBUG,15,2,DBHandler.cpp:5178,,,,,,,,,,,,query type: READ,{},db,tests/gold/omnisci_server.INFO,query type: READ
+2020-07-01 00:00:00.000181,INFO,15,2,Calcite.cpp:486,,,,,,,,,,,,"User calcite catalog omnisci sql 'select count(*)
     from omnisci_states as s'",{},db,tests/gold/omnisci_server.INFO,User calcite catalog omnisci sql 'select count(*)
-2020-07-01 00:00:00.000111,INFO,15,2,Calcite.cpp:513,sql_parse,,,,,,,2,24,,,"Time in Thrift 2 (ms), Time in Java Calcite server 24 (ms)",{},db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000112,DEBUG,15,2,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
-2020-07-01 00:00:00.000113,DEBUG,15,2,LockMgr.h:207,,,,,,,,,,,,Acquiring Table Data Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Data Read Lock for table: omnisci_
-2020-07-01 00:00:00.000114,INFO,15,2,QueryDispatchQueue.h:49,,,,,,,,,,,,Dispatching query with 0 queries in the queue.,{},db,tests/gold/omnisci_server.INFO,Dispatching query with  queries in the queue.
-2020-07-01 00:00:00.000115,INFO,15,6,QueryDispatchQueue.h:80,,,,,,,,,,,,Running query and returning control. There are now 0 queries in the queue.,{},db,tests/gold/omnisci_server.INFO,Running query and returning control. There are now
-2020-07-01 00:00:00.000116,DEBUG,15,6,DBHandler.cpp:4776,,,,,,,,,,,,"Table Schema Locks:
+2020-07-01 00:00:00.000182,INFO,15,2,Calcite.cpp:513,sql_parse,,,,,,,1,13,,,"Time in Thrift 1 (ms), Time in Java Calcite server 13 (ms)",{},db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000183,DEBUG,15,2,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
+2020-07-01 00:00:00.000184,DEBUG,15,2,LockMgr.h:207,,,,,,,,,,,,Acquiring Table Data Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Data Read Lock for table: omnisci_
+2020-07-01 00:00:00.000185,INFO,15,2,QueryDispatchQueue.h:49,,,,,,,,,,,,Dispatching query with 0 queries in the queue.,{},db,tests/gold/omnisci_server.INFO,Dispatching query with  queries in the queue.
+2020-07-01 00:00:00.000186,INFO,15,6,QueryDispatchQueue.h:80,,,,,,,,,,,,Running query and returning control. There are now 0 queries in the queue.,{},db,tests/gold/omnisci_server.INFO,Running query and returning control. There are now
+2020-07-01 00:00:00.000187,DEBUG,15,6,DBHandler.cpp:4776,,,,,,,,,,,,"Table Schema Locks:
 1 1",{},db,tests/gold/omnisci_server.INFO,Table Schema Locks:
-2020-07-01 00:00:00.000117,DEBUG,15,6,DBHandler.cpp:4777,,,,,,,,,,,,"Table Data Locks:
+2020-07-01 00:00:00.000188,DEBUG,15,6,DBHandler.cpp:4777,,,,,,,,,,,,"Table Data Locks:
 1 1",{},db,tests/gold/omnisci_server.INFO,Table Data Locks:
-2020-07-01 00:00:00.000118,OTHER,15,6,RelAlgDagBuilder.cpp:2582,,,,,,,,,,,,"Parsing query RA JSON: {
+2020-07-01 00:00:00.000189,OTHER,15,6,RelAlgDagBuilder.cpp:2582,,,,,,,,,,,,"Parsing query RA JSON: {
   ""rels"": [
     {
       ""id"": ""0"",
@@ -280,14 +366,14 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
   ""rels"": [
     {
       """
-2020-07-01 00:00:00.000119,DEBUG,15,6,RelAlgExecutor.cpp:496,,,,,,,,,,,,Executing query step 0,{},db,tests/gold/omnisci_server.INFO,Executing query step
-2020-07-01 00:00:00.000120,OTHER,15,6,RelAlgExecutor.cpp:1070,,,,,,,,,,,,used_inputs.size() = 0,{},db,tests/gold/omnisci_server.INFO,used_inputs.size() =
-2020-07-01 00:00:00.000121,OTHER,15,6,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>(null (RexAgg   BIGINT NONE)
-2020-07-01 00:00:00.000122,OTHER,15,6,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>(null (RexAgg   BIGINT NONE)
-2020-07-01 00:00:00.000123,OTHER,15,6,RelAlgExecutor.cpp:3265,,,,,,,,,,,,"input_descs=(InputDescriptor(table_id(1),nest_level(0)))",{},db,tests/gold/omnisci_server.INFO,"input_descs=(InputDescriptor(table_id(),nest_level"
-2020-07-01 00:00:00.000124,OTHER,15,6,RelAlgExecutor.cpp:1140,,,,,,,,,,,,get_scalar_sources_size((RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ]))) = 1,{},db,tests/gold/omnisci_server.INFO,get_scalar_sources_size((RelCompound<>(null (RexAg
-2020-07-01 00:00:00.000125,OTHER,15,6,RelAlgExecutor.cpp:2694,,,,,,,,,,,,body->getId()=4 body->toString()=(RelCompound<140449188780768>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) it==leaf_results_.end()=true,{},db,tests/gold/omnisci_server.INFO,body->getId()= body->toString()=(RelCompound<>(nul
-2020-07-01 00:00:00.000126,DEBUG,15,6,Execute.cpp:1320,,,,,,,,,,,,"Executor 1 is executing work unit:
+2020-07-01 00:00:00.000190,DEBUG,15,6,RelAlgExecutor.cpp:496,,,,,,,,,,,,Executing query step 0,{},db,tests/gold/omnisci_server.INFO,Executing query step
+2020-07-01 00:00:00.000191,OTHER,15,6,RelAlgExecutor.cpp:1070,,,,,,,,,,,,used_inputs.size() = 0,{},db,tests/gold/omnisci_server.INFO,used_inputs.size() =
+2020-07-01 00:00:00.000192,OTHER,15,6,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>(null (RexAgg   BIGINT NONE)
+2020-07-01 00:00:00.000193,OTHER,15,6,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>(null (RexAgg   BIGINT NONE)
+2020-07-01 00:00:00.000194,OTHER,15,6,RelAlgExecutor.cpp:3265,,,,,,,,,,,,"input_descs=(InputDescriptor(table_id(1),nest_level(0)))",{},db,tests/gold/omnisci_server.INFO,"input_descs=(InputDescriptor(table_id(),nest_level"
+2020-07-01 00:00:00.000195,OTHER,15,6,RelAlgExecutor.cpp:1140,,,,,,,,,,,,get_scalar_sources_size((RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ]))) = 1,{},db,tests/gold/omnisci_server.INFO,get_scalar_sources_size((RelCompound<>(null (RexAg
+2020-07-01 00:00:00.000196,OTHER,15,6,RelAlgExecutor.cpp:2694,,,,,,,,,,,,body->getId()=4 body->toString()=(RelCompound<140689908460656>(null (RexAgg 4 0 BIGINT NONE) groups: [ ] sources: [ (RexLiteral 0) ])) it==leaf_results_.end()=true,{},db,tests/gold/omnisci_server.INFO,body->getId()= body->toString()=(RelCompound<>(nul
+2020-07-01 00:00:00.000197,DEBUG,15,6,Execute.cpp:1320,,,,,,,,,,,,"Executor 1 is executing work unit:
 	Table/Col/Levels:
 	Projected targets: (COUNT *)
 	Has Estimator: True
@@ -299,9 +385,9 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 	Scan Limit: 0
 	Bump Allocator: False",{},db,tests/gold/omnisci_server.INFO,"Executor  is executing work unit:
 	Table/Col/Level"
-2020-07-01 00:00:00.000127,DEBUG,15,6,NativeCodegen.cpp:2063,,,,,,,,,,,,number of hoisted literals: 0 / literal buffer usage: 0 bytes,{},db,tests/gold/omnisci_server.INFO,number of hoisted literals:  / literal buffer usag
-2020-07-01 00:00:00.000128,DEBUG,15,6,Execute.cpp:2015,,,,,,,,,,,,Creating one execution kernel per fragment,{},db,tests/gold/omnisci_server.INFO,Creating one execution kernel per fragment
-2020-07-01 00:00:00.000129,DEBUG,15,6,Execute.cpp:2016,,,,,,,,,,,,"Query Memory Descriptor State
+2020-07-01 00:00:00.000198,DEBUG,15,6,NativeCodegen.cpp:2063,,,,,,,,,,,,number of hoisted literals: 0 / literal buffer usage: 0 bytes,{},db,tests/gold/omnisci_server.INFO,number of hoisted literals:  / literal buffer usag
+2020-07-01 00:00:00.000199,DEBUG,15,6,Execute.cpp:1983,,,,,,,,,,,,Creating multifrag execution kernels,{},db,tests/gold/omnisci_server.INFO,Creating multifrag execution kernels
+2020-07-01 00:00:00.000200,DEBUG,15,6,Execute.cpp:1984,,,,,,,,,,,,"Query Memory Descriptor State
 	Query Type: Non-grouped Aggregate
 	Keyless Hash: False
 	Effective key width: 8
@@ -311,7 +397,7 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 	0 | 8 , 4
 	Allow Multifrag: True
 	Interleaved Bins on GPU: False
-	Blocks Share Memory: True
+	Blocks Share Memory: False
 	Threads Share Memory: False
 	Uses Fast Group Values: False
 	Lazy Init Groups (GPU): True
@@ -325,22 +411,370 @@ logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,user
 	Render Output: False
 	Use Baseline Sort: False",{},db,tests/gold/omnisci_server.INFO,"Query Memory Descriptor State
 	Query Type: Non-gro"
-2020-07-01 00:00:00.000130,DEBUG,15,6,Execute.cpp:2078,,,,,,,,,,,,Launching 1 kernels for query.,{},db,tests/gold/omnisci_server.INFO,Launching  kernels for query.
-2020-07-01 00:00:00.000131,OTHER,15,6,RelAlgExecutor.cpp:599,,,,,,,,,,,,"Returned from executeCompound(), addTemporaryTable(-4, ...) exec_desc.getResult().getDataPtr()->rowCount()=1",{},db,tests/gold/omnisci_server.INFO,"Returned from executeCompound(), addTemporaryTable"
-2020-07-01 00:00:00.000132,DEBUG,15,6,DBHandler.cpp:4826,,,,,,,,,,,,"jsonlog { ""name"": ""CPU Memory Info"", ""TotalMB"": 5950.31, ""FreeMB"": 5078.2, ""ProcessMB"": 96.707, ""VirtualMB"": 6288.02, ""ProcessPlusSwapMB"": 10.0938, ""ProcessSharedMB"": 86.6133, ""FragmentationPercent"": 26 }",{},db,tests/gold/omnisci_server.INFO,"jsonlog { ""name"": ""CPU Memory Info"", ""TotalMB"": .,"
-2020-07-01 00:00:00.000133,DEBUG,15,2,DBHandler.cpp:1137,,,,,,,,,,,,Table Schema Locks:,{},db,tests/gold/omnisci_server.INFO,Table Schema Locks:
-2020-07-01 00:00:00.000134,DEBUG,15,2,DBHandler.cpp:1138,,,,,,,,,,,,Table Data Locks:,{},db,tests/gold/omnisci_server.INFO,Table Data Locks:
-2020-07-01 00:00:00.000135,INFO,15,,DBHandler.cpp:1058,sql_execute,4,41,455-NzOR,omnisci,admin,SELECT,35,40,"select count(*)
-    from omnisci_states as s",tcp:172.17.0.1:52290,,"{nonce,{""chartId"":""work_to_generate_logs"""",""""dashboardId"":100}}",db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000136,DEBUG,15,,DBHandler.cpp:1058,,,,,,,,,,,,"stacked_times sql_execute 4 total time 41 ms
-  parse_to_ra 140449750689536 - total time 28 ms
-    processImpl 140449750689536 - total time 27 ms
-  execute_rel_alg 140449775867648 - total time 9 ms
-    convert_rows 140449775867648 - total time 0 ms",{},db,tests/gold/omnisci_server.INFO,"stacked_times sql_execute  total time  ms
+2020-07-01 00:00:00.000201,DEBUG,15,6,Execute.cpp:2078,,,,,,,,,,,,Launching 1 kernels for query.,{},db,tests/gold/omnisci_server.INFO,Launching  kernels for query.
+2020-07-01 00:00:00.000202,OTHER,15,6,RelAlgExecutor.cpp:599,,,,,,,,,,,,"Returned from executeCompound(), addTemporaryTable(-4, ...) exec_desc.getResult().getDataPtr()->rowCount()=1",{},db,tests/gold/omnisci_server.INFO,"Returned from executeCompound(), addTemporaryTable"
+2020-07-01 00:00:00.000203,DEBUG,15,6,DBHandler.cpp:4826,,,,,,,,,,,,"jsonlog { ""name"": ""CPU Memory Info"", ""TotalMB"": 386774, ""FreeMB"": 332803, ""ProcessMB"": 256.609, ""VirtualMB"": 428727, ""ProcessPlusSwapMB"": 96.0039, ""ProcessSharedMB"": 160.605, ""FragmentationPercent"": 83 }",{},db,tests/gold/omnisci_server.INFO,"jsonlog { ""name"": ""CPU Memory Info"", ""TotalMB"": ,"
+2020-07-01 00:00:00.000204,DEBUG,15,2,DBHandler.cpp:1137,,,,,,,,,,,,Table Schema Locks:,{},db,tests/gold/omnisci_server.INFO,Table Schema Locks:
+2020-07-01 00:00:00.000205,DEBUG,15,2,DBHandler.cpp:1138,,,,,,,,,,,,Table Data Locks:,{},db,tests/gold/omnisci_server.INFO,Table Data Locks:
+2020-07-01 00:00:00.000206,INFO,15,,DBHandler.cpp:1058,sql_execute,4,17,409-as47,omnisci,admin,SELECT,16,17,"select count(*)
+    from omnisci_states as s",tcp:172.17.0.1:53140,,"{nonce,{""chartId"":""work_to_generate_logs"",""dashboardId"":100}}",db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000207,DEBUG,15,,DBHandler.cpp:1058,,,,,,,,,,,,"stacked_times sql_execute 4 total time 17 ms
+  parse_to_ra 140690399721216 - total time 14 ms
+    processImpl 140690399721216 - total time 14 ms
+  execute_rel_alg 140691342599936 - total time 3 ms
+    convert_rows 140691342599936 - total time 0 ms",{},db,tests/gold/omnisci_server.INFO,"stacked_times sql_execute  total time  ms
   parse_"
-2020-07-01 00:00:00.000137,INFO,15,,DBHandler.cpp:3358,render_vega_begin,5,0,455-NzOR,omnisci,admin,,,,"{""widget_id"""",""""compression_level"""",""""vega_json"""",""""nonce"""",""""client""} {""8702332822301651"""",""""3"""",""""{""""width"""":1002,""""height"""":726,""""viewRenderOptions"""":{""""premultipliedAlpha"""":false},""""data"""":[{""""name"""":""""pointmap"""""",""""""sql"""":""""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000"""""",""""""enableHitTesting"""":false}],""""scales"""":[{""""name"""":""""x"""""",""""""type"""":""""linear"""""",""""""domain"""":[-19828578.576412328,-7488448.674977641],""""range"""":""""width""""},{""""name"""":""""y"""""",""""""type"""":""""linear"""""",""""""domain"""":[-90671.43229163112,8850380.771762503],""""range"""":""""height""""},{""""name"""":""""pointmap_fillColor"""""",""""""type"""":""""linear"""""",""""""domain"""":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],""""range"""":[""""rgba(17,95,154,0.475)"""""",""""""rgba(25,132,197,0.5471153846153846)"""""",""""""rgba(34,167,240,0.6192307692307691)"""""",""""""rgba(72,181,196,0.6913461538461538)"""""",""""""rgba(118,198,143,0.7634615384615384)"""""",""""""rgba(166,215,91,0.835576923076923)"""""",""""""rgba(201,229,47,0.85)"""""",""""""rgba(208,238,17,0.85)"""""",""""""rgba(208,244,0,0.85)""""],""""accumulator"""":""""density"""""",""""""minDensityCnt"""":""""-2ndStdDev"""""",""""""maxDensityCnt"""":""""2ndStdDev"""""",""""""clamp"""":true}],""""projections"""":[],""""marks"""":[{""""type"""":""""symbol"""""",""""""from"""":{""""data"""":""""pointmap""""},""""properties"""":{""""xc"""":{""""scale"""":""""x"""""",""""""field"""":""""x""""},""""yc"""":{""""scale"""":""""y"""""",""""""field"""":""""y""""},""""fillColor"""":{""""scale"""":""""pointmap_fillColor"""""",""""""value"""":0},""""shape"""":""""circle"""""",""""""width"""":5,""""height"""":5}}]}"""",""""11"""",""""http:10.109.0.9""}",,,"{widget_id,0,compression_level,0,nonce,{""chartId"":""work_to_generate_logs"""",""""dashboardId"":100}}",db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000138,ERROR,15,2,DBHandler.cpp:3363,,,,,,,,,,,,Backend rendering is disabled.,{},db,tests/gold/omnisci_server.INFO,Backend rendering is disabled.
-2020-07-01 00:00:00.000139,INFO,15,,DBHandler.cpp:3358,render_vega,5,3,455-NzOR,omnisci,admin,,,,"{""widget_id"""",""""compression_level"""",""""vega_json"""",""""nonce"""",""""client""} {""8702332822301651"""",""""3"""",""""{""""width"""":1002,""""height"""":726,""""viewRenderOptions"""":{""""premultipliedAlpha"""":false},""""data"""":[{""""name"""":""""pointmap"""""",""""""sql"""":""""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000"""""",""""""enableHitTesting"""":false}],""""scales"""":[{""""name"""":""""x"""""",""""""type"""":""""linear"""""",""""""domain"""":[-19828578.576412328,-7488448.674977641],""""range"""":""""width""""},{""""name"""":""""y"""""",""""""type"""":""""linear"""""",""""""domain"""":[-90671.43229163112,8850380.771762503],""""range"""":""""height""""},{""""name"""":""""pointmap_fillColor"""""",""""""type"""":""""linear"""""",""""""domain"""":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],""""range"""":[""""rgba(17,95,154,0.475)"""""",""""""rgba(25,132,197,0.5471153846153846)"""""",""""""rgba(34,167,240,0.6192307692307691)"""""",""""""rgba(72,181,196,0.6913461538461538)"""""",""""""rgba(118,198,143,0.7634615384615384)"""""",""""""rgba(166,215,91,0.835576923076923)"""""",""""""rgba(201,229,47,0.85)"""""",""""""rgba(208,238,17,0.85)"""""",""""""rgba(208,244,0,0.85)""""],""""accumulator"""":""""density"""""",""""""minDensityCnt"""":""""-2ndStdDev"""""",""""""maxDensityCnt"""":""""2ndStdDev"""""",""""""clamp"""":true}],""""projections"""":[],""""marks"""":[{""""type"""":""""symbol"""""",""""""from"""":{""""data"""":""""pointmap""""},""""properties"""":{""""xc"""":{""""scale"""":""""x"""""",""""""field"""":""""x""""},""""yc"""":{""""scale"""":""""y"""""",""""""field"""":""""y""""},""""fillColor"""":{""""scale"""":""""pointmap_fillColor"""""",""""""value"""":0},""""shape"""":""""circle"""""",""""""width"""":5,""""height"""":5}}]}"""",""""11"""",""""http:10.109.0.9""}",tcp:172.17.0.1:52290,,"{widget_id,0,compression_level,0,nonce,{""chartId"":""work_to_generate_logs"""",""""dashboardId"":100},nonce,{""chartId"":""work_to_generate_logs"""",""""dashboardId"":100}}",db,tests/gold/omnisci_server.INFO,
-2020-07-01 00:00:00.000140,AUTH,15,,DBHandler.cpp:616,disconnect_begin,6,0,,,,,,,,,stdlog_begin disconnect 6 0,{},db,tests/gold/omnisci_server.INFO,stdlog_begin disconnect
-2020-07-01 00:00:00.000141,INFO,15,2,DBHandler.cpp:624,,,,,,,,,,,,User admin disconnected from database omnisci with public_session_id: 455-NzOR,{},db,tests/gold/omnisci_server.INFO,User admin disconnected from database omnisci with
-2020-07-01 00:00:00.000142,AUTH,15,,DBHandler.cpp:616,disconnect,6,1,455-NzOR,omnisci,admin,,,,,tcp:172.17.0.1:52290,,{},db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000208,INFO,15,,DBHandler.cpp:3358,render_vega_begin,5,0,409-as47,omnisci,admin,,,,"{""width"":1002,""height"":726,""viewRenderOptions"":{""premultipliedAlpha"":false},""data"":[{""name"":""pointmap"",""sql"":""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000"",""enableHitTesting"":false}],""scales"":[{""name"":""x"",""type"":""linear"",""domain"":[-19828578.576412328,-7488448.674977641],""range"":""width""},{""name"":""y"",""type"":""linear"",""domain"":[-90671.43229163112,8850380.771762503],""range"":""height""},{""name"":""pointmap_fillColor"",""type"":""linear"",""domain"":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],""range"":[""rgba(17,95,154,0.475)"",""rgba(25,132,197,0.5471153846153846)"",""rgba(34,167,240,0.6192307692307691)"",""rgba(72,181,196,0.6913461538461538)"",""rgba(118,198,143,0.7634615384615384)"",""rgba(166,215,91,0.835576923076923)"",""rgba(201,229,47,0.85)"",""rgba(208,238,17,0.85)"",""rgba(208,244,0,0.85)""],""accumulator"":""density"",""minDensityCnt"":""-2ndStdDev"",""maxDensityCnt"":""2ndStdDev"",""clamp"":true}],""projections"":[],""marks"":[{""type"":""symbol"",""from"":{""data"":""pointmap""},""properties"":{""xc"":{""scale"":""x"",""field"":""x""},""yc"":{""scale"":""y"",""field"":""y""},""fillColor"":{""scale"":""pointmap_fillColor"",""value"":0},""shape"":""circle"",""width"":5,""height"":5}}]}",,,"{widget_id,0,compression_level,0,nonce,{""chartId"":""work_to_generate_logs"",""dashboardId"":100}}",db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000209,INFO,15,2,RenderHandlerImpl.cpp:151,,,,,,,,,,,,"render_vega :409-as47:widget_id:0:compression_level:0:vega_json:{""width"":1002,""height"":726,""viewRenderOptions"":{""premultipliedAlpha"":false},""data"":[{""name"":""pointmap"",""sql"":""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000"",""enableHitTesting"":false}],""scales"":[{""name"":""x"",""type"":""linear"",""domain"":[-19828578.576412328,-7488448.674977641],""range"":""width""},{""name"":""y"",""type"":""linear"",""domain"":[-90671.43229163112,8850380.771762503],""range"":""height""},{""name"":""pointmap_fillColor"",""type"":""linear"",""domain"":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],""range"":[""rgba(17,95,154,0.475)"",""rgba(25,132,197,0.5471153846153846)"",""rgba(34,167,240,0.6192307692307691)"",""rgba(72,181,196,0.6913461538461538)"",""rgba(118,198,143,0.7634615384615384)"",""rgba(166,215,91,0.835576923076923)"",""rgba(201,229,47,0.85)"",""rgba(208,238,17,0.85)"",""rgba(208,244,0,0.85)""],""accumulator"":""density"",""minDensityCnt"":""-2ndStdDev"",""maxDensityCnt"":""2ndStdDev"",""clamp"":true}],""projections"":[],""marks"":[{""type"":""symbol"",""from"":{""data"":""pointmap""},""properties"":{""xc"":{""scale"":""x"",""field"":""x""},""yc"":{""scale"":""y"",""field"":""y""},""fillColor"":{""scale"":""pointmap_fillColor"",""value"":0},""shape"":""circle"",""width"":5,""height"":5}}]}:nonce:{""chartId"":""work_to_generate_logs"",""dashboardId"":100}",{},db,tests/gold/omnisci_server.INFO,render_vega :-as:widget_id::compression_level::veg
+2020-07-01 00:00:00.000210,INFO,15,8,GLMultiGpuCompositor.cpp:46,,,,,,,,,,,,Multi-GPU compositor using GPU 1,{},db,tests/gold/omnisci_server.INFO,Multi-GPU compositor using GPU
+2020-07-01 00:00:00.000211,INFO,15,8,RenderSessionMgr.cpp:65,,,,,,,,,,,,"Active render session [409-as47, 0]",{},db,tests/gold/omnisci_server.INFO,"Active render session [-as, ]"
+2020-07-01 00:00:00.000212,INFO,15,8,Calcite.cpp:486,,,,,,,,,,,,"User calcite catalog omnisci sql 'SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null           AND st_ymin(omnisci_geo ) is not null           AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000'",{},db,tests/gold/omnisci_server.INFO,User calcite catalog omnisci sql
+2020-07-01 00:00:00.000213,INFO,15,8,Calcite.cpp:513,sql_parse,,,,,,,1,62,,,"Time in Thrift 1 (ms), Time in Java Calcite server 62 (ms)",{},db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000214,DEBUG,15,8,LockMgr.h:113,,,,,,,,,,,,Acquiring Table Schema Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Schema Read Lock for table: omnisc
+2020-07-01 00:00:00.000215,DEBUG,15,8,LockMgr.h:207,,,,,,,,,,,,Acquiring Table Data Read Lock for table: omnisci_states,{},db,tests/gold/omnisci_server.INFO,Acquiring Table Data Read Lock for table: omnisci_
+2020-07-01 00:00:00.000216,OTHER,15,8,RelAlgDagBuilder.cpp:2582,,,,,,,,,,,,"Parsing query RA JSON: {
+  ""rels"": [
+    {
+      ""id"": ""0"",
+      ""relOp"": ""LogicalTableScan"",
+      ""fieldNames"": [
+        ""id"",
+        ""abbr"",
+        ""name"",
+        ""omnisci_geo"",
+        ""rowid""
+      ],
+      ""table"": [
+        ""omnisci"",
+        ""omnisci_states""
+      ],
+      ""inputs"": []
+    },
+    {
+      ""id"": ""1"",
+      ""relOp"": ""LogicalFilter"",
+      ""condition"": {
+        ""op"": ""AND"",
+        ""operands"": [
+          {
+            ""op"": ""IS NOT NULL"",
+            ""operands"": [
+              {
+                ""op"": ""ST_XMin"",
+                ""operands"": [
+                  {
+                    ""input"": 3
+                  }
+                ],
+                ""type"": {
+                  ""type"": ""DOUBLE"",
+                  ""nullable"": false
+                }
+              }
+            ],
+            ""type"": {
+              ""type"": ""BOOLEAN"",
+              ""nullable"": false
+            }
+          },
+          {
+            ""op"": ""IS NOT NULL"",
+            ""operands"": [
+              {
+                ""op"": ""ST_YMin"",
+                ""operands"": [
+                  {
+                    ""input"": 3
+                  }
+                ],
+                ""type"": {
+                  ""type"": ""DOUBLE"",
+                  ""nullable"": false
+                }
+              }
+            ],
+            ""type"": {
+              ""type"": ""BOOLEAN"",
+              ""nullable"": false
+            }
+          },
+          {
+            ""op"": "">="",
+            ""operands"": [
+              {
+                ""op"": ""ST_XMin"",
+                ""operands"": [
+                  {
+                    ""input"": 3
+                  }
+                ],
+                ""type"": {
+                  ""type"": ""DOUBLE"",
+                  ""nullable"": false
+                }
+              },
+              {
+                ""literal"": -17812315200000032,
+                ""type"": ""DECIMAL"",
+                ""target_type"": ""DECIMAL"",
+                ""scale"": 14,
+                ""precision"": 17,
+                ""type_scale"": 14,
+                ""type_precision"": 17
+              }
+            ],
+            ""type"": {
+              ""type"": ""BOOLEAN"",
+              ""nullable"": false
+            }
+          },
+          {
+            ""op"": ""<="",
+            ""operands"": [
+              {
+                ""op"": ""ST_XMin"",
+                ""operands"": [
+                  {
+                    ""input"": 3
+                  }
+                ],
+                ""type"": {
+                  ""type"": ""DOUBLE"",
+                  ""nullable"": false
+                }
+              },
+              {
+                ""literal"": -6726987899999968,
+                ""type"": ""DECIMAL"",
+                ""target_type"": ""DECIMAL"",
+                ""scale"": 14,
+                ""precision"": 16,
+                ""type_scale"": 14,
+                ""type_precision"": 16
+              }
+            ],
+            ""type"": {
+              ""type"": ""BOOLEAN"",
+              ""nullable"": false
+            }
+          },
+          {
+            ""op"": "">="",
+            ""operands"": [
+              {
+                ""op"": ""ST_YMin"",
+                ""operands"": [
+                  {
+                    ""input"": 3
+                  }
+                ],
+                ""type"": {
+                  ""type"": ""DOUBLE"",
+                  ""nullable"": false
+                }
+              },
+              {
+                ""literal"": -8144879012842097,
+                ""type"": ""DECIMAL"",
+                ""target_type"": ""DECIMAL"",
+                ""scale"": 16,
+                ""precision"": 16,
+                ""type_scale"": 16,
+                ""type_precision"": 17
+              }
+            ],
+            ""type"": {
+              ""type"": ""BOOLEAN"",
+              ""nullable"": false
+            }
+          },
+          {
+            ""op"": ""<="",
+            ""operands"": [
+              {
+                ""op"": ""ST_YMin"",
+                ""operands"": [
+                  {
+                    ""input"": 3
+                  }
+                ],
+                ""type"": {
+                  ""type"": ""DOUBLE"",
+                  ""nullable"": false
+                }
+              },
+              {
+                ""literal"": 6196302517868901,
+                ""type"": ""DECIMAL"",
+                ""target_type"": ""DECIMAL"",
+                ""scale"": 14,
+                ""precision"": 16,
+                ""type_scale"": 14,
+                ""type_precision"": 16
+              }
+            ],
+            ""type"": {
+              ""type"": ""BOOLEAN"",
+              ""nullable"": false
+            }
+          }
+        ],
+        ""type"": {
+          ""type"": ""BOOLEAN"",
+          ""nullable"": false
+        }
+      }
+    },
+    {
+      ""id"": ""2"",
+      ""relOp"": ""LogicalProject"",
+      ""fields"": [
+        ""x"",
+        ""y""
+      ],
+      ""exprs"": [
+        {
+          ""op"": ""conv_4326_900913_x"",
+          ""operands"": [
+            {
+              ""op"": ""ST_XMin"",
+              ""operands"": [
+                {
+                  ""input"": 3
+                }
+              ],
+              ""type"": {
+                ""type"": ""DOUBLE"",
+                ""nullable"": false
+              }
+            }
+          ],
+          ""type"": {
+            ""type"": ""DOUBLE"",
+            ""nullable"": true
+          }
+        },
+        {
+          ""op"": ""conv_4326_900913_y"",
+          ""operands"": [
+            {
+              ""op"": ""ST_YMin"",
+              ""operands"": [
+                {
+                  ""input"": 3
+                }
+              ],
+              ""type"": {
+                ""type"": ""DOUBLE"",
+                ""nullable"": false
+              }
+            }
+          ],
+          ""type"": {
+            ""type"": ""DOUBLE"",
+            ""nullable"": true
+          }
+        }
+      ]
+    },
+    {
+      ""id"": ""3"",
+      ""relOp"": ""LogicalSort"",
+      ""collation"": [],
+      ""fetch"": {
+        ""literal"": 10000000,
+        ""type"": ""DECIMAL"",
+        ""target_type"": ""INTEGER"",
+        ""scale"": 0,
+        ""precision"": 8,
+        ""type_scale"": 0,
+        ""type_precision"": 10
+      }
+    }
+  ]
+}",{},db,tests/gold/omnisci_server.INFO,"Parsing query RA JSON: {
+  ""rels"": [
+    {
+      """
+2020-07-01 00:00:00.000217,DEBUG,15,8,RelAlgExecutor.cpp:496,,,,,,,,,,,,Executing query step 0,{},db,tests/gold/omnisci_server.INFO,Executing query step
+2020-07-01 00:00:00.000218,OTHER,15,8,RelAlgExecutor.cpp:1070,,,,,,,,,,,,used_inputs.size() = 40,{},db,tests/gold/omnisci_server.INFO,used_inputs.size() =
+2020-07-01 00:00:00.000219,OTHER,15,8,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140687846983984>((RexOperator 7 (RexOperator 17 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexOperator 17 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) (RexOperator 6 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -17812315200000032)) (RexOperator 5 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -6726987899999968)) (RexOperator 6 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral -8144879012842097)) (RexOperator 5 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral 6196302517868901))) (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) groups: [ ] sources: [ (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) ])) input_col_descs_unique.size()=0 source_used_inputs.size()=40,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>((RexOperator  (RexOperator
+2020-07-01 00:00:00.000220,OTHER,15,8,RelAlgExecutor.cpp:979,,,,,,,,,,,,ra_node=(RelCompound<140687846983984>((RexOperator 7 (RexOperator 17 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexOperator 17 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) (RexOperator 6 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -17812315200000032)) (RexOperator 5 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -6726987899999968)) (RexOperator 6 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral -8144879012842097)) (RexOperator 5 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral 6196302517868901))) (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) groups: [ ] sources: [ (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) ])) input_col_descs_unique.size()=5 source_used_inputs.size()=0,{},db,tests/gold/omnisci_server.INFO,ra_node=(RelCompound<>((RexOperator  (RexOperator
+2020-07-01 00:00:00.000221,OTHER,15,8,RelAlgExecutor.cpp:3265,,,,,,,,,,,,"input_descs=(InputDescriptor(table_id(1),nest_level(0)))",{},db,tests/gold/omnisci_server.INFO,"input_descs=(InputDescriptor(table_id(),nest_level"
+2020-07-01 00:00:00.000222,OTHER,15,8,RelAlgExecutor.cpp:1140,,,,,,,,,,,,get_scalar_sources_size((RelCompound<140687846983984>((RexOperator 7 (RexOperator 17 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexOperator 17 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) (RexOperator 6 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -17812315200000032)) (RexOperator 5 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -6726987899999968)) (RexOperator 6 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral -8144879012842097)) (RexOperator 5 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral 6196302517868901))) (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) groups: [ ] sources: [ (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) ]))) = 2,{},db,tests/gold/omnisci_server.INFO,get_scalar_sources_size((RelCompound<>((RexOperato
+2020-07-01 00:00:00.000223,OTHER,15,8,RelAlgExecutor.cpp:2694,,,,,,,,,,,,body->getId()=5 body->toString()=(RelCompound<140687846983984>((RexOperator 7 (RexOperator 17 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexOperator 17 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) (RexOperator 6 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -17812315200000032)) (RexOperator 5 (RexFunctionOperator ST_XMin (RexInput 3 140687846984800)) (RexLiteral -6726987899999968)) (RexOperator 6 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral -8144879012842097)) (RexOperator 5 (RexFunctionOperator ST_YMin (RexInput 3 140687846984800)) (RexLiteral 6196302517868901))) (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) groups: [ ] sources: [ (RexFunctionOperator conv_4326_900913_x (RexFunctionOperator ST_XMin (RexInput 3 140687846984800))) (RexFunctionOperator conv_4326_900913_y (RexFunctionOperator ST_YMin (RexInput 3 140687846984800))) ])) it==leaf_results_.end()=true,{},db,tests/gold/omnisci_server.INFO,body->getId()= body->toString()=(RelCompound<>((Re
+2020-07-01 00:00:00.000224,DEBUG,15,8,Execute.cpp:1320,,,,,,,,,,,,"Executor 0 is executing work unit:
+	Table/Col/Levels: (1, 5, 0) (1, 6, 0) (1, 7, 0) (1, 8, 0) (1, 9, 0)
+	Quals: (NOT (IS NULL (ST_XMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )) ) , (NOT (IS NULL (ST_YMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )) ) , (>= (ST_XMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )(Const -178.123152) ) , (<= (ST_XMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )(Const -67.269879) ) , (>= (ST_YMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )(Const -0.814488) ) , (<= (ST_YMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )(Const 61.963025) )
+	Group By: NULL
+	Projected targets: (conv_4326_900913_x (ST_XMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) )), (conv_4326_900913_y (ST_YMin_Bounds (ColumnVar table: 1 column: 8 rte: 0 DOUBLE[4]) (Const 4326) (Const 4326) ))
+	Has Estimator: True
+	Sort Info:
+	  Order Entries:
+	  Algorithm: Streaming Top N
+	  Limit: 10000000
+	  Offset: 0
+	Scan Limit: 10000000
+	Bump Allocator: False",{},db,tests/gold/omnisci_server.INFO,"Executor  is executing work unit:
+	Table/Col/Level"
+2020-07-01 00:00:00.000225,DEBUG,15,8,NativeCodegen.cpp:2063,,,,,,,,,,,,number of hoisted literals: 5 / literal buffer usage: 40 bytes,{},db,tests/gold/omnisci_server.INFO,number of hoisted literals:  / literal buffer usag
+2020-07-01 00:00:00.000226,DEBUG,15,8,NvidiaKernel.cpp:104,,,,,,,,,,,,CUDA JIT time to create link: 0.070675,{},db,tests/gold/omnisci_server.INFO,CUDA JIT time to create link: .
+2020-07-01 00:00:00.000227,DEBUG,15,8,NvidiaKernel.cpp:116,,,,,,,,,,,,CUDA JIT time to add RT fatbinary: 32.2961,{},db,tests/gold/omnisci_server.INFO,CUDA JIT time to add RT fatbinary: .
+2020-07-01 00:00:00.000228,DEBUG,15,8,NvidiaKernel.cpp:128,,,,,,,,,,,,CUDA JIT time to add generated code: 74.4749,{},db,tests/gold/omnisci_server.INFO,CUDA JIT time to add generated code: .
+2020-07-01 00:00:00.000229,DEBUG,15,8,NvidiaKernel.cpp:134,,,,,,,,,,,,"CUDA Linker completed: ptxas info    : 0 bytes gmem
+ptxas info    : Function properties for row_func_hoisted_literals
+ptxas         .     64 bytes stack frame, 64 bytes spill stores, 64 bytes spill loads
+ptxas info    : Compiling entry function 'multifrag_query_hoisted_literals' for 'sm_35'
+ptxas info    : Function properties for multifrag_query_hoisted_literals
+ptxas         .     40 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 20 registers, 416 bytes cmem[0]
+ptxas info    : Function properties for query_group_by_template
+ptxas         .     336 bytes stack frame, 196 bytes spill stores, 204 bytes spill loads
+info    : 2586 bytes gmem, 168 bytes cmem[3]
+info    : Function properties for 'multifrag_query_hoisted_literals':
+info    : used 64 registers, 496 stack, 0 bytes smem, 416 bytes cmem[0], 672 bytes cmem[2], 0 bytes lmem
+info    : Function properties for '_Z24init_group_by_buffer_gpuPlPKljjjjba':
+info    : used 28 registers, 0 stack, 0 bytes smem, 354 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z26init_render_buffer_wrapperPlj':
+info    : used 8 registers, 0 stack, 0 bytes smem, 332 bytes cmem[0], 0 bytes lmem
+info    : Function properties for '_Z41init_columnar_group_by_buffer_gpu_wrapperPlPKljjjPKabba':
+info    : used 14 registers, 0 stack, 0 bytes smem, 363 bytes cmem[0], 0 bytes lmem",{},db,tests/gold/omnisci_server.INFO,CUDA Linker completed: ptxas info    :  bytes gmem
+2020-07-01 00:00:00.000230,DEBUG,15,8,NvidiaKernel.cpp:137,,,,,,,,,,,,Generated GPU binary code size: 537976 bytes,{},db,tests/gold/omnisci_server.INFO,Generated GPU binary code size:  bytes
+2020-07-01 00:00:00.000231,DEBUG,15,8,Execute.cpp:1983,,,,,,,,,,,,Creating multifrag execution kernels,{},db,tests/gold/omnisci_server.INFO,Creating multifrag execution kernels
+2020-07-01 00:00:00.000232,DEBUG,15,8,Execute.cpp:1984,,,,,,,,,,,,"Query Memory Descriptor State
+	Query Type: Projection
+	Keyless Hash: False
+	Effective key width: 8
+	Number of group columns: 1
+	Col Slot Context State
+	N | P , L
+	0 | 8 , 8
+	1 | 8 , 8
+	Allow Multifrag: True
+	Interleaved Bins on GPU: False
+	Blocks Share Memory: True
+	Threads Share Memory: True
+	Uses Fast Group Values: False
+	Lazy Init Groups (GPU): False
+	Entry Count: 10000000
+	Min Val (perfect hash only): 0
+	Max Val (perfect hash only): 0
+	Bucket Val (perfect hash only): 0
+	Sort on GPU: False
+	Use Streaming Top N: False
+	Output Columnar: False
+	Render Output: True
+	Use Baseline Sort: False",{},db,tests/gold/omnisci_server.INFO,"Query Memory Descriptor State
+	Query Type: Project"
+2020-07-01 00:00:00.000233,DEBUG,15,8,Execute.cpp:2078,,,,,,,,,,,,Launching 1 kernels for query.,{},db,tests/gold/omnisci_server.INFO,Launching  kernels for query.
+2020-07-01 00:00:00.000234,INFO,15,9,BufferMgr.cpp:303,,,,,,,,,,,,ALLOCATION slab of 8388608 pages (4294967296B) created in 0 ms CPU_MGR:0,{},db,tests/gold/omnisci_server.INFO,ALLOCATION slab of  pages (B) created in  ms CPU_M
+2020-07-01 00:00:00.000235,OTHER,15,9,Execute.cpp:2887,,,,,,,,,,,,"bool(ra_exe_unit.union_all)=false ra_exe_unit.input_descs=(InputDescriptor(table_id(1),nest_level(0))) ra_exe_unit.input_col_descs=(InputColDescriptor(col_id(5),InputDescriptor(table_id(1),nest_level(0))) InputColDescriptor(col_id(6),InputDescriptor(table_id(1),nest_level(0))) InputColDescriptor(col_id(7),InputDescriptor(table_id(1),nest_level(0))) InputColDescriptor(col_id(8),InputDescriptor(table_id(1),nest_level(0))) InputColDescriptor(col_id(9),InputDescriptor(table_id(1),nest_level(0)))) ra_exe_unit.scan_limit=10000000 num_rows=((52)) frag_offsets=((0)) query_exe_context->query_buffers_->num_rows_=-1 query_exe_context->query_mem_desc_.getEntryCount()=10000000 device_id=1 outer_table_id=1 scan_limit=10000000 start_rowid=0 num_tables=1",{},db,tests/gold/omnisci_server.INFO,bool(ra_exe_unit.union_all)=false ra_exe_unit.inpu
+2020-07-01 00:00:00.000236,DEBUG,15,9,ExecutionKernel.cpp:329,,,,,,,,,,,,null device_results.,{},db,tests/gold/omnisci_server.INFO,null device_results.
+2020-07-01 00:00:00.000237,DEBUG,15,8,ResultCache.cpp:174,,,,,,,,,,,,"Caching query ""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null           AND st_ymin(omnisci_geo ) is not null           AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000"" for hit testing with id: -2. Num bytes in cache: 0. Total used bytes in cache: 0",{},db,tests/gold/omnisci_server.INFO,"Caching query ""SELECT conv___x(st_xmin(omnisci_geo"
+2020-07-01 00:00:00.000238,INFO,15,2,RenderHandlerImpl.cpp:155,,,,,,,,,,,,"render_vega-COMPLETED nonce:{""chartId"":""work_to_generate_logs"",""dashboardId"":100} Total Execution: 259 (ms), Total Render: 550 (ms)",{},db,tests/gold/omnisci_server.INFO,"render_vega-COMPLETED nonce:{""chartId"":""work_to_ge"
+2020-07-01 00:00:00.000239,INFO,15,,DBHandler.cpp:3358,render_vega,5,1039,409-as47,omnisci,admin,,,,"{""width"":1002,""height"":726,""viewRenderOptions"":{""premultipliedAlpha"":false},""data"":[{""name"":""pointmap"",""sql"":""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null\n          AND st_ymin(omnisci_geo ) is not null\n          AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000"",""enableHitTesting"":false}],""scales"":[{""name"":""x"",""type"":""linear"",""domain"":[-19828578.576412328,-7488448.674977641],""range"":""width""},{""name"":""y"",""type"":""linear"",""domain"":[-90671.43229163112,8850380.771762503],""range"":""height""},{""name"":""pointmap_fillColor"",""type"":""linear"",""domain"":[0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1],""range"":[""rgba(17,95,154,0.475)"",""rgba(25,132,197,0.5471153846153846)"",""rgba(34,167,240,0.6192307692307691)"",""rgba(72,181,196,0.6913461538461538)"",""rgba(118,198,143,0.7634615384615384)"",""rgba(166,215,91,0.835576923076923)"",""rgba(201,229,47,0.85)"",""rgba(208,238,17,0.85)"",""rgba(208,244,0,0.85)""],""accumulator"":""density"",""minDensityCnt"":""-2ndStdDev"",""maxDensityCnt"":""2ndStdDev"",""clamp"":true}],""projections"":[],""marks"":[{""type"":""symbol"",""from"":{""data"":""pointmap""},""properties"":{""xc"":{""scale"":""x"",""field"":""x""},""yc"":{""scale"":""y"",""field"":""y""},""fillColor"":{""scale"":""pointmap_fillColor"",""value"":0},""shape"":""circle"",""width"":5,""height"":5}}]}",tcp:172.17.0.1:53140,,"{widget_id,0,compression_level,0,nonce,{""chartId"":""work_to_generate_logs"",""dashboardId"":100},nonce,{""chartId"":""work_to_generate_logs"",""dashboardId"":100}}",db,tests/gold/omnisci_server.INFO,
+2020-07-01 00:00:00.000240,AUTH,15,,DBHandler.cpp:616,disconnect_begin,6,0,,,,,,,,,stdlog_begin disconnect 6 0,{},db,tests/gold/omnisci_server.INFO,stdlog_begin disconnect
+2020-07-01 00:00:00.000241,INFO,15,2,DBHandler.cpp:624,,,,,,,,,,,,User admin disconnected from database omnisci with public_session_id: 409-as47,{},db,tests/gold/omnisci_server.INFO,User admin disconnected from database omnisci with
+2020-07-01 00:00:00.000242,INFO,15,8,RenderSessionMgr.cpp:162,,,,,,,,,,,,Active render session UNSET,{},db,tests/gold/omnisci_server.INFO,Active render session UNSET
+2020-07-01 00:00:00.000243,DEBUG,15,8,ResultCache.cpp:217,,,,,,,,,,,,"QueryResultCache: removing results for query ""SELECT conv_4326_900913_x(st_xmin(omnisci_geo)) AS x, conv_4326_900913_y(st_ymin(omnisci_geo )) AS y FROM omnisci_states WHERE ((st_xmin(omnisci_geo) is not null           AND st_ymin(omnisci_geo ) is not null           AND st_xmin(omnisci_geo) >= -178.12315200000032 AND st_xmin(omnisci_geo) <= -67.26987899999968 AND st_ymin(omnisci_geo ) >= -0.8144879012842097 AND st_ymin(omnisci_geo ) <= 61.96302517868901)) LIMIT 10000000"". Cache id: -2. Freeing up 0 bytes. Remaining use_count: 2",{},db,tests/gold/omnisci_server.INFO,"QueryResultCache: removing results for query ""SELE"
+2020-07-01 00:00:00.000244,AUTH,15,,DBHandler.cpp:616,disconnect,6,0,409-as47,omnisci,admin,,,,,tcp:172.17.0.1:53140,,{},db,tests/gold/omnisci_server.INFO,
