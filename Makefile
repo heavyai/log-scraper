@@ -19,9 +19,10 @@
 SHELL = /bin/sh
 .DEFAULT_GOAL=all
 
-# OMNISCI_VERSION = v5.3.1
+OMNISCI_VERSION = v5.4.1
 # OMNISCI_IMAGE = omnisci/core-os-cpu:${OMNISCI_VERSION}
-OMNISCI_IMAGE = omnisci-log-scraper-build
+OMNISCI_IMAGE = omnisci/omnisci-ee-cuda:${OMNISCI_VERSION}
+# OMNISCI_IMAGE = omnisci-log-scraper-build
 DB_CONTAINER = omnisci-test-db
 
 -include .env
@@ -103,7 +104,7 @@ build.docker: deps.docker
 	echo "See target/ubuntu/release/ for the omnisci-log-scraper binary"
 .PHONY: build.docker
 
-up: deps.docker
+up:
 	mkdir -p target/${DB_CONTAINER}
 	docker run --name ${DB_CONTAINER} \
 		-d --rm \
