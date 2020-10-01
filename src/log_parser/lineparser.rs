@@ -26,7 +26,6 @@ use std::fs;
 use std::path::Path;
 use std::io;
 use std::io::BufReader;
-use std::io::Cursor;
 use std::io::Write;
 
 use regex;
@@ -707,13 +706,15 @@ impl LogEntry {
 pub struct ParsingLine<'a, R: BufRead> {
     reader: &'a mut R,
     ahead: Option<LogLine>,
+    follow: bool,
 }
 
 impl<'a, R: BufRead> ParsingLine<'a, R> {
-    pub fn new(reader: &'a mut R) -> ParsingLine<'a, R> {
+    pub fn new(reader: &'a mut R, follow: bool) -> ParsingLine<'a, R> {
         ParsingLine {
             ahead: None,
-            reader: reader,
+            reader,
+            follow,
         }
     }
 }
@@ -727,12 +728,18 @@ impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
                 Err(e) => return Some(Err(e)),
                 Ok(log) => match log {
                     LogEntry::EOF => {
-
-                        // TODO Can we act like tail -f by continuing to loop instead of return None?
-                        //      This would let the user refresh the pager app.
-
                         match &self.ahead {
-                            None => return None,
+                            None => {
+                                if self.follow {
+                                    // Like tail -f by continuing to loop instead of return None
+                                    // Lets the user refresh the pager app.
+                                    // And also follow the log file realtime.
+                                    std::thread::sleep(std::time::Duration::from_millis(500));
+                                }
+                                else {
+                                    return None
+                                }
+                            },
                             Some(log) => {
                                 let mut ok = log.clone();
                                 self.ahead = None;
@@ -811,7 +818,10 @@ struct CsvFileLogWriter {
 impl LogWriter for CsvFileLogWriter {
     fn write(&mut self, log: &LogLine) -> SResult<()> {
         match self.writer.serialize(log) {
-            Ok(_) => return Ok(()),
+            Ok(_) => {
+                self.writer.flush()?;
+                return Ok(())
+            },
             // return Ok on error, assumes the user quit the output early, we don't want to print an error
             Err(_) => return Ok(())
         }
@@ -825,7 +835,10 @@ struct CsvOutLogWriter {
 impl LogWriter for CsvOutLogWriter {
     fn write(&mut self, log: &LogLine) -> SResult<()> {
         match self.writer.serialize(log) {
-            Ok(_) => return Ok(()),
+            Ok(_) => {
+                self.writer.flush()?;
+                return Ok(())
+            },
             // return Ok on error, assumes the user quit the output early, we don't want to print an error
             Err(_) => return Ok(())
         }
@@ -848,7 +861,10 @@ impl TerminalWriter {
 impl LogWriter for TerminalWriter {
     fn write(&mut self, log: &LogLine) -> SResult<()> {
         match self.writer.write_all(&log.print_colorize().into_bytes()) {
-            Ok(_) => return Ok(()),
+            Ok(_) => {
+                self.writer.flush()?;
+                return Ok(())
+            },
             // return Ok on error, assumes the user quit the output early, we don't want to print an error
             Err(_) => return Ok(())
         }
@@ -987,6 +1003,7 @@ impl LogLoader {
 
 impl LogWriter for LogLoader {
     fn write(&mut self, log: &LogLine) -> SResult<()> {
+        // TODO in addition to buf_size, track and check age of messages in the buffer
         if self.buffer.len() < self.buf_size {
             self.buffer.push(log.clone());
             Ok(())
@@ -995,6 +1012,7 @@ impl LogWriter for LogLoader {
             self.buffer.clear();
             match self.con.load_table_binary_columnar(&"omnisci_log_scraper".to_string(), data) {
                 Ok(ok) => Ok(ok),
+                // TODO reconnect if connection is lost
                 Err(e) => Err(Box::new(e)),
             }
         }
@@ -1070,20 +1088,21 @@ fn new_log_writer(input: &str, filter: &Vec<&str>, output: Option<&str>, output_
     }
 }
 
-pub fn transform_logs(input: &str,
+
+pub fn transform_logs(
+        input: &str,
         output: Option<&str>,
         filter: &Vec<&str>,
         output_type: &OutputType,
         db: Option<&str>,
         hostname: Option<&str>,
+        follow: bool,
         ) -> SResult<()> {
-    // println!("filter {:?} output {:?}", filter, output);
 
     let query_operations = vec!("SELECT", "WITH");
 
-    let file_contents_utf8 = String::from_utf8_lossy(&fs::read(input)?).into_owned();
-    let buf = Cursor::new(&file_contents_utf8);
-    let mut reader = BufReader::new(buf);
+    let file = fs::File::open(Path::new(input))?;
+    let mut reader = BufReader::new(file);
 
     let mut writer = new_log_writer(input, filter, output, &output_type, db)?;
     let hostname: Option<String> = match hostname {
@@ -1091,7 +1110,7 @@ pub fn transform_logs(input: &str,
         Some(x) => Some(x.to_string())
     };
 
-    for entry in ParsingLine::new(&mut reader) {
+    for entry in ParsingLine::new(&mut reader, follow) {
         match entry {
             Err(e) => return Err(Box::new(e)),
             Ok(mut log) => {

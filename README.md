@@ -60,7 +60,7 @@ USAGE:
 FLAGS:
         --createtable    Create table
         --dryrun         Do not execute anything
-    -d                   Debugging information
+        --follow         Wait forever for appended data
     -h, --help           Prints help information
     -V, --version        Prints version information
 
@@ -69,7 +69,7 @@ OPTIONS:
     -f, --filter <FILTER>        Filter logs: all, sql, select
         --hostname <HOSTNAME>    Hostname to set for the hostname column (optional)
     -o, --output <OUTPUT>        Ouput file, or if a dir, then output files as OUTPUT/INPUT.csv
-    -t, --type <TYPE>            Output format: csv, tsv, terminal, sql, execute, load
+    -t, --type <TYPE>            Output format: csv, tsv, terminal, sql, execute, load (default: terminal)
 
 ARGS:
     <INPUT>...    Input log files

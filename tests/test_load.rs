@@ -46,6 +46,7 @@ fn test_load() -> olog::SResult<()> {
         &olog::OutputType::Load,
         Some(db),
         Some("test_load"),
+        false,
     )?;
 
     let res = con.sql_execute(String::from("select count(*) from omnisci_log_scraper where hostname = 'test_load'"), false, nonce.to_string())?;
@@ -88,6 +89,7 @@ fn test_copy_from() -> olog::SResult<()> {
         &olog::OutputType::CSV,
         None,
         Some("db"),
+        false,
     )?;
 
     let res = con.sql_execute(String::from("drop table if exists omnisci_log_scraper"), false, nonce.to_string())?;
