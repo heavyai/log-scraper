@@ -40,6 +40,8 @@ use serde::Serialize;
 use omnisci;
 use omnisci::omnisci::TColumn;
 
+use serde_json;
+
 
 // standard result with error boxed so original errors are preserved
 // https://doc.rust-lang.org/stable/rust-by-example/error/multiple_error_types/boxing_errors.html
@@ -156,6 +158,9 @@ pub struct LogLine {
 
     // msg_norm is a simple way to match logs by stripping numbers
     pub msg_norm: Option<String>,
+
+    pub dashboardid: Option<String>,
+    pub chartid: Option<String>,
 }
 
 
@@ -184,9 +189,15 @@ pub const CREATE_TABLE: &str = "CREATE TABLE IF NOT EXISTS omnisci_log_scraper (
     name_values TEXT[],
     hostname TEXT,
     logfile TEXT,
-    msg_norm TEXT
+    msg_norm TEXT,
+    dashboardid TEXT,
+    chartid TEXT
 ) with (max_rows=640000000);
 ";
+
+// // ALTER TABLE <table> ADD [COLUMN] <column> <type>
+const ADD_COL_DASHBOARD: &str = "ALTER TABLE omnisci_log_scraper ADD COLUMN dashboardid TEXT";
+const ADD_COL_CHART: &str = "ALTER TABLE omnisci_log_scraper ADD COLUMN chartid TEXT";
 
 
 enum LogEntry {
@@ -572,6 +583,29 @@ impl LogLine {
                     Ok(v) => Some(v),
                 }
             }
+            else if key == "nonce" && val.len() > 0 {
+                match serde_json::from_str::<serde_json::Value>(val) {
+                    Ok(v) => {
+                        if v.is_object() {
+                            self.dashboardid = Some(v["dashboardId"].to_string());
+                            self.chartid = if v["chartId"].is_string() {
+                                Some(v["chartId"].as_str().unwrap().to_string())
+                            }
+                            else {
+                                Some(v["chartId"].to_string())
+                            };
+                        }
+                        else {
+                            unknown_values.push(key.to_string());
+                            unknown_values.push(val.to_string());
+                        }
+                    },
+                    Err(_) => {
+                        unknown_values.push(key.to_string());
+                        unknown_values.push(val.to_string());
+                    },
+                }
+            }
             else {
                 unknown_values.push(key.to_string());
                 unknown_values.push(val.to_string());
@@ -682,6 +716,8 @@ impl LogLine {
             name_values: None,
             hostname: None,
             logfile: None,
+            dashboardid: None,
+            chartid: None,
         };
         return Ok(result)
     }
@@ -967,10 +1003,12 @@ impl LogLoader {
     fn new(db: &str) -> SResult<LogLoader> {
         let mut con = omnisci::client::connect_url(db)?;
 
-        match con.sql_execute(String::from(CREATE_TABLE), false, String::from("omnisci_log_scraper")) {
-            Err(e) => return Err(Box::new(e)),
-            Ok(_res) => (), // println!("{:?}", res),
-        };
+        for alter in vec![CREATE_TABLE, ADD_COL_DASHBOARD, ADD_COL_CHART] {
+            match con.sql_execute(String::from(alter), false, String::from("omnisci_log_scraper")) {
+                Err(e) => eprintln!("Error \"{}\" caused by SQL: {}", e, alter),
+                Ok(res) => println!("SQL {}\n-> {:?}", alter, res),
+            };
+        }
 
         match con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false, String::from("omnisci_log_scraper")) {
             Err(e) => return Err(Box::new(e)),
@@ -1004,6 +1042,8 @@ impl LogLoader {
             TColumn::from(lines.iter().map(|val| &val.hostname).collect::<Vec<&Option<String>>>()),
             TColumn::from(lines.iter().map(|val| &val.logfile).collect::<Vec<&Option<String>>>()),
             TColumn::from(lines.iter().map(|val| &val.msg_norm).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| &val.dashboardid).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| &val.chartid).collect::<Vec<&Option<String>>>()),
         ]
     }
 }
