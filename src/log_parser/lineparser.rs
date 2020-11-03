@@ -28,6 +28,9 @@ use std::io;
 use std::io::BufReader;
 use std::io::Write;
 
+// #[macro_use]
+use lazy_static::lazy_static;
+
 use regex;
 
 extern crate csv;
@@ -308,9 +311,11 @@ impl LogLine {
         // FileMgr.cpp:205 Completed Reading table's file metadata, Elapsed time : 4ms Epoch: 0 files read: 0 table location: '/omnisci-storage/data/mapd_data/table_0_0'
         // event_spec('FileMgr.cpp', r'Completed Reading table\'s file metadata, Elapsed time \: ([0-9]+)ms Epoch: [0-9]+ files read: [0-9]+ table location\: \'(.*)\'',
         // event(name='read_table_metadata', meas_ms=1, object_tag='file', object_val=2)),
-        let re = regex::Regex::new(
-            r"Completed Reading table.s file metadata, Elapsed time . ([0-9]+)ms Epoch. [0-9]+ files read. [0-9]+ table location.*").unwrap();
-        if let Some(caps) = re.captures(self.msg.as_ref()) {
+        lazy_static! {
+            static ref RE1: regex::Regex = regex::Regex::new(
+                r"Completed Reading table.s file metadata, Elapsed time . ([0-9]+)ms Epoch. [0-9]+ files read. [0-9]+ table location.*").unwrap();
+        }
+        if let Some(caps) = RE1.captures(self.msg.as_ref()) {
             if let Some(m) = caps.get(1) {
                 if let Ok(ms) = m.as_str().parse() {
                     self.total_time = Some(ms);
@@ -323,9 +328,11 @@ impl LogLine {
         // Calcite.cpp:513 Time in Thrift 13 (ms), Time in Java Calcite server 1532 (ms)
         // event_spec('Calcite.cpp', r'Time in Thrift [0-9]+ \(ms\), Time in Java Calcite server ([0-9]+) \(ms\)',
         // event(name='calcite_parse', meas_ms=1, severity='PERF')),
-        let re = regex::Regex::new(
-            r"Time in Thrift ([0-9]+) \(ms\), Time in Java Calcite server ([0-9]+) \(ms\)").unwrap();
-        if let Some(caps) = re.captures(self.msg.as_ref()) {
+        lazy_static! {
+            static ref RE2: regex::Regex = regex::Regex::new(
+                r"Time in Thrift ([0-9]+) \(ms\), Time in Java Calcite server ([0-9]+) \(ms\)").unwrap();
+        }
+        if let Some(caps) = RE2.captures(self.msg.as_ref()) {
             if let Some(m) = caps.get(1) {
                 if let Ok(ms) = m.as_str().parse() {
                     self.execution_time = Some(ms);
@@ -352,13 +359,16 @@ impl LogLine {
     }
 
     fn msg_norm(self: &mut LogLine) {
-        let re_numbers = regex::Regex::new(r"\d+").unwrap();
-        let re_singlequoted = regex::Regex::new(r"'.*'").unwrap();
+        lazy_static! {
+            // static ref RE: Regex = Regex::new("...").unwrap();
+            static ref RE_NUMBERS: regex::Regex = regex::Regex::new(r"\d+").unwrap();
+            static ref RE_SINGLEQUOTED: regex::Regex = regex::Regex::new(r"'.*'").unwrap();
+        }
 
         if self.msg.len() > 0 {
             let norm: &str = self.msg.as_ref();
-            let norm = re_numbers.replace_all(&norm, "");
-            let norm = re_singlequoted.replace_all(norm.as_ref(), "");
+            let norm = RE_NUMBERS.replace_all(&norm, "");
+            let norm = RE_SINGLEQUOTED.replace_all(norm.as_ref(), "");
             let mut norm = norm.to_string();
             if norm.len() > 50 {
                 let mut n = 50;

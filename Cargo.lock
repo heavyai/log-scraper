@@ -249,6 +249,7 @@ dependencies = [
  "clap",
  "colored",
  "csv",
+ "lazy_static",
  "omnisci",
  "pager",
  "regex",
