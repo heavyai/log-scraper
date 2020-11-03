@@ -69,7 +69,7 @@ OPTIONS:
     -f, --filter <FILTER>        Filter logs: all, sql, select
         --hostname <HOSTNAME>    Hostname to set for the hostname column (optional)
     -o, --output <OUTPUT>        Ouput file, or if a dir, then output files as OUTPUT/INPUT.csv
-    -t, --type <TYPE>            Output format: csv, tsv, terminal, sql, execute, load (default: terminal)
+    -t, --type <TYPE>            Output format: csv, json, tsv, terminal, sql, execute, load (default: terminal)
 
 ARGS:
     <INPUT>...    Input log files
