@@ -46,7 +46,7 @@ fn main() -> log_parser::SResult<()> {
         // TODO arg file index selector: "-1", -5..-1", "..-1"
 
         // TODO arg output format type: json, load_table, kafka
-        (@arg TYPE: -t --type +takes_value "Output format: csv, tsv, terminal, sql, execute, load (default: terminal)")
+        (@arg TYPE: -t --type +takes_value "Output format: csv, json, tsv, terminal, sql, execute, load (default: terminal)")
 
         (@arg OUTPUT: -o --output +takes_value "Ouput file, or if a dir, then output files as OUTPUT/INPUT.csv")
 

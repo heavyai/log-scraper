@@ -839,6 +839,7 @@ impl<'a, R: BufRead> Iterator for ParsingLine<'a, R> {
 pub enum OutputType {
     CSV,
     TSV,
+    JSON,
     Terminal,
     SQL,
     Execute,
@@ -855,6 +856,7 @@ impl OutputType {
         match &name {
             &"csv" => OutputType::CSV,
             &"tsv" => OutputType::TSV,
+            &"json" => OutputType::JSON,
             &"terminal" => OutputType::Terminal,
             &"sql" => OutputType::SQL,
             &"execute" => OutputType::Execute,
@@ -959,6 +961,24 @@ impl LogWriter for SqlLogWriter {
     }
 }
 
+struct LineWriter {
+    writer: io::Stdout,
+}
+
+impl LogWriter for LineWriter {
+    fn write(&mut self, log: &LogLine) -> SResult<()> {
+        let line = serde_json::to_string(&log)?;
+        match self.writer.write_all(&line.into_bytes()) {
+            Ok(_) => {
+                self.writer.write_all(b"\n")?;
+                self.writer.flush()?;
+                return Ok(())
+            },
+            // return Ok on error, assumes the user quit the output early, we don't want to print an error
+            Err(_) => return Ok(())
+        }
+    }
+}
 
 struct LogExecutor {
     con: Box<dyn omnisci::client::OmniSciConnection>,
@@ -1137,6 +1157,7 @@ fn new_log_writer(input: &str, filter: &Vec<&str>, output: Option<&str>, output_
                     // .has_headers(false)
                     .from_writer(io::stdout())
                 })),
+            OutputType::JSON => Ok(Box::new(LineWriter{writer: io::stdout()})),
             OutputType::SQL => Ok(Box::new(SqlLogWriter{})),
             OutputType::Execute => match db {
                 None => panic!("EXECUTE requires DB URL"),
