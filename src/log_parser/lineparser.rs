@@ -356,13 +356,18 @@ impl LogLine {
         let re_singlequoted = regex::Regex::new(r"'.*'").unwrap();
 
         if self.msg.len() > 0 {
-            let norm = re_numbers.replace_all(self.msg.as_ref(), "");
+            let norm: &str = self.msg.as_ref();
+            let norm = re_numbers.replace_all(&norm, "");
             let norm = re_singlequoted.replace_all(norm.as_ref(), "");
             let mut norm = norm.to_string();
             if norm.len() > 50 {
-                norm = norm[..50].to_string();
+                let mut n = 50;
+                while ! norm.is_char_boundary(n) {
+                    n += 1;
+                }
+                norm = norm[..n].to_string();
             }
-            norm = norm.trim().to_string();
+            let norm = norm.trim().to_string();
             self.msg_norm = Some(norm);
         }
     }
