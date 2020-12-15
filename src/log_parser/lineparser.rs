@@ -599,26 +599,43 @@ impl LogLine {
                 }
             }
             else if key == "nonce" && val.len() > 0 {
-                match serde_json::from_str::<serde_json::Value>(val) {
-                    Ok(v) => {
-                        if v.is_object() {
-                            self.dashboardid = Some(v["dashboardId"].to_string());
-                            self.chartid = if v["chartId"].is_string() {
-                                Some(v["chartId"].as_str().unwrap().to_string())
+                if val.starts_with("{") {
+                    // OmniSci v5.4 wrote nonce in json
+                    match serde_json::from_str::<serde_json::Value>(val) {
+                        Ok(v) => {
+                            if v.is_object() {
+                                self.dashboardid = Some(v["dashboardId"].to_string());
+                                self.chartid = if v["chartId"].is_string() {
+                                    Some(v["chartId"].as_str().unwrap().to_string())
+                                }
+                                else {
+                                    Some(v["chartId"].to_string())
+                                };
                             }
                             else {
-                                Some(v["chartId"].to_string())
-                            };
-                        }
-                        else {
+                                unknown_values.push(key.to_string());
+                                unknown_values.push(val.to_string());
+                            }
+                        },
+                        Err(_) => {
                             unknown_values.push(key.to_string());
                             unknown_values.push(val.to_string());
+                        },
+                    }
+                }
+                else {
+                    // OmniSci v5.5+ writes nonce as slash-delimited
+                    let parts: Vec<&str> = val.split("/").map(|x| x.trim()).collect();
+                    if parts.len() > 0 {
+                        self.dashboardid = Some(parts[0].to_string());
+                        if parts.len() > 1 {
+                            self.chartid = Some(parts[1].to_string());
+                            if parts.len() > 2 {
+                                unknown_values.push(key.to_string());
+                                unknown_values.push(val.to_string());
+                            }
                         }
-                    },
-                    Err(_) => {
-                        unknown_values.push(key.to_string());
-                        unknown_values.push(val.to_string());
-                    },
+                    }
                 }
             }
             else {
