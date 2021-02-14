@@ -24,7 +24,6 @@ use std::io::prelude::*;
 
 const DB_URL: &str = "omnisci://admin:HyperInteractive@localhost:46274/omnisci";
 
-
 #[test]
 #[ignore]
 fn test_load() -> olog::SResult<()> {
@@ -45,11 +44,10 @@ fn test_load() -> olog::SResult<()> {
         false,
     )?;
 
-    let res = con.sql_execute(String::from("select count(*) from omnisci_log_scraper where hostname = 'test_load'"), false, nonce.to_string())?;
-    println!("{:?}", res);
+    let res = olog::QueryResult::new(con.sql_execute(String::from("select count(*) count_ from omnisci_log_scraper where hostname = 'test_load'"), true, nonce.to_string())?);
+    println!("count= {:?}", &res.get_int(0, 0));
 
-    let res = con.sql_execute(String::from("copy (select * from omnisci_log_scraper where hostname = 'test_load') to '/src/target/test2/copy_to_omnisci_log_scraper.csv' with (header='true')"), false, nonce.to_string())?;
-    println!("{:?}", res);
+    olog::QueryResult::new(con.sql_execute(String::from("copy (select * from omnisci_log_scraper where hostname = 'test_load') to '/src/target/test2/copy_to_omnisci_log_scraper.csv' with (header='true')"), false, nonce.to_string())?);
 
     let gold_file = std::fs::read_to_string("tests/gold/copy_to_omnisci_log_scraper.csv")?;
     let test_file = std::fs::read_to_string("target/test2/copy_to_omnisci_log_scraper.csv")?;
