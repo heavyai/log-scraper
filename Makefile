@@ -19,9 +19,9 @@
 SHELL = /bin/sh
 .DEFAULT_GOAL=all
 
-OMNISCI_VERSION = v5.4.1
-# OMNISCI_IMAGE = omnisci/core-os-cpu:${OMNISCI_VERSION}
-OMNISCI_IMAGE = omnisci/omnisci-ee-cuda:${OMNISCI_VERSION}
+OMNISCI_VERSION = v5.5.1
+OMNISCI_IMAGE = omnisci/core-os-cpu:${OMNISCI_VERSION}
+# OMNISCI_IMAGE = omnisci/omnisci-ee-cuda:${OMNISCI_VERSION}
 # OMNISCI_IMAGE = omnisci-log-scraper-build
 DB_CONTAINER = omnisci-test-db
 
