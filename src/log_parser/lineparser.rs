@@ -42,6 +42,7 @@ use serde::Serialize;
 
 use omnisci;
 use omnisci::omnisci::TColumn;
+use omnisci::omnisci::TQueryResult;
 
 use serde_json;
 
@@ -171,7 +172,7 @@ pub struct LogLine {
 // # print(con.con.execute(f'alter table {t.name} rename column sequence to tmp').fetchall())
 // # print(con.con.execute(f'alter table {t.name} rename column dur_ms to sequence').fetchall())
 // # print(con.con.execute(f'alter table {t.name} rename column tmp to dur_ms').fetchall())
-pub const CREATE_TABLE: &str = "CREATE TABLE IF NOT EXISTS omnisci_log_scraper (
+pub const CREATE_TABLE: &str = "CREATE TABLE omnisci_log_scraper (
     logtime TIMESTAMP(6),
     severity TEXT ENCODING DICT(8),
     pid INTEGER,
@@ -1051,20 +1052,49 @@ struct LogLoader {
     buf_size: usize,
 }
 
+
+// TODO QueryResult: expose more fns, and move to omnisci-rs
+pub struct QueryResult {
+    pub t: TQueryResult,
+}
+
+impl QueryResult {
+    pub fn new(t: TQueryResult) -> QueryResult {
+        return QueryResult{ t };
+    }
+
+    // TODO pub fn num_columns() -> usize
+    // TODO pub fn num_rows() -> usize
+    // TODO pub fn get_str(&self, col: usize, row: usize) -> Option<str>
+
+    pub fn get_int(&self, col: usize, row: usize) -> Option<i64> {
+        // return Some(result.row_set?.columns?[col].data?.int_col?[row]);
+        // let a = match &result.row_set {
+        //     None => return None,
+        //     Some(x) => x,
+        // };
+        let a = self.t.row_set.as_ref().unwrap();
+        return Some(a.columns.as_ref().unwrap()[col].data.as_ref().unwrap().int_col.as_ref().unwrap()[row]);
+    }
+}
+
+
 impl LogLoader {
     fn new(db: &str) -> SResult<LogLoader> {
         let mut con = omnisci::client::connect_url(db)?;
 
         for alter in vec![CREATE_TABLE, ADD_COL_DASHBOARD, ADD_COL_CHART] {
-            match con.sql_execute(String::from(alter), false, String::from("omnisci_log_scraper")) {
-                Err(e) => eprintln!("Error \"{}\" caused by SQL: {}", e, alter),
-                Ok(res) => println!("SQL {}\n-> {:?}", alter, res),
+            match con.sql_execute(String::from(alter), true, String::from("omnisci_log_scraper")) {
+                // ignore errors, assuming the table or columns already exist (which otherwise will lead to an error on load_table)
+                Err(_) => (), // eprintln!("Error \"{}\" caused by SQL: {}", e, alter),
+                // log for success
+                Ok(res) => println!("executed: {}\n-> {:?}", alter, res),
             };
         }
 
-        match con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false, String::from("omnisci_log_scraper")) {
+        match con.sql_execute(String::from("select count(*) count_ from omnisci_log_scraper"), true, String::from("omnisci_log_scraper")) {
             Err(e) => return Err(Box::new(e)),
-            Ok(_res) => (), // println!("{:?}", res),
+            Ok(res) => println!("Table omnisci_log_scraper count= {:?}", QueryResult::new(res).get_int(0, 0)),
         };
         return Ok(LogLoader{con, buffer: vec![], buf_size: 50000})
     }
@@ -1122,9 +1152,9 @@ impl LogWriter for LogLoader {
         self.buffer.clear();
         match self.con.load_table_binary_columnar(&"omnisci_log_scraper".to_string(), data) {
             Ok(ok) => {
-                match self.con.sql_execute(String::from("select count(*) from omnisci_log_scraper"), false, String::from("omnisci_log_scraper")) {
+                match self.con.sql_execute(String::from("select count(*) count_ from omnisci_log_scraper"), true, String::from("omnisci_log_scraper")) {
                     Err(e) => return Err(Box::new(e)),
-                    Ok(_res) => (), // println!("{:?}", res),
+                    Ok(res) => println!("Table omnisci_log_scraper count= {:?}", QueryResult::new(res).get_int(0, 0)),
                 };
                 Ok(ok)
             },
