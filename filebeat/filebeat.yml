@@ -1,0 +1,19 @@
+output.kafka:
+  hosts: ["localhost:9092"]
+  version: "2.0.0"
+  topic: "omnisci_log"
+  ssl:
+    enabled: false
+  require_acks: 1
+
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /data/mapd_log/omnisci_server.INFO.*
+  symlink: true
+  fields:
+    hostname: 'testhost'
+
+#logging:
+#  level: debug

@@ -124,3 +124,32 @@ down:
 	docker stop ${DB_CONTAINER} || echo "container not running"
 	# docker rm -f ${DB_CONTAINER}
 .PHONY: down
+
+
+#
+# Kafka
+#
+
+k-deps:
+	# To get a kafka cluster up in docker:
+	# https://docs.confluent.io/platform/current/quickstart/ce-docker-quickstart.html
+	# https://github.com/confluentinc/cp-all-in-one
+
+	# Or use Redpanda instead of kafka
+	# https://vectorized.io/redpanda/
+	# https://vectorized.io/docs/quick-start-macos
+	brew install vectorizedio/tap/redpanda
+
+	# kafkacat can produce and consume text messages to kafka
+	# https://github.com/edenhill/kafkacat
+	brew install kafkacat
+
+k-up:
+	rpk container start -n 3
+	rpk topic describe omnisci_log | rpk topic create omnisci_log
+
+k-cat:
+	kafkacat -P -b localhost:9092 -t omnisci_log -l tests/gold/omnisci_server.INFO
+
+k-consume:
+	cargo run -- --brokers localhost:9092 --topics omnisci_log --groupid log-scraper-test1
