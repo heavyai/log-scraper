@@ -884,7 +884,7 @@ impl OutputType {
     }
 }
 
-trait LogWriter {
+pub trait LogWriter {
     fn write(&mut self, log: &LogLine) -> SResult<()>;
     fn close(&mut self) -> SResult<()> { Ok(()) }
 }
@@ -1176,12 +1176,12 @@ fn output_filename(input: &str, output: &str, extension: &str) -> String {
     }
 }
 
-fn new_log_writer(input: &str, filter: &Vec<&str>, output: Option<&str>, output_type: &OutputType, db: Option<&str>) -> SResult<Box<dyn LogWriter>> {
+pub fn new_log_writer(input: Option<&str>, filter: &Vec<&str>, output: Option<&str>, output_type: &OutputType, db: Option<&str>) -> SResult<Box<dyn LogWriter>> {
     match output {
         Some(path) => match output_type {
             OutputType::Terminal => Ok(Box::new(TerminalWriter::new())),
             OutputType::CSV => {
-                let x = csv::Writer::from_path(output_filename(input, path, "csv"))?;
+                let x = csv::Writer::from_path(output_filename(input.unwrap(), path, "csv"))?;
                 if filter.contains(&"sql") {
                     // TODO write only sql fields
                     Ok(Box::new(CsvFileLogWriter{ writer: x}))
@@ -1234,7 +1234,7 @@ pub fn transform_logs(
     let file = fs::File::open(Path::new(input))?;
     let mut reader = BufReader::new(file);
 
-    let mut writer = new_log_writer(input, filter, output, &output_type, db)?;
+    let mut writer = new_log_writer(Some(input), filter, output, &output_type, db)?;
     let hostname: Option<String> = match hostname {
         None => None,
         Some(x) => Some(x.to_string())

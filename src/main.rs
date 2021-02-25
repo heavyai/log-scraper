@@ -16,6 +16,8 @@
 
 mod log_parser;
 
+mod kafka;
+
 use std::env;
 
 extern crate regex;
@@ -28,7 +30,12 @@ use pager::Pager;
 
 use colored;
 
-fn main() -> log_parser::SResult<()> {
+// #[macro_use]
+extern crate log;
+
+
+#[tokio::main]
+async fn main() -> log_parser::SResult<()> {
     let params = clap_app!(myapp =>
         (name: crate_name!())
         (version: crate_version!())
@@ -64,11 +71,17 @@ fn main() -> log_parser::SResult<()> {
 
         (@arg follow: --follow "Wait forever for appended data")
 
+        (@arg BROKERS: --brokers +takes_value "Kafka broker list in kafka format")
+        (@arg GROUP_ID: --groupid +takes_value "Kafka Consumer group id")
+        (@arg TOPICS: --topics +takes_value +multiple "Kafka topics")
+
         (after_help: "EXAMPLES:
     omnisci-log-scraper /var/lib/omnisci/data/mapd_log/omnisci_server.INFO
     omnisci-log-scraper -t csv /var/lib/omnisci/data/mapd_log/omnisci_server.INFO.*.log > log.csv
     omnisci-log-scraper -f select -t sql /var/lib/omnisci/data/mapd_log/omnisci_server.INFO | omnisql")
     ).get_matches();
+
+    env_logger::init();
 
     if params.is_present("DRYRUN") {
         if params.is_present("CREATE_TABLE") {
@@ -121,11 +134,21 @@ fn main() -> log_parser::SResult<()> {
         _ => (),
     }
 
-    for input in inputs {
-        match log_parser::transform_logs(&input, output, &filter, &output_type, db, hostname, follow) {
-            Ok(_) => continue,
-            Err(x) => return Err(x),
-        };
+    if params.is_present("BROKERS") {
+        kafka::consume_logs_main(
+            params.value_of("BROKERS").unwrap(),
+            params.value_of("GROUP_ID").unwrap(),
+            &params.values_of("TOPICS").unwrap().collect::<Vec<&str>>(),
+            output, &output_type, db, hostname,
+        ).await?;
+    }
+    else {
+        for input in inputs {
+            match log_parser::transform_logs(&input, output, &filter, &output_type, db, hostname, follow) {
+                Ok(_) => continue,
+                Err(x) => return Err(x),
+            };
+        }
     }
     Ok(())
 }
