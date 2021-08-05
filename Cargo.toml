@@ -1,6 +1,6 @@
 [package]
 name = "omnisci-log-scraper"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2018"
 authors = ["Alex Baden <alex.baden@mapd.com>",
            "Mike Hinchey <mike.hinchey@omnisci.com>"]
@@ -22,5 +22,5 @@ serde_json = "1"
 pager = "0.15"
 colored = "1"
 serde = { version = "1.0", features = ["derive"] }
-omnisci = { git = "https://github.com/mikehinchey/omnisci-rs", branch = "master" }
+omnisci = { git = "https://github.com/omnisci/omnisci-rs", branch = "mikehinchey/564" }
 lazy_static = "1"
