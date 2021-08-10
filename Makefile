@@ -106,6 +106,10 @@ build.docker: deps.docker
 
 up:
 	mkdir -p target/${DB_CONTAINER}
+	@echo "verbose = true" > target/${DB_CONTAINER}/omnisci.conf
+	@echo "log-severity = DEBUG4" >> target/${DB_CONTAINER}/omnisci.conf
+	@echo "allowed-import-paths = [\"/src\", \"/omnisci-storage/data\"]" >> target/${DB_CONTAINER}/omnisci.conf
+	@echo "allowed-export-paths = [\"/src\"]" >> target/${DB_CONTAINER}/omnisci.conf
 	docker run --name ${DB_CONTAINER} \
 		-d --rm \
 		-v ${PWD}:/src \
@@ -113,7 +117,7 @@ up:
 		-p 46273-46274:6273-6274 \
 		-e CUDA_VISIBLE_DEVICES="0,1" \
 		${OMNISCI_IMAGE} \
-		/omnisci/startomnisci --non-interactive --data /omnisci-storage/data --verbose=true --log-severity=DEBUG4
+		/omnisci/startomnisci --non-interactive --data /omnisci-storage/data --config /omnisci-storage/omnisci.conf
 .PHONY: up
 
 stop:

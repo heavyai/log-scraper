@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 OmniSci, Inc.
+ * Copyright 2020-2021 OmniSci, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ fn test_load() -> olog::SResult<()> {
 
     let mut con = omnisci::client::connect_url(DB_URL)?;
 
-    let res = con.sql_execute(String::from("drop table if exists omnisci_log_scraper"), false, nonce.to_string())?;
-    println!("{:?}", res);
+    let res = con.sql_execute(String::from("delete from omnisci_log_scraper where hostname = 'test_load'"), false, nonce.to_string())?;
+    println!("delete: {:?}", res);
 
     olog::transform_logs(
         "tests/gold/omnisci_server.INFO",
@@ -47,11 +47,15 @@ fn test_load() -> olog::SResult<()> {
     let res = olog::QueryResult::new(con.sql_execute(String::from("select count(*) count_ from omnisci_log_scraper where hostname = 'test_load'"), true, nonce.to_string())?);
     println!("count= {:?}", &res.get_int(0, 0));
 
-    olog::QueryResult::new(con.sql_execute(String::from("copy (select * from omnisci_log_scraper where hostname = 'test_load') to '/src/target/test2/copy_to_omnisci_log_scraper.csv' with (header='true')"), false, nonce.to_string())?);
+    // select all columns except hostname
+    olog::QueryResult::new(con.sql_execute(String::from("copy (select logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,username,operation,execution_ms,total_ms,query,client,msg,name_values,logfile,msg_norm,dashboardid,chartid,queryid from omnisci_log_scraper where hostname = 'test_load' order by logtime) to '/src/target/test2/copy_to_omnisci_log_scraper.csv' with (header='true')"), false, nonce.to_string())?);
 
-    let gold_file = std::fs::read_to_string("tests/gold/copy_to_omnisci_log_scraper.csv")?;
-    let test_file = std::fs::read_to_string("target/test2/copy_to_omnisci_log_scraper.csv")?;
-    
+    let gold_filename = "tests/gold/copy_to_omnisci_log_scraper.csv";
+    let test_filename = "target/test2/copy_to_omnisci_log_scraper.csv";
+    let gold_file = std::fs::read_to_string(gold_filename)?;
+    let test_file = std::fs::read_to_string(test_filename)?;
+    println!("diff {:?} {:?}", gold_filename, test_filename);
+
     let gold_lines: Vec<&str> = gold_file.split_terminator('\n').collect();
     let test_lines: Vec<&str> = test_file.split_terminator('\n').collect();
     assert_eq!(gold_lines.len(), test_lines.len());
@@ -79,33 +83,37 @@ fn test_copy_from() -> olog::SResult<()> {
         false,
     )?;
 
-    let res = con.sql_execute(String::from("drop table if exists omnisci_log_scraper"), false, nonce.to_string())?;
-    println!("{:?}", res);
+    let res = con.sql_execute(String::from("delete from omnisci_log_scraper where hostname = 'db'"), false, nonce.to_string())?;
+    println!("delete: {:?}", res);
     assert_eq!(true, res.success.unwrap());
 
-    let res = con.sql_execute(String::from(olog::CREATE_TABLE), false, nonce.to_string())?;
-    println!("{:?}", res);
-    assert_eq!(true, res.success.unwrap());
+    // let res = con.sql_execute(String::from(olog::CREATE_TABLE), false, nonce.to_string())?;
+    // println!("create table: {:?}", res);
+    // assert_eq!(true, res.success.unwrap());
 
     let res = con.sql_execute(String::from(
         "copy omnisci_log_scraper from '/src/target/test/omnisci_server.INFO.csv' with (header='true', max_reject=0, threads=1)"),
         false, nonce.to_string())?;
-    println!("{:?}", res);
+    println!("copy from: {:?}", res);
     assert_eq!(true, res.success.unwrap());
 
     let res = con.sql_execute(String::from("select count(*) from omnisci_log_scraper where hostname = 'db'"), false, nonce.to_string())?;
-    println!("{:?}", res);
+    println!("count: {:?}", res);
     assert_eq!(true, res.success.unwrap());
 
+    // select all columns except hostname
     let res = con.sql_execute(String::from(
-        "copy (select * from omnisci_log_scraper where hostname = 'db') to '/src/target/test/copy_to_omnisci_log_scraper.csv' with (header='true')"),
+        "copy (select logtime,severity,pid,threadid,fileline,event,sequence,dur_ms,session,dbname,username,operation,execution_ms,total_ms,query,client,msg,name_values,logfile,msg_norm,dashboardid,chartid,queryid from omnisci_log_scraper where hostname = 'db' order by logtime) to '/src/target/test/copy_to_omnisci_log_scraper.csv' with (header='true')"),
         false, nonce.to_string())?;
-    println!("{:?}", res);
+    println!("copy to: {:?}", res);
     assert_eq!(true, res.success.unwrap());
-    
-    let gold_file = std::fs::read_to_string("tests/gold/copy_to_omnisci_log_scraper.csv")?;
-    let test_file = std::fs::read_to_string("target/test/copy_to_omnisci_log_scraper.csv")?;
 
+    let gold_filename = "tests/gold/copy_to_omnisci_log_scraper.csv";
+    let test_filename = "target/test/copy_to_omnisci_log_scraper.csv";
+    let gold_file = std::fs::read_to_string(gold_filename)?;
+    let test_file = std::fs::read_to_string(test_filename)?;
+    println!("diff {:?} {:?}", gold_filename, test_filename);
+    
     let gold_lines: Vec<&str> = gold_file.split_terminator('\n').collect();
     let test_lines: Vec<&str> = test_file.split_terminator('\n').collect();
     assert_eq!(gold_lines.len(), test_lines.len());

@@ -105,3 +105,18 @@ fn render_vega_begin2() {
     assert_eq!(rec.dashboardid.unwrap(), "100");
     assert_eq!(rec.chartid.unwrap(), "13");
 }
+
+#[test]
+fn v570() {
+    let rec = pln(r#"
+2021-08-05T21:43:32.324114 I 1 0 1766 DBHandler.cpp:1476 stdlog_begin sql_execute 1373 0 omnisci admin 338-Ynob {"query_str"} {"SELECT COUNT(*) AS val FROM tab"}
+    "#);
+    assert_eq!(rec.pid, 1);
+    assert_eq!(rec.threadid.unwrap(), 0);
+    assert_eq!(rec.queryid.unwrap(), 1766);
+    assert_eq!(rec.fileline, "DBHandler.cpp:1476");
+    assert_eq!(rec.event.unwrap(), "sql_execute_begin");
+    assert_eq!(rec.query.unwrap(), r#"
+    SELECT COUNT(*) AS val FROM tab
+    "#.trim());
+}

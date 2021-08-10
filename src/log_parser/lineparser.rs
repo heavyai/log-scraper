@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 OmniSci, Inc.
+ * Copyright 2020-2021 OmniSci, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -165,6 +165,7 @@ pub struct LogLine {
 
     pub dashboardid: Option<String>,
     pub chartid: Option<String>,
+    pub queryid: Option<i32>,
 }
 
 
@@ -195,13 +196,15 @@ pub const CREATE_TABLE: &str = "CREATE TABLE omnisci_log_scraper (
     logfile TEXT,
     msg_norm TEXT,
     dashboardid TEXT,
-    chartid TEXT
+    chartid TEXT,
+    queryid INTEGER
 ) with (max_rows=640000000);
 ";
 
 // // ALTER TABLE <table> ADD [COLUMN] <column> <type>
 const ADD_COL_DASHBOARD: &str = "ALTER TABLE omnisci_log_scraper ADD COLUMN dashboardid TEXT";
 const ADD_COL_CHART: &str = "ALTER TABLE omnisci_log_scraper ADD COLUMN chartid TEXT";
+const ADD_COL_QUERYID: &str = "ALTER TABLE omnisci_log_scraper ADD COLUMN queryid INTEGER";
 
 
 enum LogEntry {
@@ -244,7 +247,7 @@ const SQL_ARRAY_DELIM: &'static str = "\",\"";
 impl LogLine {
 
     pub fn print_colorize_header() -> String {
-        format!("{}|{}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}|{}\n",
+        format!("{}|{}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}|{}|{}\n",
             "logtime".color("grey"),
             "severity".color("blue"),
             "event".color("grey"),
@@ -258,6 +261,7 @@ impl LogLine {
             "fileline".color("grey"),
             "pid".color("grey"),
             "threadid".color("grey"),
+            "queryid".color("grey"),
             "session".color("grey"),
             "dbname".color("yellow"),
             "username".color("grey"),
@@ -265,7 +269,7 @@ impl LogLine {
     }
 
     pub fn print_colorize(&self) -> String {
-        format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}|{}\n",
+        format!("{}|{:5.5}|{}|{}|{}|{}|{}|{}| {} |{}|{}|{}|{}|{}|{}|{}\n",
             self.logtime.format("%m-%d %H:%M:%S%.f").to_string().color("grey"),
             self.severity.to_string().color(
                 match &self.severity {
@@ -290,6 +294,7 @@ impl LogLine {
             self.fileline.color("grey"),
             self.pid.color("grey"),
             self.threadid.color("grey"),
+            self.queryid.color("grey"),
             self.session.color("grey"),
             self.dbname.color("yellow"),
             self.username.color("grey"),
@@ -705,6 +710,7 @@ impl LogLine {
             "1" => Severity::DEBUG,
             _ => Severity::OTHER,
         };
+
         let i = i + 1;
         let pid: i32 = match parts[i].parse() {
             Ok(n) => n,
@@ -715,6 +721,7 @@ impl LogLine {
                 ))
             }
         };
+
         let mut i = i + 1;
         let threadid: Option<i32> = match parts[i].parse() {
             Ok(n) => Some(n),
@@ -723,6 +730,16 @@ impl LogLine {
                 None
             }
         };
+
+        let mut i = i + 1;
+        let queryid: Option<i32> = match parts[i].parse() {
+            Ok(n) => Some(n),
+            Err(_) => {
+                i -= 1;
+                None
+            }
+        };
+        
         let i = i + 1;
         let fileline = parts[i].to_string();
         let i = i + 1;
@@ -751,6 +768,7 @@ impl LogLine {
             logfile: None,
             dashboardid: None,
             chartid: None,
+            queryid,
         };
         return Ok(result)
     }
@@ -1083,7 +1101,7 @@ impl LogLoader {
     fn new(db: &str) -> SResult<LogLoader> {
         let mut con = omnisci::client::connect_url(db)?;
 
-        for alter in vec![CREATE_TABLE, ADD_COL_DASHBOARD, ADD_COL_CHART] {
+        for alter in vec![CREATE_TABLE, ADD_COL_DASHBOARD, ADD_COL_CHART, ADD_COL_QUERYID] {
             match con.sql_execute(String::from(alter), true, String::from("omnisci_log_scraper")) {
                 // ignore errors, assuming the table or columns already exist (which otherwise will lead to an error on load_table)
                 Err(_) => (), // eprintln!("Error \"{}\" caused by SQL: {}", e, alter),
@@ -1126,6 +1144,7 @@ impl LogLoader {
             TColumn::from(lines.iter().map(|val| &val.msg_norm).collect::<Vec<&Option<String>>>()),
             TColumn::from(lines.iter().map(|val| &val.dashboardid).collect::<Vec<&Option<String>>>()),
             TColumn::from(lines.iter().map(|val| &val.chartid).collect::<Vec<&Option<String>>>()),
+            TColumn::from(lines.iter().map(|val| val.queryid).collect::<Vec<Option<i32>>>()),
         ]
     }
 }
