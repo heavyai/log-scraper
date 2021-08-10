@@ -1,5 +1,5 @@
 ##
-#  Copyright 2020 OmniSci, Inc.
+#  Copyright 2020-2021 OmniSci, Inc.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -87,6 +87,48 @@ def log_scraper_last_complete(expr):
     return last_completion.execute(1)
 
 
+def log_scraper_query_before(expr, before_filter, limit=100):
+    end_times = before_filter.select(['logtime'])
+    results = []
+    for i, endtime in end_times.execute(limit).iterrows():
+        # ceil to avoid ibis warning and dropping microseconds
+        endtime = endtime.logtime.ceil('s')
+        # print(endtime)
+        
+        last_complete_end = expr.filter((expr.logtime < endtime)
+            & expr.event.isin(['sql_execute', 'render_vega']))\
+            .sort_by(ibis.desc('logtime'))\
+            .limit(1)\
+            .select(['sequence'])
+        
+        last_complete_start = (expr
+            .filter(expr.event.isin(['sql_execute_begin', 'render_vega_begin'])
+                    & expr.sequence.isin(last_complete_end.sequence)
+                    & (expr.logtime < endtime))
+            .sort_by(ibis.desc('logtime'))
+            .select(['logtime', 'sequence']))
+        
+        for i, last_complete_start in last_complete_start.execute(1).iterrows():
+            # floor to avoid ibis warning and dropping microseconds
+            last_complete_start_time = last_complete_start.logtime.floor('s')
+
+            incomplete = (expr
+                .filter(
+                    (expr.logtime < endtime)
+                    & (expr.logtime > last_complete_start_time)
+                    & (expr.sequence != last_complete_start.sequence)
+                    & (expr.event.isin(['sql_execute_begin', 'render_vega_begin'])))
+                .sort_by('logtime')
+                .select(['logtime', 'event', 'query', 'sequence', 'logfile']))
+            results.append(incomplete.execute(1))
+    if results:
+        df = pd.concat(results)
+        df.drop_duplicates(inplace=True)
+        return df
+    else:
+        return None
+
+
 def log_scraper_first_incomplete_before_restart(expr, limit=100):
     restart_times = expr.filter(
         ((expr.severity == 'INFO') & (expr.msg.contains('OmniSci Server 5')))
@@ -136,4 +178,3 @@ def log_scraper_qmd(expr):
     x = x.select(['msg'])
     df = x.execute(1)
     return df.msg[0]
-
