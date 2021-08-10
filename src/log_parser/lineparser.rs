@@ -305,7 +305,9 @@ impl LogLine {
     // They quit/return if something is wrong, so the full msg text remains.
     pub fn parse_msg(self: &mut LogLine) {
         if self.stdlog() {
+            // work was done in stdlog
         } else if self.regex_msg() {
+            // work was done in regex_msg
         } else {
             self.msg_norm();
         }
@@ -352,6 +354,22 @@ impl LogLine {
             self.event = Some(String::from("sql_parse"));
             return true
         }
+
+        if self.msg.starts_with("Exception: Parse failed:") {
+            self.event = Some(String::from("parse"));
+            self.msg_norm = Some(String::from("Parse failed"));
+            self.severity = Severity::INPUT;
+            return true
+        }
+
+        // TODO
+        // Incorrect Row (expected 37 columns, has 36):
+        // QueryDispatchQueue.h:61 Dispatching query with 0 queries in the queue.
+        // QueryDispatchQueue.h:92 Worker 1 running query and returning control. There are now 0 queries in the queue.
+        // Acquiring Table Data Read Lock for table: t
+        // User mapd connected to database mapd
+        // Could not encode string: x, the encoded value doesn't fit in 16 bits. Will store NULL instead.
+        // LeafAggregator.cpp:494 Leaf 0 executed in 1400 ms, entry_count(1), unserialized 8 bytes of results in 0 ms.
 
         // DBHandler.cpp:238 OmniSci Server 5.4.0-20200904-1b17b5c4e2
         if self.msg.starts_with("OmniSci Server 5") {
@@ -452,10 +470,7 @@ impl LogLine {
             Severity::ERROR => {
                 // INPUT and AUTH are made-up severities
                 // INPUT errors are already useful to the user/client, less often to the devops admin
-                if self.msg.starts_with("Exception: Parse failed:") {
-                    self.severity = Severity::INPUT
-                }
-                else if self.msg.starts_with("Syntax error at:") {
+                if self.msg.starts_with("Syntax error at:") {
                     self.severity = Severity::INPUT
                 }
                 else if self.msg.starts_with("Object with name") {
