@@ -433,61 +433,86 @@ impl LogLine {
         match self.severity {
             Severity::INFO => {
                 if self.msg.starts_with("Caught an out-of-gpu-memory error") {
-                    self.severity = Severity::ERROR
+                    self.severity = Severity::ERROR;
+                    self.event = Some(String::from("memory_allocation_failed"));
                 }
                 else if self.msg.starts_with("ALLOCATION failed to find") {
-                    self.severity = Severity::WARNING
+                    self.severity = Severity::WARNING;
+                    self.event = Some(String::from("memory_allocation_failed"));
                 }
                 else if self.msg.starts_with("ALLOCATION Attempted slab") {
-                    self.severity = Severity::WARNING
+                    self.severity = Severity::WARNING;
+                    self.event = Some(String::from("memory_allocation"));
                 }
                 else if self.msg.starts_with("Query ran out of GPU memory, attempting punt to CPU") {
-                    self.severity = Severity::WARNING
+                    self.severity = Severity::WARNING;
+                    self.event = Some(String::from("memory_punt_to_cpu"));
                 }
                 else if self.msg.starts_with("Interrupt signal") {
                     // the server is going to be killed, this should be logged FATAL
-                    self.severity = Severity::FATAL
+                    self.severity = Severity::FATAL;
+                    self.event = Some(String::from("signal_interrupt"));
                 }
                 else if self.msg.starts_with("heartbeat thread exiting") {
-                    self.severity = Severity::FATAL
+                    self.severity = Severity::FATAL;
+                    self.event = Some(String::from("heartbeat_exit"));
                 }
                 else if self.msg.starts_with("Loader truncated due to reject count") {
-                    self.severity = Severity::ERROR
+                    self.severity = Severity::ERROR;
+                    self.event = Some(String::from("loader_truncated"));
+                }
+                else if self.msg.ends_with("Invalidating session.") {
+                    // Session 148-6778 idle duration 7207 seconds exceeds maximum idle duration 7200 seconds. Invalidating session.
+                    self.severity = Severity::AUTH;
+                    self.event = Some(String::from("session_invalidated"));
                 }
                 else if let Some(event) = &self.event {
                     if event == "connect" || event == "connect_begin"
                     || event == "disconnect" || event == "disconnect_begin"
                     || event == "clone_session" || event == "clone_session_begin" {
-                        self.severity = Severity::AUTH
+                        self.severity = Severity::AUTH;
                     }
                 }
             },
             Severity::WARNING => {
-                if self.msg.starts_with("Local login failed") {
-                    self.severity = Severity::AUTH
+                if self.msg.starts_with("Local login failed")
+                || self.msg.starts_with("SAML login failed:")
+                || self.msg.starts_with("Error validating SAML response")
+                {
+                    self.severity = Severity::AUTH;
+                    self.event = Some(String::from("login_failure"));
                 }
             }
             Severity::ERROR => {
                 // INPUT and AUTH are made-up severities
                 // INPUT errors are already useful to the user/client, less often to the devops admin
                 if self.msg.starts_with("Syntax error at:") {
-                    self.severity = Severity::INPUT
+                    self.severity = Severity::INPUT;
+                    self.event = Some(String::from("sql_syntax"));
                 }
                 else if self.msg.starts_with("Object with name") {
-                    self.severity = Severity::INPUT
+                    self.severity = Severity::INPUT;
                 }
                 else if self.msg.starts_with("Exception: Exception occurred: org.apache.calcite.runtime.CalciteContextException:") {
-                    self.severity = Severity::INPUT
+                    self.severity = Severity::INPUT;
+                    self.event = Some(String::from("sql_exception"));
                 }
                 // AUTH errors should be called out distinctly from software errors
                 else if self.msg.starts_with("Authentication failure") {
-                    self.severity = Severity::AUTH
+                    self.severity = Severity::AUTH;
+                    self.event = Some(String::from("authentication_failure"));
                 }
                 else if self.msg.starts_with("Session not valid.") {
-                    self.severity = Severity::AUTH
+                    self.severity = Severity::AUTH;
+                    self.event = Some(String::from("session_invalid"));
                 }
                 else if self.msg.starts_with("Unauthorized Access:") {
-                    self.severity = Severity::AUTH
+                    self.severity = Severity::AUTH;
+                    self.event = Some(String::from("unauthorized_access"));
+                }
+                else if self.msg.starts_with("Grantee ") {
+                    // Grantee 5_72 does not exist.
+                    self.severity = Severity::AUTH;
                 }
             }
             _ => (),
