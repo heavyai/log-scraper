@@ -725,7 +725,8 @@ impl LogLine {
         let parts: Vec<&str> = line_raw.split(" ").map(|x| x.trim()).collect();
 
         let i = 0;
-        if parts[i].len() < 26 {
+        // check length between 20-28, just to be flexible. Normal length is 26.
+        if parts[i].len() < 20 || parts[i].len() > 28 {
             return Err(Error::new(
                 ErrorKind::InvalidData,
                 format!("Line does not start with timestamp: \"{}\"", line_raw),
