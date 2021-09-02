@@ -239,7 +239,7 @@ dependencies = [
 [[package]]
 name = "omnisci"
 version = "0.2.0"
-source = "git+https://github.com/omnisci/omnisci-rs?branch=mikehinchey/564#b88c8357f1283c86fe35b9cb9dbc1af140224c3f"
+source = "git+https://github.com/omnisci/omnisci-rs?branch=master#ded80bebd5ca12d1a354de39530ea57785887469"
 dependencies = [
  "ordered-float",
  "regex",
