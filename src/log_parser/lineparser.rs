@@ -764,7 +764,7 @@ impl LogLine {
         };
 
         let mut i = i + 1;
-        let threadid: Option<i32> = match parts[i].parse() {
+        let i2: Option<i32> = match parts[i].parse() {
             Ok(n) => Some(n),
             Err(_) => {
                 i -= 1;
@@ -773,12 +773,22 @@ impl LogLine {
         };
 
         let mut i = i + 1;
-        let queryid: Option<i32> = match parts[i].parse() {
+        let i3: Option<i32> = match parts[i].parse() {
             Ok(n) => Some(n),
             Err(_) => {
                 i -= 1;
                 None
             }
+        };
+        let queryid = if i3 == None {
+            None
+        } else {
+            i2
+        };
+        let threadid = if i3 == None {
+            i2
+        } else {
+            i3
         };
         
         let i = i + 1;
